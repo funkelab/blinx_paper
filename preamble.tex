@@ -1,0 +1,52 @@
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xifthen}
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage[textwidth=1.7cm,textsize=small]{todonotes}
+\usepackage{import}
+\usepackage{natbib}
+\usepgfplotslibrary{colorbrewer}
+\usepackage{authblk}
+\usepackage{booktabs}
+\usepackage{bm}
+\usepackage{subcaption}
+\usepackage{datatool}
+\usepackage{cleveref}
+
+\input{definitions}
+\input{figures/tikzstyles}
+\input{figures/pgfstyles}
+\input{figures/macros}
+
+% references
+\def\figref#1{Fig.~\ref{#1}}
+\def\subfigref#1{(\subref{#1})}
+\def\secref#1{Section~\ref{#1}}
+\def\tabref#1{Table~\ref{#1}}
+\def\eqref#1{(\ref{#1})}
+
+% common abbreviations
+\newcommand{\eg}{\emph{e.g.}\xspace}
+\newcommand{\ie}{\emph{i.e.}\xspace}
+
+% todo notes with \todo{}
+\let\todonote\todo
+\renewcommand{\todo}[1]{\todonote[color=orange!50!white]{\footnotesize #1}\xspace}
+
+% prefer JPG when available
+\usepackage{grfext}
+\PrependGraphicsExtensions*{.jpg,.JPG}
+
+% evaluate a mathematical expression #2 and assign the result to macro #1
+\def\mathlet#1#2{\pgfmathparse{#2}\let#1\pgfmathresult}
+
+% set text in tikz node
+\newcommand{\tikztext}[2]{\tikz[baseline]\node[anchor=base,inner sep=0] (#1) {#2};}

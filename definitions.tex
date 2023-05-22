@@ -1,0 +1,60 @@
+% General Math Notation
+\def\vct#1{\bm{#1}}  % vectors in bold
+\def\trans{\intercal}  % matrix transpose symbol
+
+% Our Method
+\def\ours{\textsc{GordianNet}\xspace}
+\def\cyclegan{\textsc{CycleGAN}\xspace}
+\newcommand{\styledim}{64\xspace}
+
+\def\s{\vct{s}} % style in equations
+\def\c{\vct{c}} % content in equations
+\def\x{\vct{x}} % generic x
+\def\y{y} % class
+
+% roles of s
+\def\st{\s_\target} % target style
+
+% roles of x
+\def\xc{\x_\counterfactual} % counterfactual x
+\def\xh{\x_\hybrid} % mixed x
+\def\xr{\x'} % reconstructed x
+\def\xt{\x_\target} % x used as style target
+
+% roles of y
+\def\yh{\y_{\hybrid}} % mixed y
+\def\yt{\y_\target} % x used as style target
+
+
+\def\style{\ifmmode\text{S}\else style\xspace\fi}
+\def\content{\ifmmode\text{C}\else content\xspace\fi}
+\def\src{} % source subscript
+\def\target{\text{T}} % target subscript
+\def\original#1{#1} % optional modifier for original inputs (x, y)
+\def\counterfactual{\text{CF}}
+\def\hybrid{\text{H}}
+
+
+\def\am{\vct{a}}  % attribution map
+\def\mask{\vct{m}}  % binary mask
+
+% Other Methods
+\newcommand{\inputgrads}{\textsc{Input*Gradients}\xspace}
+\newcommand{\intgrads}{\textsc{IntegratedGradients}\xspace}
+\newcommand{\deeplift}{\textsc{DeepLift}\xspace}
+\newcommand{\gradcam}{\textsc{GradCAM}\xspace}
+
+% Biology
+\newcommand{\droso}{\textit{D. melanogaster}\xspace}
+% NT abbreviations
+\newcommand{\gaba}{GABA\xspace}
+\newcommand{\ach}{ACh\xspace}
+\newcommand{\glut}{GLUT\xspace}
+\newcommand{\ser}{SER\xspace}
+\newcommand{\octo}{OCT\xspace}
+\newcommand{\dop}{DOP\xspace}
+
+% Datasets
+\def\fafb{\textsc{FAFB}\xspace}
+\def\hemi{\textsc{HemiBrain}\xspace}
+\def\mancy{\textsc{MaleVNC}\xspace}

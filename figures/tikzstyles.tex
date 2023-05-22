@@ -1,0 +1,148 @@
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{calc}
+\usetikzlibrary{chains}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{fit}
+\usetikzlibrary{matrix}
+\usetikzlibrary{mindmap}
+\usetikzlibrary{pgfplots.colormaps}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shadows}
+\usetikzlibrary{shapes}
+\usetikzlibrary{trees}
+
+\newlength\patchwidth
+\newlength\intrasamplerowsep
+\newlength\intersamplerowsep
+
+\input{colors}
+
+\tikzstyle{real}=[rectangle,rounded corners,line width=1pt,draw=funkey_grey]
+\tikzstyle{stylesource}=[rectangle,rounded corners,line width=1pt,dashed,draw=funkey_grey]
+\tikzstyle{counterfactual}=[rectangle,rounded corners,line width=1pt,draw=funkey_color_1,fill=funkey_color_1!10!white]
+
+%%%%%%%%%%%
+% GENERAL %
+%%%%%%%%%%%
+\tikzstyle{icon}=[rectangle,rounded corners,draw=funkey_lightgrey,thick]
+
+\tikzstyle{var}=[circle,draw=funkey_lightgrey,minimum width=7mm]
+\tikzstyle{fun}=[rectangle,draw=funkey_lightgrey,minimum width=7mm]
+\tikzstyle{loss}=[rectangle,rounded corners,thick,fill opacity=0.2]
+
+\tikzstyle{neuron}=[circle,fill=funkey_color_2,inner sep=0.7mm]
+\tikzstyle{synapse}=[->,>=latex',funkey_color_1,thick]
+
+\tikzstyle{inset}=
+  [rectangle,inner sep=0,clip]
+\tikzstyle{image}=
+  [inner sep=0,outer sep=0,draw=funkey_lightgrey]
+\tikzstyle{candidate}=
+  [very thick,funkey_color_1,->,shorten >=2mm]
+\tikzstyle{cell}=
+  [circle,inner sep=3pt,fill]
+
+\tikzstyle{data}=
+  [rectangle,rounded corners,draw,fill=funkey_lightgrey]
+\tikzstyle{method}=
+  [rectangle,rounded corners,fill=funkey_color_1,text=funkey_bright,text width=5mm,align=center]
+\tikzstyle{arrow}=
+  [-{Latex[round]}]
+
+\tikzstyle{process}=
+  [single arrow,fill=funkey_lightgrey,inner sep=2pt,minimum height=5mm,single arrow head extend=1.5mm]
+
+\tikzstyle{perceptron}=
+  [circle,outer color=orange!50!white,inner color=white]
+\tikzstyle{perceptron_input}=
+  [circle,outer color=blue!20!white, inner color=white,anchor=base]
+\tikzstyle{perceptron_output}=
+  [circle,outer color=blue!20!white, inner color=white,anchor=base]
+\tikzstyle{operator}=
+  [circle,draw=lightgray,fill=white,inner sep=1pt]
+\tikzstyle{connection}=
+  [draw=lightgray,thin]
+\tikzstyle{annotation}=
+  [rectangle,rounded corners,draw=lightgray,fill=white,fill opacity=0.7,text opacity=1]
+
+\tikzstyle{fmap}=
+  [perceptron_input,rectangle,draw=blue!25!white]
+
+\tikzstyle{box}=
+  [rectangle,rounded corners,minimum width=3mm]
+
+\tikzstyle{kernel}=
+  [draw=gray,fill=blue!10!white]
+\tikzstyle{bb}=
+  [inner sep=0,outer sep=0]
+
+\tikzstyle{unet_l1}=[]
+\tikzstyle{unet_l2}=
+  [scale=0.7,transform shape]
+\tikzstyle{unet_l3}=
+  [scale=0.5,transform shape]
+\tikzstyle{unet_l4}=
+  [scale=0.5,transform shape]
+
+\tikzstyle{unet_annotation}=
+  [circle,fill=white,draw=black,text=black,minimum width=4mm]
+
+\tikzstyle{conv_pass}=
+  [single arrow,shading=axis,left color=blue!50!white, right color=blue!10!white,draw=blue!50!white!70!black, inner sep=0]
+
+\tikzstyle{copy_pass}=
+  [single arrow,shading=axis,left color=purple!50!white, right color=purple!10!white,draw=purple!50!white!70!black, inner sep=0]
+
+\tikzstyle{max_pool_pass}=
+  [single arrow,shading=axis,left color=orange!50!white, right color=orange!10!white,draw=orange!50!white!70!black, inner sep=0]
+
+\tikzstyle{upsampling_pass}=
+  [single arrow,shading=axis,left color=brown!50!white, right color=brown!10!white,draw=brown!50!white!70!black, inner sep=0]
+
+\tikzstyle{frame}=
+  [rectangle,draw,fill=black]
+
+%\tikzstyle{hand}=[decorate,decoration={random steps,segment length=2pt,amplitude=0.2pt}]
+%\tikzstyle{perceptron}=
+  %[circle,outer color=orange!50!white,inner color=white,hand]
+%\tikzstyle{perceptron_input}=
+  %[circle,draw=black,hand,fill=white]
+%\tikzstyle{perceptron_output}=
+  %[circle,draw=black,hand,fill=white]
+%\tikzstyle{operator}=
+  %[circle,draw=black,hand,fill=white]
+
+\tikzstyle{pointer}=
+  [->,thick,funkey_highlight]
+
+\tikzstyle{gp_node}=
+  [circle,draw,fill=gray!10!white,minimum width=0.5cm]
+\tikzstyle{gp_annotation}=
+  [rectangle,rounded corners,draw=gray!20!white,fill=gray!10!white,minimum width=0.5cm]
+
+\tikzstyle{gp_edge}=
+  [->,>=stealth',thick]
+\tikzstyle{gp_request_edge}=
+  [->,>=stealth',color=blue!50!white]
+\tikzstyle{gp_batch_edge}=
+  [->,>=stealth',color=orange!50!white]
+
+\tikzstyle{gp_request}=
+  [rectangle,rounded corners,fill=white,draw=gray]
+
+%%%%%%%%%%
+% MACROS %
+%%%%%%%%%%
+
+\newcommand{\getzoomfactor}{%
+\pgfgettransformentries{\myxscale}{\@tempa}{\@tempa}{\myyscale}{\@tempa}{\@tempa}
+\gdef\zoomfactor{\myxscale}
+}
+
+\def\scalebar#1#2{%
+  \fill[black] (0,0) rectangle ($(#1,-#1*0.2)$);
+  \path (0,0) -- node[above] {#2} (#1,0);
+}

@@ -9,22 +9,39 @@
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 \usepackage{icml2023}
+% \usepackage[accepted]{icml2023}  % uncomment for camera ready
 
-\icmltitlerunning{Maximum Likelihood Estimation fo Molecular Counts}
+\icmltitlerunning{Maximum Likelihood Estimation for Molecular Counts}
 
 \begin{document}
 
 \twocolumn[
+  %\icmltitle{A Differentiable Markov-Chain for Maximum Likelihood Estimation of Molecular Counts}
+  \icmltitle{A Differentiable Markov-Chain to Estimate\\ the Number of Fluorescent Emitters from Intensity Traces}
 
-\icmltitle{Maximum Likelihood Estimation of Molecular Counts \\
-within a Diffraction Limited Space}
+  \begin{icmlauthorlist}
+  \icmlauthor{Alexander Hillsley}{janelia}
+  \icmlauthor{Johannes Stein}{wyss}
+  \icmlauthor{Paul Tillberg}{janelia}
+  \icmlauthor{David Stern}{janelia}
+  \icmlauthor{Jan Funke}{janelia}
+  \end{icmlauthorlist}
 
+  \icmlaffiliation{janelia}{HHMI Janelia Research Campus, Ashburn, VA}
+  \icmlaffiliation{wyss}{Wyss Institute for Biologically Inspired Engineering, Harvard University, Boston, MA}
+  \icmlcorrespondingauthor{Alexander Hillsley}{hillsleya@janelia.hhmi.org}
 
+  \icmlkeywords{Machine Learning, ICML, Differentiable Model, Markov-chain, Fluorescence Microscopy, Molecular Counting}
 
+  \vskip 0.3in
+]
 
-\input{chapters/00_abstract.tex}
-\input{chapters/01_introduction.tex}
-\inoput{chapters/02_method.tex}
-
+\input{sections/00_abstract.tex}
+\input{sections/01_introduction.tex}
+\input{sections/02_method.tex}
+\input{sections/03_results.tex}
+\input{sections/04_conclusions.tex}
+\bibliography{references}
+\bibliographystyle{icml2023}
 
 \end{document}

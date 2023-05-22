@@ -1,0 +1,76 @@
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{pgfplots.groupplots}
+\usepgfplotslibrary{statistics}
+\usepgfplotslibrary{patchplots}
+
+\pgfplotsset{
+  errors/.style={
+    stack plots=y,
+    area style,
+    enlarge x limits=false,
+    xmajorgrids=true,
+    ymajorgrids=true,
+    yminorgrids=true,
+    legend reversed
+  }
+}
+
+\pgfplotsset{
+  discard if not/.style args={#1 is #2}{
+    x filter/.code={
+      \edef\tempa{\thisrow{#1}}
+      \edef\tempb{#2}
+      \ifx\tempa\tempb
+      \else
+        \def\pgfmathresult{inf}
+      \fi
+    }
+  }
+}
+
+\pgfplotsset{
+  discard if not both/.style args={#1 is #2 and #3 is #4}{
+    x filter/.code={
+      \edef\tempa{\thisrow{#1}}
+      \edef\tempb{#2}
+      \edef\tempc{\thisrow{#3}}
+      \edef\tempd{#4}
+      \ifx\tempa\tempb
+        \ifx\tempc\tempd
+        \else
+          \def\pgfmathresult{inf}
+        \fi
+      \else
+        \def\pgfmathresult{inf}
+      \fi
+    }
+  }
+}
+
+\pgfplotsset{
+  discard if not all three/.style args={#1 is #2 and #3 is #4 and #5 is #6}{
+    x filter/.code={
+      \edef\tempa{\thisrow{#1}}
+      \edef\tempb{#2}
+      \edef\tempc{\thisrow{#3}}
+      \edef\tempd{#4}
+      \edef\tempe{\thisrow{#5}}
+      \edef\tempf{#6}
+      \ifx\tempa\tempb
+        \ifx\tempc\tempd
+          \ifx\tempe\tempf
+          \else
+            \def\pgfmathresult{inf}
+          \fi
+        \else
+          \def\pgfmathresult{inf}
+        \fi
+      \else
+        \def\pgfmathresult{inf}
+      \fi
+    }
+  }
+}
+\pgfmathdeclarefunction{invgauss}{2}{%
+  \pgfmathparse{sqrt(-2*ln(#1))*cos(deg(2*pi*#2))}%
+}
