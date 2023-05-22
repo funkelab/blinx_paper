@@ -3,58 +3,16 @@
 \def\trans{\intercal}  % matrix transpose symbol
 
 % Our Method
-\def\ours{\textsc{GordianNet}\xspace}
-\def\cyclegan{\textsc{CycleGAN}\xspace}
-\newcommand{\styledim}{64\xspace}
+\def\ours{\textsc{Blinx}\xspace}
+\def\lbfcs{\textsc{lbFCS+}\xspace}
 
-\def\s{\vct{s}} % style in equations
-\def\c{\vct{c}} % content in equations
-\def\x{\vct{x}} % generic x
-\def\y{y} % class
-
-% roles of s
-\def\st{\s_\target} % target style
-
-% roles of x
-\def\xc{\x_\counterfactual} % counterfactual x
-\def\xh{\x_\hybrid} % mixed x
-\def\xr{\x'} % reconstructed x
-\def\xt{\x_\target} % x used as style target
-
-% roles of y
-\def\yh{\y_{\hybrid}} % mixed y
-\def\yt{\y_\target} % x used as style target
-
-
-\def\style{\ifmmode\text{S}\else style\xspace\fi}
-\def\content{\ifmmode\text{C}\else content\xspace\fi}
-\def\src{} % source subscript
-\def\target{\text{T}} % target subscript
-\def\original#1{#1} % optional modifier for original inputs (x, y)
-\def\counterfactual{\text{CF}}
-\def\hybrid{\text{H}}
-
-
-\def\am{\vct{a}}  % attribution map
-\def\mask{\vct{m}}  % binary mask
-
-% Other Methods
-\newcommand{\inputgrads}{\textsc{Input*Gradients}\xspace}
-\newcommand{\intgrads}{\textsc{IntegratedGradients}\xspace}
-\newcommand{\deeplift}{\textsc{DeepLift}\xspace}
-\newcommand{\gradcam}{\textsc{GradCAM}\xspace}
-
-% Biology
-\newcommand{\droso}{\textit{D. melanogaster}\xspace}
-% NT abbreviations
-\newcommand{\gaba}{GABA\xspace}
-\newcommand{\ach}{ACh\xspace}
-\newcommand{\glut}{GLUT\xspace}
-\newcommand{\ser}{SER\xspace}
-\newcommand{\octo}{OCT\xspace}
-\newcommand{\dop}{DOP\xspace}
-
-% Datasets
-\def\fafb{\textsc{FAFB}\xspace}
-\def\hemi{\textsc{HemiBrain}\xspace}
-\def\mancy{\textsc{MaleVNC}\xspace}
+% Variables
+\def\n{\ensuremath{n}\xspace}                 % count
+\def\truen{\ensuremath{n^*}\xspace}           % true count
+\def\estimatedn{\ensuremath{\hat{n}}\xspace}  % estimated count
+\def\y#1{\ensuremath{y_{#1}}\xspace}          % number of active emitters at time t: \y{t}
+\def\x#1{\ensuremath{x_{#1}}\xspace}          % intensity at time t: \x{t}
+\def\states{\ensuremath{\vct{y}}\xspace}      % all active emitters over time
+\def\trace{\ensuremath{\vct{x}}\xspace}       % all intensities over time
+\def\pon{\ensuremath{p_\text{on}}\xspace}     % prob. for activating
+\def\poff{\ensuremath{p_\text{off}}\xspace}   % prob. for deactivating

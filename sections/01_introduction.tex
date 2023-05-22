@@ -1,1 +1,68 @@
 \section{Introduction}
+
+Fluorescence microscopy is a foundational tool in the field of biology and
+provides useful information on the abundance and localization of labeled
+structures.
+%
+  However, determining the exact molecular count of these structures remains a
+  challenge. Super-resolution techniques such as PALM, STORM, and PAINT have
+  addressed this problem by achieving resolutions as high as 20nm, often
+  spatially separating structures allowing for visual counting, but still many
+  structures of interest exist even below this threshold prompting the need for
+  new methods of molecular counting.
+
+These super-resolution techniques are achieved by distributing the fluorescence
+signal from each individual fluorophore over time.
+%
+  Only a sparse subset of fluorophores are illuminated in each frame, allowing
+  for precise fitting of spatially distinct point spread functions, and once
+  localization from all frames are combined, a sub-diffraction limit
+  reconstruction of the image. Many molecular counting approaches similarly
+  make use of imaging over time to extract additional information from the
+  system. Some of the simplest systems count events that are designed to happen
+  only once per label such as photobleaching steps (Ulbrich2007subunit) or
+  blinks from a 1 time photo-switching fluorophore
+  (Gunzenhauser2012qauntitative). However, these events are often difficult to
+  detect, and can easily be missed leading to severe undercounting.
+
+Other methods make use of fluorophores that blink repeatedly to reduce the
+dependence on individual events.
+%
+  By modeling the photoswitching kinetics of STORM dyes as a continuous time
+  Markov process, (Patel, Rollins) one can extract the total count of molecules
+  in a given area. However, these models are limited in accuracy by the complex
+  photobleaching nature of the dyes used. Another temporal counting method is
+  qPAINT (Jungmann) which utilizes DNA-PAINT to minimize photobleaching and
+  correlates the frequency of repeated binding and unbinding events to the
+  molecular count. This method shows an excellent accuracy for counts under 15,
+  but relies heavily on previous knowledge of binding kinetics and is
+  susceptible to simultaneous binding events.
+
+Although not precise enough to determine molecular counts, the linear
+relationship observed between fluorescence intensity and fluorophore abundance
+(Schmeid2012fluorescence), provides additional information to improve the
+accuracy of these methods.
+%
+  Many methods use correlation functions to combine both the temporal and
+  intensity information to estimate the molecular count, such as balanced
+  super-resolution optical fluctuation imaging (bSOFI) and fluorescence
+  correlation spectroscopy (FCS) which has been used to estimate the copy
+  number of specific proteins within the nuclear pore complex
+  (Otsuka2023quantitative). Similar techniques have also been applied to the
+  consistent blinking behavior of DNA-PAINT in lbFCS+ (Stein), which has
+  accurately counted up to ~8 molecules and does not rely on previous
+  calibrations. These models work by fitting the entire observation series to a
+  single equation, in the process greatly simplifying the information. We
+  hypothesize that by fitting the entire observation series our model will be
+  able to use this additional information to greatly improve the counting
+  accuracy of our model.
+
+Our approach is to fit a series of hidden Markov models to the entire
+observation sequence.
+%
+  By fitting kinetic and intensity parameters to the observations at each time
+  point this model will use all the information available to calculate a
+  likelihood that the observations arose from an exact count. A further
+  advantage of this method is that it produces a likelihood distribution across
+  all possible counts, that could be useful for further downstream
+  applications.

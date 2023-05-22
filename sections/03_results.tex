@@ -1,1 +1,73 @@
 \section{Results}
+
+\begin{figure*}[ht]
+  \includegraphics[width=\linewidth]{figures/comparison_lbfcs}
+  \caption{TODO: add caption here}
+  \label{fig:results:comparison}
+\end{figure*}
+
+\begin{figure}[ht]
+  \includegraphics[width=\linewidth]{figures/kinetic_regime}
+  \caption{TODO: add caption here}
+  \label{fig:results:regime}
+\end{figure}
+
+\subsection{Comparison to state of the art \lbfcs}
+
+\figref{fig:results:comparison} shows....
+
+Blinx was first benchmarked on simulated traces of 4,000 frames with known N
+values between 1 and 30, and with kinetic and intensity parameters closely
+matching those seen in experiments (pon=poff=0.1) (example traces shown in
+figure 1A and 1B). The performance of blinx was then compared to lbFCS2 (Figure
+1B). Direct compassion to other models was not possible due to differences in
+the data needed. Blinx and lbFCS2 both display good accuracy for N < 10
+however, lbFCS quickly loses accuracy as N increases, while blinx retains a
+high level of accuracy through counts up to N = 30. This drop off in
+performance is caused by lbFCS2 reliance on a histogram-based method (??) to
+estimate the intensity of a single fluorophore (mu). This becomes challenging
+for larger numbers of binding sites, as this method relies on the detection of
+distinct peaks in the histogram, and specifically the identification of the z =
+1 peak, to accurately estimate the intensity of a single fluorophore. With
+larger numbers of binding sites however, the z = 1 state becomes increasingly
+less likely to be observed and harder to distinguish. Holistic methods like
+blinx, on the other hand, allow inferring the intensity of a single fluorophore
+jointly with the number of fluorophores bound at every timestep, thus
+circumventing the problem of having to observe a specific number of bound
+fluorophores.
+
+\subsection{Informing experiment}
+
+Next it was investigated how the accuracy of blinx depends on the blinking
+kinetics of the individual labels. The label intensity and noise also have a
+significant effect on model accuracy, but these are most heavily dependent on
+microscope imaging conditions and can easily be adjusted during image
+acquisition to maximize the signal to noise. Ideally the accuracy of blinx
+would be invariant to different label kinetics, however some variance is
+expected.
+
+Blinx was tested on over 300 simulated traces with a known N of 5 and ranges of
+pon and poff values from 0.01 to 0.2 (Figure 2A). It was found that while blinx
+displayed a high accuracy in regions where pon>=poff, accuracy significantly
+decreased as pon becomes much smaller than poff. This accuracy behavior
+correlates well with label occupancy, or the average number of labels
+illuminated at any time. In regions where poff >> pon, no matter the true N,
+the occupancy approaches 0, and the only states observed are 0 and 1 labels
+illuminated. This provides very little information to the model, leading to a
+significant decrease in accuracy. Interestingly, this low occupancy region is
+preferred for super-resolution microscopy with literature pon values ranging
+from 0.001 to 0.05 and poff values ranging from 0.02 to 0.36. Another
+interesting observation is the increase in accuracy along the pon = poff
+diagonal as pon increases. As both pon and poff increase, transitions between
+states become more common, providing more information for the model to fit.
+This result also suggests that if the observation time were increased an
+increase in accuracy for the low pon = poff region would increase.
+
+Based on these results, it was hypothesized that accuracy could be further
+increased by shifting the experimental kinetics such that pon>>poff. Simulating
+traces with pon=0.17 and poff= 0.01, a significantly tighter distribution
+around the correct count is observed, compared to traces simulated with pon =
+poff = 0.1 (Figure 2B). While it is not always possible to know the blinking
+kinetics ahead of time, this finding can be used in experimental design, so as
+to engineer a system so that pon > poff and the counting potential of the model
+is maximized.

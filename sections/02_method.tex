@@ -1,1 +1,41 @@
 \section{Method}
+
+\subsection{Model}
+
+Consider a complex smaller than the fluorescence spatial resolution limit,
+consisting of \n individually labeled subunits.
+
+Each subunit is labeled such that it stochastically fluoresces over time,
+independently of the others, resulting in $\y{t} \in [0, \n]$ fluorophores
+illuminated at any given timepoint $t$, producing a fluorescent signal of
+intensity \x{t}. We can then estimate \n, from an observed intensity sequence
+$\trace = \left( \x{1},\ldots,\x{T} \right)$ through maximum likelihood
+estimation.
+
+C = max P(X | N)
+
+Assuming that each state Zt depends only on the previous state Zt-1, this process can be modeled as a hidden Markov model. Expanding to include Z and time series:
+
+P( X | N) = sum prod P(Xt | Zt) P(Zt | Zt-1, N)
+
+The emission distribution (P(Xt | Zt) describes the relationship between the observations X, and the hidden state Z, and can be approximated by a log-normal distribution (??). Where mu is the mean, and sigma the standard deviation of the intensity of a single bound fluorophore. Therefore P( Xt | Zt) can be written in terms of mu, sigma, and Z as:
+
+Lognormal distribution
+
+The transition distribution (P(Zt | Zt-1, N) describes the kinetics of arriving at any hidden state Zt from any other hidden state Zt-1. The probability of a single subunit which is dark at time t-1 illuminating at time t is defined as \pon. Conversely, the proability of a single subunit which is illuminated at time t-1 going dark at time t can be defined as \poff. Assuming that each subunit behaves independently, and that all share a common \pon and \poff, the transition probability between any 2 states can be written as:
+
+Equation from oneNote
+
+%Specifically for DNA-PAINT experiments, \pon and \poff can be defined, through the exponential distribution, in terms of the rate constants k_on and k_off often used to describe DNA binding and dissociation.
+
+%P_on = exposure_time * k_on * exp(-exposure_time * k_on)
+%P_off = exposure_time * k_off * exp(-exposure_time * k_off)
+
+Altogether, the probability of observing trace X can be written as a function of 5 parameters:
+P( X | N, pon, poff, mu, sigma)
+
+\subsection{Estimation of Parameters}
+
+The model was fit using gradient ascent to find the optimal combination of these 5 parameters to maximize the likelihood of observing intensity trace X. While pon, poff, mu and sigma are continuous, N is discrete and therefore not differentiable. Fortunately, the sample space for possible N values is relatively small ( ~ 50) and it is possible to independently fit a model for each N, then take a maximum over likelihoods to find the optimal N. 
+Before fitting for each given N, a rough grid search was used to determine initial guesses for each of the parameters. In the case of multiple local maxima, all were used to initiate gradient ascent rather than just the global maxima to reduce the risk of finding false summits. The likelihood P(X | pon, poff, mu, sigma) was calculated using the forward algorithm and the gradient of this function on all 4 parameters was calculated using JAX. Parameters were then optimized using stochastic gradient ascent.
+One challenge is that for long observation sequences the likelihood of any consecutive observation sequence becomes vanishingly small, and numerically unstable. To alleviate this effect, all probabilities were computed in log space which results in summation, rather than multiplication of consecutive probabilities, reducing the small number problem. Additionally, the probabilities for each timepoint were normalized to sum to 1, and later re-converted to further reduce this issue. JAX was used to vectorize almost the entire fitting process allowing the quick calculation of gradients and the fitting of many traces in parallel. 
