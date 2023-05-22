@@ -12,15 +12,24 @@ intensity \x{t}. We can then estimate \n, from an observed intensity sequence
 $\trace = \left( \x{1},\ldots,\x{T} \right)$ through maximum likelihood
 estimation.
 
-C = max P(X | N)
+\bgein{equation}
+	C = \max P\left( X | \n)
+\end{equation}
 
-Assuming that each state Zt depends only on the previous state Zt-1, this process can be modeled as a hidden Markov model. Expanding to include Z and time series:
+Assuming that each state \y{t} depends only on the previous state \y{t-1}, this process can be modeled as a hidden Markov model. Expanding to include $\y{} = \left( \y{1}, \ldots, \y{T \right)$:
 
-P( X | N) = sum prod P(Xt | Zt) P(Zt | Zt-1, N)
+\begin{equation}
+    P \left(\trace|\n \right) = \sum_{\y{}=0}^{\n} P \left(trace|y{} \right) 
+    P \left( y{}|\n \right)
+\end{equation}
 
 The emission distribution (P(Xt | Zt) describes the relationship between the observations X, and the hidden state Z, and can be approximated by a log-normal distribution (??). Where mu is the mean, and sigma the standard deviation of the intensity of a single bound fluorophore. Therefore P( Xt | Zt) can be written in terms of mu, sigma, and Z as:
 
-Lognormal distribution
+\begin{equation} \label{lognormal}}
+        P\left(\trace | \y{} \right) = \sum_{\y{}=0}^{\n} \prod_{t=0}^{T}
+        P\left(\x{t} | \y{t} \right) P \left(\y{t}} |
+    \y{t-1}, \n \right)
+\end{equation}
 
 The transition distribution (P(Zt | Zt-1, N) describes the kinetics of arriving at any hidden state Zt from any other hidden state Zt-1. The probability of a single subunit which is dark at time t-1 illuminating at time t is defined as \pon. Conversely, the proability of a single subunit which is illuminated at time t-1 going dark at time t can be defined as \poff. Assuming that each subunit behaves independently, and that all share a common \pon and \poff, the transition probability between any 2 states can be written as:
 
