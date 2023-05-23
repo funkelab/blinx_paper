@@ -1,76 +1,70 @@
 \section{Method}
 
+Consider a complex of fluorescent emitters, smaller than can be visually separated. Each emitter activates stochastically and independently of the others, producing a signal of fluctuating intensity over time (Figure).
+The goal of this method is to determine the true number of emitters \truen given the observed intensity trace.
+
 \subsection{Model}
 
-Consider a complex smaller than the fluorescence spatial resolution limit,
-consisting of \n individually labeled subunits.
-
-Each subunit is labeled such that it stochastically fluoresces over time,
-independently of the others, resulting in $\y{t} \in [0, \n]$ fluorophores
-illuminated at any given timepoint $t$, producing a fluorescent signal of
-intensity \x{t}. We can then estimate \n, from an observed intensity sequence
-$\trace = (\x{1},\ldots,\x{T})$ through maximum likelihood estimation.
-
-\begin{equation}
-  \estimatedn =
-    \argmax{\n}
-    \max_\parameters
-    p(\trace|\n,\parameters)
-  \text{,}
-\end{equation}
-%
-where \parameters are parameters of the model that we will introduce below.
-
-Assuming that each state \y{t} depends only on the previous state \y{t-1}, this process can be modeled as a hidden Markov model. Expanding to include $\states = \left( \y{1}, \ldots, \y{T} \right)$:
-
-\begin{equation}
-  p(\trace|\n,\parameters) =
-    \sum_{\states}
-    p_\parameters(\x{1}|\y{1}) p_\parameters(\y{1}|\n)
-    \prod_{t=2}^{T}
-    p_\parameters(\x{t}|\y{t}) p_\parameters(\y{t}|\y{t-1},\n)
-\end{equation}
-
-The emission distribution $p(\x{t}|\y{t})$ describes the relationship
-between the observations \trace, and the hidden state \states, and can be
-approximated by a log-normal distribution (??), \ie,
+First, focusing on only a single timepoint $t$, we need a distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and can be approximated by a log-normal distribution \cite{mutch_deconvolving_2007} \ie.
 %
 \begin{equation}
-  p(\x{t}|\y{t}) =
+  p(\x{t}|\y{t}, \mu, \sigma) =
     \frac{1}{\x{t}\sigma\sqrt{2\pi}}
     \exp \left(
       - \frac{|\log(\x{t}) - \y{t}\mu|^2}{2\sigma^2}
     \right)
   \text{,}
 \end{equation}
-%
-where $\mu$ and $\sigma$ are the mean and standard deviation of the intensity
-of a single activated emitter.
 
-The transition distribution $p(\y{t}|\y{t-1},\n)$ describes the kinetics of
-arriving at any hidden state \y{t} from any other hidden state \y{t-1}. The
-probability of a single subunit which is dark at time $t-1$ illuminating at
-time $t$ is defined as \pon. Conversely, the probability of a single subunit
-which is active at time $t-1$ going dark at time $t$ can be defined as \poff.
-Assuming that each emitter behaves independently, and that all share a common
-\pon and \poff, the transition probability between any two states can be
-written as:
+Where $\mu$ and $\sigma$ are the mean and standard deviation of the intensity of a single active emitter.
 
-Equation from oneNote
+Next, to model the temporal fluctuations in intensity, observed in the trace (\trace), we need a distribution to describe the change in the number of active emitters over time (\states). To do this, we assume that the process is Markovian and the number of active emitters at time $t$, (\y{t}) is only dependent on the number of active emitters at the previous timepoint (\y{t-1}). Breaking down the system to each individual emitter, we define the probability that an emitter that is active at time $t-1$ becoming inactive at time $t$ as \poff, conversely, we define the probability that an emitter inactive at time $t-1$ becoming active at time $t$ as \pon. Finally, assuming that all emitters share a constant, common \poff and \pon, the transition distribution can be written as:
 
-%Specifically for DNA-PAINT experiments, \pon and \poff can be defined, through the exponential distribution, in terms of the rate constants k_on and k_off often used to describe DNA binding and dissociation.
+\begin{equation}
+	p(\y{t} = y | \y{t-1}, \n, \pon, \poff) = 
+	\sum_{\epsilon = 0}^{\y{t-1}}
+	{\epsilon \choose \y{t-1}} \pon
+	{y - \y{t-1} + \epsilon \choose \n - \y{t-1}} \poff
+\end{equation}
 
-%P_on = exposure_time * k_on * exp(-exposure_time * k_on)
-%P_off = exposure_time * k_off * exp(-exposure_time * k_off)
+Because transition between all possible numbers of emitters are possible, this distribution is also conditioned on the total number of emitters in the system (\n).
 
-Altogether, the probability of observing trace \trace can be written as a
-function of five parameters: $p(\trace|\n,\parameters)$
+Expanding these distributions to account for entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given total number of emitters \n and parameters $\parameters = [\pon, \poff, \mu, \sigma]$
+
+\begin{equation}
+  p(\trace|\n,\parameters) =
+    \sum_{\states}
+    p(\x{1}|\y{1}, \mu, \sigma) p(\y{1}|\n)
+    \prod_{t=2}^{T}
+    p(\x{t}|\y{t}, \mu, \sigma) p(\y{t}|\y{t-1},\n, \pon, \poff)
+\end{equation}
+
+Maximum likelihood estimation can then be used to find the /parameters that best fit the observation \trace, given \n. 
+Finally this process can be repeated for all possible values of n, and maximum likelihood estimation used to find the estimated number of emitters in the system \estimatedn.
+
+\begin{equation}
+    \estimatedn =
+    \argmax{\n}
+    \max_\parameters
+    p(\trace|\n,\parameters)
+  \text{,}
+\end{equation}
 
 \subsection{Inference}
 
 \todo{mention: no closed form solution to estimate \parameters}
 \todo{solution: gradient ascent on \parameters}
 
-The model was fit using gradient ascent to find the optimal combination of these 5 parameters to maximize the likelihood of observing intensity trace X. While pon, poff, mu and sigma are continuous, N is discrete and therefore not differentiable. Fortunately, the sample space for possible N values is relatively small ( ~ 50) and it is possible to independently fit a model for each N, then take a maximum over likelihoods to find the optimal N. 
-Before fitting for each given N, a rough grid search was used to determine initial guesses for each of the parameters. In the case of multiple local maxima, all were used to initiate gradient ascent rather than just the global maxima to reduce the risk of finding false summits. The likelihood p(X | pon, poff, mu, sigma) was calculated using the forward algorithm and the gradient of this function on all 4 parameters was calculated using JAX. Parameters were then optimized using stochastic gradient ascent.
-One challenge is that for long observation sequences the likelihood of any consecutive observation sequence becomes vanishingly small, and numerically unstable. To alleviate this effect, all probabilities were computed in log space which results in summation, rather than multiplication of consecutive probabilities, reducing the small number problem. Additionally, the probabilities for each timepoint were normalized to sum to 1, and later re-converted to further reduce this issue. JAX was used to vectorize almost the entire fitting process allowing the quick calculation of gradients and the fitting of many traces in parallel. 
+Because there is no closed form solution to the distribution described in (equation 3) gradient ascent must be used to find the optimal $\theta$ given \n.
+The likelihood $p(\trace | \theta, \n)$ was calculated recursively using the forward algorithm. 
+With the likelihood of intensities \x{1} through \x{t} represented by:
+
+\begin{equation}
+	\alpha_{t} = \sum_{\y{t}} p(\x{t} | \y{t}) p(\y{t} | \y{t-1}) \alpha_{t-1}
+\end{equation}
+
+Because $\alpha_{t}$ depends multiplicatively on the previous $\alpha_{t-1}$ the probability becomes vanishingly small for large times $t$. Further, because there is a marginalization over \states at each $t$, the standard trick of moving to log space, is not effective. To alleviate this issue, we introduce a scale factor $\beta_{t} = 1 / \alpha_{t}$ at each time-step such that $\alpha_{t}$ is always normalized to one and the probability of observing trace /trace reduces to:
+
+\begin{equation}
+	p(\trace | \n, \theta) = \frac{\alpha_{T}}{\prod_{t=1}^{T}\beta_{t}} = \frac{1}{\prod_{t=1}^{T}\beta_{t}}
+\end{equation}
