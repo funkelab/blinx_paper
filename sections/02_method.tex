@@ -7,39 +7,44 @@ The goal of this method is to determine the true number of emitters \truen given
 
 First, focusing on only a single timepoint $t$, we need a distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and can be approximated by a log-normal distribution \cite{mutch_deconvolving_2007} \ie.
 %
-\begin{equation}
+\begin{equation*}
   p(\x{t}|\y{t}, \mu, \sigma) =
     \frac{1}{\x{t}\sigma\sqrt{2\pi}}
     \exp \left(
       - \frac{|\log(\x{t}) - \y{t}\mu|^2}{2\sigma^2}
     \right)
   \text{,}
-\end{equation}
+\end{equation*}
 
 Where $\mu$ and $\sigma$ are the mean and standard deviation of the intensity of a single active emitter.
 
 Next, to model the temporal fluctuations in intensity, observed in the trace (\trace), we need a distribution to describe the change in the number of active emitters over time (\states). To do this, we assume that the process is Markovian and the number of active emitters at time $t$, (\y{t}) is only dependent on the number of active emitters at the previous timepoint (\y{t-1}). Breaking down the system to each individual emitter, we define the probability that an emitter that is active at time $t-1$ becoming inactive at time $t$ as \poff, conversely, we define the probability that an emitter inactive at time $t-1$ becoming active at time $t$ as \pon. Finally, assuming that all emitters share a constant, common \poff and \pon, the transition distribution can be written as:
 
-\begin{equation}
-	p(\y{t} = y | \y{t-1}, \n, \pon, \poff) = 
+\begin{align*}
+  p(\y{t} = y | \y{t-1}, \n, \pon, \poff) &=\\
 	\sum_{\epsilon = 0}^{\y{t-1}}
-	{\epsilon \choose \y{t-1}} \pon
-	{y - \y{t-1} + \epsilon \choose \n - \y{t-1}} \poff
-\end{equation}
+    {\epsilon \choose \y{t-1}}
+    &\pon
+    {y - \y{t-1} + \epsilon \choose \n - \y{t-1}}
+    \poff
+\end{align*}
 
 Because transition between all possible numbers of emitters are possible, this distribution is also conditioned on the total number of emitters in the system (\n).
 
-Expanding these distributions to account for entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given total number of emitters \n and parameters $\parameters = [\pon, \poff, \mu, \sigma]$
+Expanding these distributions to account for entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given total number of emitters \n and parameters $\parameters = (\pon, \poff, \mu, \sigma)$
 
-\begin{equation}
-  p(\trace|\n,\parameters) =
+\begin{align*}
+  p(\trace|\n,\parameters) &=\\
     \sum_{\states}
-    p(\x{1}|\y{1}, \mu, \sigma) p(\y{1}|\n)
-    \prod_{t=2}^{T}
-    p(\x{t}|\y{t}, \mu, \sigma) p(\y{t}|\y{t-1},\n, \pon, \poff)
-\end{equation}
+      p(&\x{1}|\y{1}, \parameters)
+      p(\y{1}|\n, \parameters)
+      \prod_{t=2}^{T}
+        p(\x{t}|\y{t}, \parameters)
+        p(\y{t}|\y{t-1},\n, \parameters)
+  \label{eq:method:likelihood}
+\end{align*}
 
-Maximum likelihood estimation can then be used to find the /parameters that best fit the observation \trace, given \n. 
+Maximum likelihood estimation can then be used to find the \parameters that best fit the observation \trace, given \n. 
 Finally this process can be repeated for all possible values of n, and maximum likelihood estimation used to find the estimated number of emitters in the system \estimatedn.
 
 \begin{equation}
@@ -48,6 +53,7 @@ Finally this process can be repeated for all possible values of n, and maximum l
     \max_\parameters
     p(\trace|\n,\parameters)
   \text{,}
+  \label{eq:method:optimization}
 \end{equation}
 
 \subsection{Inference}
@@ -55,16 +61,25 @@ Finally this process can be repeated for all possible values of n, and maximum l
 \todo{mention: no closed form solution to estimate \parameters}
 \todo{solution: gradient ascent on \parameters}
 
-Because there is no closed form solution to the distribution described in (equation 3) gradient ascent must be used to find the optimal $\theta$ given \n.
-The likelihood $p(\trace | \theta, \n)$ was calculated recursively using the forward algorithm. 
+Because there is no closed form solution to the distribution described in \eqref{eq:method:optimization} gradient ascent must be used to find the optimal $\theta$ given \n.
+The likelihood $p(\trace | \n, \theta)$ was calculated recursively using the forward algorithm. 
 With the likelihood of intensities \x{1} through \x{t} represented by:
 
-\begin{equation}
-	\alpha_{t} = \sum_{\y{t}} p(\x{t} | \y{t}) p(\y{t} | \y{t-1}) \alpha_{t-1}
-\end{equation}
+\todo{pull p(\trace...) out into text}
+\begin{align*}
+  p(\trace|\n,\parameters) &= \sum_{\y{T}} \pchain_T(\y{T})\\
+  \pchain_{t}(\y{t}) &= p(\x{t}|\y{t}) \sum_{\y{t-1}} p(\y{t} | \y{t-1}) \pchain_{t-1}(\y{t-1})\\
+  \pchain_{1}(\y{1}) &= p(\x{t}|\y{t}) p(\y{t})
+\end{align*}
 
-Because $\alpha_{t}$ depends multiplicatively on the previous $\alpha_{t-1}$ the probability becomes vanishingly small for large times $t$. Further, because there is a marginalization over \states at each $t$, the standard trick of moving to log space, is not effective. To alleviate this issue, we introduce a scale factor $\beta_{t} = 1 / \alpha_{t}$ at each time-step such that $\alpha_{t}$ is always normalized to one and the probability of observing trace /trace reduces to:
+Because $\pchain_{t}$ depends multiplicatively on the previous $\pchain_{t-1}$ the probability becomes vanishingly small for large times $t$. Further, because there is a marginalization over \states at each $t$, the standard trick of moving to log space, is not effective. To alleviate this issue, we introduce a scale factor $\norms_{t} = 1 / \pchain_{t}$ at each time-step such that $\pchain_{t}$ is always normalized to one and the probability of observing trace /trace reduces to:
 
 \begin{equation}
-	p(\trace | \n, \theta) = \frac{\alpha_{T}}{\prod_{t=1}^{T}\beta_{t}} = \frac{1}{\prod_{t=1}^{T}\beta_{t}}
+	p(\trace | \n, \theta)
+    = \frac
+      {\sum_{\y{T}}\pchainnorm_{T}(\y{T})}
+      {\prod_{t=1}^{T}\norms_{t}}
+    = \frac
+      {1}
+      {\prod_{t=1}^{T}\norms_{t}}
 \end{equation}
