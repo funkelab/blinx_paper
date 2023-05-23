@@ -5,7 +5,7 @@ The goal of this method is to determine the true number of emitters \truen given
 
 \subsection{Model}
 
-First, focusing on only a single timepoint $t$, we need a distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and can be approximated by a log-normal distribution \cite{mutch_deconvolving_2007} \ie.
+First, focusing on only a single timepoint $t$, we need an emission distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and can be approximated by a log-normal distribution \cite{mutch_deconvolving_2007} \ie.
 %
 \begin{equation*}
   p(\x{t}|\y{t}, \mu, \sigma) =
@@ -31,7 +31,7 @@ Next, to model the temporal fluctuations in intensity, observed in the trace (\t
 
 Because transition between all possible numbers of emitters are possible, this distribution is also conditioned on the total number of emitters in the system (\n).
 
-Expanding these distributions to account for entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given total number of emitters \n and parameters $\parameters = (\pon, \poff, \mu, \sigma)$
+Expanding these distributions to account for entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given total number of emitters \n and simplifying the emission and transition distributions with $\parameters = (\pon, \poff, \mu, \sigma)$
 
 \begin{align*}
   p(\trace|\n,\parameters) &=\\
@@ -61,25 +61,25 @@ Finally this process can be repeated for all possible values of n, and maximum l
 \todo{mention: no closed form solution to estimate \parameters}
 \todo{solution: gradient ascent on \parameters}
 
-Because there is no closed form solution to the distribution described in \eqref{eq:method:optimization} gradient ascent must be used to find the optimal $\theta$ given \n.
-The likelihood $p(\trace | \n, \theta)$ was calculated recursively using the forward algorithm. 
-With the likelihood of intensities \x{1} through \x{t} represented by:
+Because there is no closed form solution to  \eqref{eq:method:optimization} we can use gradient ascent to find the optimal $\theta$ given \n.
+The gradient of the likelihood function $p(\trace | \n, \theta)$ was calculated using JAX, an auto-differentiation library.
+This was done recursively, as is standard for hidden Markov models, through the forward algorithm.
+The likelihood $p(\trace | \n, \theta)$ was calculated recursively using the forward algorithm, where \pchain(\y{t}) is the probability of observing the sequence of events 0 through $t$.
+Therefore the probability of observing trace \trace is $ p(\trace|\n,\parameters) = \sum_{\y{T}} \pchain_T(\y{T})$ and, omitting \n and \parameters for clarity, \pchain(\y{t})  is defined as:
 
-\todo{pull p(\trace...) out into text}
 \begin{align*}
-  p(\trace|\n,\parameters) &= \sum_{\y{T}} \pchain_T(\y{T})\\
   \pchain_{t}(\y{t}) &= p(\x{t}|\y{t}) \sum_{\y{t-1}} p(\y{t} | \y{t-1}) \pchain_{t-1}(\y{t-1})\\
   \pchain_{1}(\y{1}) &= p(\x{t}|\y{t}) p(\y{t})
 \end{align*}
 
-Because $\pchain_{t}$ depends multiplicatively on the previous $\pchain_{t-1}$ the probability becomes vanishingly small for large times $t$. Further, because there is a marginalization over \states at each $t$, the standard trick of moving to log space, is not effective. To alleviate this issue, we introduce a scale factor $\norms_{t} = 1 / \pchain_{t}$ at each time-step such that $\pchain_{t}$ is always normalized to one and the probability of observing trace /trace reduces to:
+Because $\pchain_{t}$ depends multiplicatively on the previous $\pchain_{t-1}$ the probability becomes vanishingly small for large times $t$. Further, because there is a marginalization over \states at each $t$, the standard trick of moving to log space, is not effective. To alleviate this issue, we introduce a scale factor $\norms_{t} = 1 / \pchain_{t}$ at each time-step such that $\pchainnorm_{t}$ is always normalized to one and the probability of observing trace \trace reduces to:
 
 \begin{equation}
 	p(\trace | \n, \theta)
     = \frac
       {\sum_{\y{T}}\pchainnorm_{T}(\y{T})}
-      {\prod_{t=1}^{T}\norms_{t}}
+      {\sum_{t=1}^{T} \log(\norms_{t})}
     = \frac
       {1}
-      {\prod_{t=1}^{T}\norms_{t}}
+      {\sum_{t=1}^{T} \log(\norms_{t})}
 \end{equation}

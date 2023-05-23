@@ -14,8 +14,6 @@
 
 \subsection{Comparison to state of the art \lbfcs}
 
-\figref{fig:results:comparison} shows....
-
 Blinx was first benchmarked on simulated traces of 4,000 frames with known N
 values between 1 and 30, and with kinetic and intensity parameters closely
 matching those seen in experiments (pon=poff=0.1) (example traces shown in
@@ -47,10 +45,10 @@ expected.
 
 Blinx was tested on over 300 simulated traces with a \truen = 5 and ranges of
 \pon and \poff values from 0.01 to 0.2 (\figref{fig:results:regime}). It was found that while blinx
-displayed a high accuracy in regions where \pon $>=$ \poff, accuracy significantly
+displayed a high accuracy in regions where \pon $\geq$ \poff, accuracy significantly
 decreased as \pon becomes much smaller than \poff. This accuracy behavior
 correlates well with label occupancy, or the average number of labels
-illuminated at any time. In regions where \poff  $>>$ \pon, no matter the \truen,
+illuminated at any time. In regions where \poff  $\gg$ \pon, no matter the \truen,
 the occupancy approaches 0, and the only states observed are 0 and 1 labels
 illuminated. This provides very little information to the model, leading to a
 significant decrease in accuracy. Interestingly, this low occupancy region is
@@ -63,10 +61,10 @@ This result also suggests that if the observation time were increased an
 increase in accuracy for the low \pon = \poff region would increase.
 
 Based on these results, it was hypothesized that accuracy could be further
-increased by shifting the experimental kinetics such that \pon $>>$ poff. Simulating
+increased by shifting the experimental kinetics such that \pon $\gg$ poff. Simulating
 traces with \pon=0.17 and \poff= 0.01, a significantly tighter distribution
 around the correct count is observed, compared to traces simulated with pon =
 poff = 0.1 (Figure 2B). While it is not always possible to know the blinking
 kinetics ahead of time, this finding can be used in experimental design, so as
-to engineer a system so that pon > poff and the counting potential of the model
+to engineer a system so that pon \textgreater   poff and the counting potential of the model
 is maximized.
