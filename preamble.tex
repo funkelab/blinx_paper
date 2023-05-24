@@ -20,6 +20,7 @@
 \usepackage{subcaption}
 \usepackage{datatool}
 \usepackage{cleveref}
+\usepackage{soul}
 
 \input{definitions}
 \input{figures/tikzstyles}
@@ -38,8 +39,12 @@
 \newcommand{\ie}{\emph{i.e.}\xspace}
 
 % todo notes with \todo{}
-\let\todonote\todo
+\let\todonote\todo%
 \renewcommand{\todo}[1]{\todonote[color=orange!50!white]{\footnotesize #1}\xspace}
+
+% introduce a new word
+\def\introduce#1{{\color{funkey_color_1}\ul{#1}}}
+%\def\introduce#1{#1}  % uncomment this for final version
 
 % prefer JPG when available
 \usepackage{grfext}

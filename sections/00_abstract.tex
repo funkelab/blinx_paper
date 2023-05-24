@@ -1,5 +1,35 @@
 \begin{abstract}
 
-
+  We address the problem of inferring the number of independently blinking
+  \introduce{light emitters}, when only the sum of all of their
+  \introduce{intensity} contributions can be observed at each
+  \introduce{timepoint}.
+  %
+  % why do we want to do that?
+  %
+  This problem occurs regularly in light microscopy of \introduce{complexes}
+  that are smaller than the diffraction limit, where one wishes to count the
+  number of \introduce{fluorescently} labelled \introduce{subunits}.
+  %
+  % how do we do that?
+  %   differentiable markov chain
+  %   blinx estimates number of active emitters for each timestep
+  %   holistic model
+  %
+  We estimate the number of subunits of a complex by modelling the light
+  emitted per complex over time as a Markov-chain.
+  %
+  Crucially, our model is differentiable, which allows us to jointly estimate
+  the parameters of the intensity distribution per emitter as well as their
+  blinking rates through maximum likelihood optimization.
+  %
+  % how good is it?
+  %
+  Compared to the current state of the art, which uses histogram-based
+  heuristics to infer imaging parameters, our holistic model is consistently
+  more accurate and extends the range of countable subunits by a factor of two.
+  %
+  Furthermore, our model allows us to inform experimentalists about optimal
+  imaging parameters to increase accuracy.
 
 \end{abstract}
