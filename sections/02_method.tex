@@ -18,18 +18,20 @@ First, focusing on only a single timepoint $t$, we need an emission distribution
 
 Where $\mu$ and $\sigma$ are the mean and standard deviation of the intensity of a single active emitter.
 
-Next, to model the temporal fluctuations in intensity, observed in the trace (\trace), we need a distribution to describe the change in the number of active emitters over time (\states). To do this, we assume that the process is Markovian and the number of active emitters at time $t$, (\y{t}) is only dependent on the number of active emitters at the previous timepoint (\y{t-1}). Breaking down the system to each individual emitter, we define the probability that an emitter that is active at time $t-1$ becoming inactive at time $t$ as \poff, conversely, we define the probability that an emitter inactive at time $t-1$ becoming active at time $t$ as \pon. Finally, assuming that all emitters share a constant, common \poff and \pon, the transition distribution can be written as:
-
+Next, to model the temporal fluctuations in intensity, observed in the trace \trace, we need a distribution to describe the change in the number of active emitters \states over time. To do this, we assume that the process is Markovian and the number of active emitters \y{t} at time $t$ is only dependent on the number of active emitters at the previous timepoint \y{t-1}. Breaking down the system to each individual emitter, we define the probability that an emitter that is active at time $t-1$ becoming inactive at time $t$ as \poff, conversely, we define the probability that an emitter inactive at time $t-1$ becoming active at time $t$ as \pon. Finally, assuming that all emitters share the same \poff and \pon, the transition distribution can be written as:
+%
 \begin{align*}
   p(\y{t} = y | \y{t-1}, \n, \pon, \poff) &=\\
-	\sum_{\epsilon = 0}^{\y{t-1}}
-    {\epsilon \choose \y{t-1}}
+	\sum_{a = 0}^{\y{t-1}}
+    {a \choose \y{t-1}}
     &\pon
-    {y - \y{t-1} + \epsilon \choose \n - \y{t-1}}
+    {y - \y{t-1} + a \choose \n - \y{t-1}}
     \poff
 \end{align*}
-
-Because transition between all possible numbers of emitters are possible, this distribution is also conditioned on the total number of emitters in the system (\n).
+%
+Note that this distribution depends on the total number of available emitters
+\n, as the probability of a change in the number of activate transmitters
+depends on the total number of emitters available.
 
 Expanding these distributions to account for entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given total number of emitters \n and simplifying the emission and transition distributions with $\parameters = (\pon, \poff, \mu, \sigma)$
 

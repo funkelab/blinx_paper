@@ -7,11 +7,11 @@ Fluorescence microscopy is a foundational tool in the field of biology and
 provides useful information on the abundance and localization of labeled
 structures.
 %
-  However, determining the exact molecular count of sub-cellular structures remains a
-  challenge. Super-resolution techniques such as PALM \cite{betzig_imaging_2006},
-  STORM \cite{rust_sub-diffraction-limit_2006}, and DNA-PAINT
-  \cite{schnitzbauer_super-resolution_2017} have addressed this problem by
-  achieving resolutions as high as 20nm.
+  However, determining the exact molecular count of subunits in a complex
+  remains a challenge. Super-resolution techniques such as PALM
+  \cite{betzig_imaging_2006}, STORM \cite{rust_sub-diffraction-limit_2006}, and
+  DNA-PAINT \cite{schnitzbauer_super-resolution_2017} have addressed this
+  problem by achieving resolutions as high as 20nm.
 
 % key concept of super-resolution: fluorescence over time
 % doesn't work for many very small structures
@@ -26,9 +26,10 @@ distribution of fluorescence signals from individual fluorophores over time:
   by fitting its point spread function. Subsequently, all localizations over
   all frames can be combined into a sub-diffraction limited reconstruction.
   %
-  Although some structures can be sufficiently spatially separated with
-  super-resolution techniques for visual counting, many exist even below this
-  threshold, prompting the need for new methods of molecular counting.
+  Although the subunits of some complexes can be sufficiently spatially
+  separated with super-resolution techniques for visual counting, many exist
+  even below this threshold, prompting the need for new methods of molecular
+  counting.
 
 % intro to molecular counting for computer scientists: what is the data, what
 % do we want to predict?
@@ -44,10 +45,10 @@ of multiple fluorescent emitters that overlap in space.
   %
   % -> joint inference problem: number of active emitters per timepoint and
   %    parameters
-  This problem is ill-posed in a static image, where all emitters' intensities
-  are combined into a single \introduce{spot}. However, the fluctuating
-  \introduce{intensity trace} over time can provide enough information to infer
-  the number of emitters:
+  This problem is ill-posed in a static image, where the intensities of all
+  emitters are combined into a single \introduce{spot}. However, the
+  fluctuating \introduce{intensity trace} over time can provide enough
+  information to infer the number of emitters:
   %
   %While this problem is ill-posed in a static image, the fluctuating
   %\introduce{intensity trace} of the combined intensity of independently
@@ -67,7 +68,7 @@ Here we propose \ours, a differentiable Markov-chain model for intensity
 traces, which is conditioned on the total number of emitters, the parameters of
 the intensity distribution, and the blinking rates.
 %
-  \ours allows jointly estimating the parameters of the intensity distribution
+  \ours allows joint estimation of the parameters of the intensity distribution
   per emitter as well as their blinking rates through maximum likelihood
   optimization.
   %
