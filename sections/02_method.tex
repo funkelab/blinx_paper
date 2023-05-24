@@ -71,17 +71,49 @@ Therefore the probability of observing trace \trace is $ p(\trace|\n,\parameters
 
 \begin{align*}
   \pchain_{t}(\y{t}) &= p(\x{t}|\y{t}) \sum_{\y{t-1}} p(\y{t} | \y{t-1}) \pchain_{t-1}(\y{t-1})\\
-  \pchain_{1}(\y{1}) &= p(\x{t}|\y{t}) p(\y{t})
+  \pchain_{1}(\y{1}) &= p(\x{1}|\y{1}) p(\y{1})
 \end{align*}
 
-Because $\pchain_{t}$ depends multiplicatively on the previous $\pchain_{t-1}$ the probability becomes vanishingly small for large times $t$. Further, because there is a marginalization over \states at each $t$, the standard trick of moving to log space, is not effective. To alleviate this issue, we introduce a scale factor $\norms_{t} = 1 / \pchain_{t}$ at each time-step such that $\pchainnorm_{t}$ is always normalized to one and the probability of observing trace \trace reduces to:
+Because $\pchain_{t}$ depends multiplicatively on the previous $\pchain_{t-1}$,
+the probability becomes vanishingly small for large times $t$, leading to
+numerical stability problems. Further, because there is a marginalization over
+\states at each $t$, the standard trick of moving to log space, is not
+effective.
 
-\begin{equation}
-	p(\trace | \n, \theta)
-    = \frac
-      {\sum_{\y{T}}\pchainnorm_{T}(\y{T})}
-      {\sum_{t=1}^{T} \log(\norms_{t})}
-    = \frac
-      {1}
-      {\sum_{t=1}^{T} \log(\norms_{t})}
-\end{equation}
+To alleviate this issue, we introduce a normalized recursive scheme, where
+$\pchainnorm$ are normalized to sum up to one for all \y{}:
+%
+\begin{align*}
+  \pchainnorm_t(\y{t}) &=
+    \frac{1}{\norms_t}
+    p(\x{t}|\y{t})
+    \sum_{\y{t-1}}
+      p(\y{t} | \y{t-1})
+      \pchainnorm_{t-1}(\y{t-1})\\
+  \pchainnorm_{1}(\y{1}) &=
+    \frac{1}{\norms_1}
+    p(\x{t}|\y{t})
+    p(\y{t})\\
+  \norms_t &=
+    \sum_{\y{}}
+    p(\x{t}|\y{})
+    \sum_{\y{t-1}}
+      p(\y{} | \y{t-1})
+      \pchainnorm_{t-1}(\y{t-1})\\
+  \norms_1 &=
+    \sum_{\y{}}
+    p(\x{1}|\y{})
+    p(\y{1})\\
+\end{align*}
+
+\begin{equation*}
+  \pchain_t(\y{t}) = \pchainnorm_t \prod_{t'=1}^t \norms_{t'}
+\end{equation*}
+
+\begin{align*}
+  p(\trace|\n,\parameters)
+    &= \sum_{\y{T}} \pchainnorm_{t}(\y{T}) \prod_{t'=1}^T \norms_{t'}\\
+    &= \left( \prod_{t'=1}^T \norms_{t'} \right)
+      \underbrace{\sum_{\y{T}} \pchainnorm_{t}(\y{T})}_{=1}
+    = \prod_{t'=1}^T \norms_{t'}\\
+\end{align*}
