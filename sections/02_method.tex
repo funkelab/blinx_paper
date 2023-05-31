@@ -1,11 +1,13 @@
 \section{Method}
 
-Consider a complex of fluorescent emitters, smaller than can be visually separated. Each emitter activates stochastically and independently of the others, producing a signal of fluctuating intensity over time \figref{fig:results:comparison}.
+Consider multiple fluorescent emitters, 
+% which cannot be spatially separated at the resolution achievable with current smlm techniques
+smaller than can be visually separated. Each emitter blinks stochastically and independently of the others, yielding a fluctuating intensity signal over time (see \figref{fig:results:comparison} A, B), .
 The goal of this method is to determine the true number of emitters \truen given the observed intensity trace.
 
 \subsection{Model}
 
-First, focusing on only a single timepoint $t$, we need an emission distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and are approximatly log-normally distributed \cite{mutch_deconvolving_2007} \ie.
+First, focusing on only a single timepoint $t$, we need an emission distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and are approximatly log-normally distributed \cite{mutch_deconvolving_2007}, \ie,
 %
 \begin{equation*}
   p(\x{t}|\y{t}, \mu, \sigma) =
@@ -16,24 +18,26 @@ First, focusing on only a single timepoint $t$, we need an emission distribution
   \text{,}
 \end{equation*}
 
-Where $\mu$ and $\sigma$ are the mean and standard deviation of the intensity of a single active emitter.
+where $\mu$ and $\sigma$ are the mean and standard deviation of the intensity of a single active emitter.
 
-Next, to model the temporal fluctuations in intensity, observed in the trace \trace, we need a distribution to describe the change in the number of active emitters \states over time. To do this, we assume that the process is Markovian and the number of active emitters \y{t} at time $t$ is only dependent on the number of active emitters at the previous timepoint \y{t-1}. Breaking down the system to each individual emitter, we define the probability that an emitter that is active at time $t-1$ becoming inactive at time $t$ as \poff, conversely, we define the probability that an emitter inactive at time $t-1$ becoming active at time $t$ as \pon. Finally, assuming that all emitters share the same \poff and \pon, the transition distribution can be written as:
+Next, to model the temporal fluctuations in intensity, observed in the trace \trace from time $t=0,...,T$, we need a distribution to describe the change in the number of active emitters \states over time. To do this, we assume that the process is Markovian and the number of active emitters \y{t} at time $t$ is only dependent on the number of active emitters at the previous timepoint \y{t-1}. Breaking down the system to each individual emitter, we define the probability that an emitter that is active at time $t-1$ becoming inactive at time $t$ as \poff, conversely, we define the probability that an emitter inactive at time $t-1$ becoming active at time $t$ as \pon. Finally, assuming that all emitters share the same \poff and \pon, the transition distribution can be written as:
 %
 \begin{align*}
   p(\y{t} = y | \y{t-1}, \n, \pon, \poff) &=\\
 	\sum_{a = 0}^{\y{t-1}}
     {a \choose \y{t-1}}
-    &\pon
+    &\poff
     {y - \y{t-1} + a \choose \n - \y{t-1}}
-    \poff
+    \pon
+    \text{,}
 \end{align*}
 %
-Where $a$ is the number of emitters changing state. Note that this distribution depends on the total number of available emitters
-\n, as the probability of a change in the number of activate transmitters
-depends on the total number of emitters available.
+where $a$ is the number of emitters deactivating. 
+%Note that this distribution depends on the total number of available emitters
+%\n, as the probability of a change in the number of activate emitters
+%depends on the total number of emitters available.
 
-Expanding these distributions to account for entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given total number of emitters \n and simplifying the emission and transition distributions with $\parameters = (\pon, \poff, \mu, \sigma)$
+Expanding these distributions to account for the entire intensity trace \trace and marginalizing over all possible \states, we can build a distribution for the probability of observing trace \trace given a total number of emitters \n. Simplifying these distributions with $\parameters = (\pon, \poff, \mu, \sigma)$ yields
 
 \begin{align*}
   p(\trace|\n,\parameters) &=\\
@@ -44,16 +48,17 @@ Expanding these distributions to account for entire intensity trace \trace and m
         p(\x{t}|\y{t}, \parameters)
         p(\y{t}|\y{t-1},\n, \parameters)
   \label{eq:method:likelihood}
+  \text{.}
 \end{align*}
 
-We then use maximum likelihood estimation to find the \parameters that best fit the observation \trace, given \n. 
-Finally this process is repeated for all possible values of n, and maximum likelihood estimation used to find the estimated number of emitters in the system \estimatedn:
+We then use maximum likelihood optimization to find the \parameters that best fits the observation \trace, given \n. 
+Repeating this process for all possible values of \n, and taking the maximum likelihood, produces an estimated number of emitters \estimatedn:
 
 \begin{equation}
     \estimatedn =
-    \argmax{\n}
+    \argmax{\n} (
     \max_\parameters
-    p(\trace|\n,\parameters)
+    p(\trace|\n,\parameters))
   \text{.}
   \label{eq:method:optimization}
 \end{equation}
@@ -67,7 +72,7 @@ The likelihood $p(\trace | \n, \theta)$ is defined through \pchain(\y{t}), the p
 Therefore the probability of observing trace \trace is $ p(\trace|\n,\parameters) = \sum_{\y{T}} \pchain_T(\y{T})$ and, omitting \n and \parameters for simplicity, \pchain(\y{t})  is defined as:
 
 \begin{align*}
-  \pchain_{t}(\y{t}) &= p(\x{t}|\y{t}) \sum_{\y{t-1}} p(\y{t} | \y{t-1}) \pchain_{t-1}(\y{t-1})\\
+  \pchain_{t}(\y{t}) &= p(\x{t}|\y{t}) \sum_{\y{t-1}} p(\y{t} | \y{t-1}) \pchain_{t-1}(\y{t-1}) \\
   \pchain_{1}(\y{1}) &= p(\x{1}|\y{1}) p(\y{1})
 \end{align*}
 
@@ -117,7 +122,7 @@ In fact, because the sum of $\pchain_{t}$ over all \y{t} is one by definition, t
     &= \sum_{\y{T}} \pchainnorm_{t}(\y{T}) \prod_{t'=1}^T \norms_{t'}\\
     &= \left( \prod_{t'=1}^T \norms_{t'} \right)
       \underbrace{\sum_{\y{T}} \pchainnorm_{t}(\y{T})}_{=1}
-    = \prod_{t'=1}^T \norms_{t'} ,\text{.}\\
+    = \prod_{t'=1}^T \norms_{t'} \text{.}\\
 \end{align*}
 %
 This allows us to compute the measurement likelihood from a single product,

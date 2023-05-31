@@ -7,34 +7,32 @@ Fluorescence microscopy is a foundational tool in the field of biology and
 provides useful information on the abundance and localization of labeled
 structures.
 %
-  However, determining the exact molecular count of subunits in a complex
-  remains a challenge. Super-resolution techniques such as PALM
+  However, determining the exact molecular count of subunits in a complex smaller than the diffraction limit
+  remains a challenge. Single Molecule Localization Microscopy (SMLM) such as PALM
   \cite{betzig_imaging_2006}, STORM \cite{rust_sub-diffraction-limit_2006}, and
-  DNA-PAINT \cite{schnitzbauer_super-resolution_2017} have addressed this
-  problem by achieving resolutions as high as 20nm.
+  DNA-PAINT \cite{schnitzbauer_super-resolution_2017} have circumvented the diffraction limit
+  by achieving resolutions as high as \SI{20}{\nm}.
 
 % key concept of super-resolution: fluorescence over time
 % doesn't work for many very small structures
 %
-The underlying principle that overcomes the diffraction limit of light is the
-distribution of fluorescence signals from individual fluorophores over time:
+The underlying principle of SMLM is the
+seperation of fluorescence signals from individual fluorophores over time:
 %
   only a sparse subset of fluorescent emitters are \introduce{\emph{active}}
-  (\ie, emitting light) at each point in time.
+  (\ie, emitting light) at each timepoint.
   %
   Each spatially distinct emitter can then be localized with sub-pixel accuracy
   by fitting its point spread function. Subsequently, all localizations over
-  all frames can be combined into a sub-diffraction limited reconstruction.
+  all frames can be combined into a super-resolved reconstruction.
   %
-  Although the subunits of some complexes can be sufficiently spatially
-  separated with super-resolution techniques for visual counting, many exist
-  even below this threshold, prompting the need for new methods of molecular
+  Although this method allows to spatially separate the subunits of larger complexes, the resolution is insufficient to determine the number of subunits of complexes at the nano-scale, prompting the need for new methods of molecular
   counting.
 
 % intro to molecular counting for computer scientists: what is the data, what
 % do we want to predict?
 %
-The challenge for molecular counting is then to disentangle the contributions
+At that scale the challenge for molecular counting is to disentangle the contributions
 of multiple fluorescent emitters that overlap in space.
 %
   % multiple emitters, single spot
@@ -46,7 +44,7 @@ of multiple fluorescent emitters that overlap in space.
   % -> joint inference problem: number of active emitters per timepoint and
   %    parameters
   This problem is ill-posed in a static image, where the intensities of all
-  emitters are combined into a single \introduce{spot}. However, the
+  emitters are combined into a single \introduce{spot}. However, for blinking fluorophores the
   fluctuating \introduce{intensity trace} over time can provide enough
   information to infer the number of emitters:
   %
@@ -80,7 +78,7 @@ known) and compare its predictions against the current state-of-the-art method,
 \lbfcs~\citep{stein_calibration-free_2021}.
 %
   \ours is consistently more accurate than \lbfcs and extends the range of
-  countable subunits by a factor of two.
+  countable subunits up to 30.
   %
   Furthermore, we show that \ours can be used to inform experimental design by
   identifying conditions that facilitate molecular counting.
@@ -90,17 +88,18 @@ known) and compare its predictions against the current state-of-the-art method,
 % molecular counting
 Many molecular counting approaches similarly
   make use of imaging over time to extract additional information from the
-  system. Some of the simplest systems count events that are designed to happen
-  only once per emitter such as photobleaching steps \cite{Ulbrich_subunit_2007} or
-  blinks from a 1 time photo-switching emitter
-  \cite{gunzenhauser_quantitative_2012}. However, these events are often difficult to
-  detect, and can easily be missed leading to severe undercounting.
-
+  system. 
+  %Some of the simplest systems count events that are designed to happen
+  %only once per emitter such as photobleaching steps \cite{Ulbrich_subunit_2007} or
+  %blinks from a 1 time photo-switching emitter
+  %\cite{gunzenhauser_quantitative_2012}. However, these events are often difficult to
+ % detect, and can easily be missed leading to severe undercounting.
+Some of the simplest systems count events that happen only a single time per emitter \cite{Ulbrich_subunit_2007}; \cite{gunzenhauser_quantitative_2012}.
 Other methods make use of emitters that blink repeatedly to reduce the
 dependence on individual events.
 %
   By modeling the blinking rates of STORM emitters as a continuous time
-  Markov process, \cite{patel_blinking_2021, rollins_stochastic_2015} one can extract the total count of emitters
+  Markov process \cite{patel_blinking_2021, rollins_stochastic_2015}, one can extract the total count of emitters
   in a spot. However, these models are limited in accuracy by the complex
   photobleaching nature of the emitters used. Another temporal counting method is
   qPAINT \cite{jungmann_quantitative_2016} which utilizes DNA-PAINT to minimize photobleaching and
@@ -109,18 +108,18 @@ dependence on individual events.
   but relies heavily on previous knowledge of binding rates and is
   susceptible to simultaneous binding events.
 
-Although not precise enough to determine molecular counts, the linear
-relationship observed between fluorescence intensity and emitter abundance
-\cite{schmied_fluorescence_2012}, provides additional information to improve the
-accuracy of these methods.
+%Although not precise enough to determine molecular counts, the linear
+%relationship observed between fluorescence intensity and emitter abundance
+%\cite{schmied_fluorescence_2012}, provides additional information to improve the
+%accuracy of these methods.
 %
-  Many methods use correlation functions to combine both the temporal and
+  Still other methods use correlation functions to combine both the temporal and
   intensity information to estimate the molecular count, such as balanced
   super-resolution optical fluctuation imaging and fluorescence
   correlation spectroscopy (FCS) which has been used to estimate the copy
   number of specific proteins within the nuclear pore complex
   \cite{otsuka_quantitative_2023}. Similar techniques have also been applied to the
-  consistent blinking behavior of DNA-PAINT in lbFCS+ \cite{stein_calibration-free_2021}, which has
-  accurately counted up to ~8 molecules and does not rely on previous
+  consistent blinking behavior of DNA-PAINT in \lbfcs \cite{stein_calibration-free_2021}, which has
+  accurately counted up to ~ eight molecules and without relying on previous
   calibrations. These models work by fitting the entire observation series to a
   single equation, in the process greatly simplifying the information. 

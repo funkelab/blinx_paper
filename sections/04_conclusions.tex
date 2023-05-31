@@ -1,16 +1,18 @@
 \section{Conclusions}
 
-Here, we present \ours, a maximum likelihood estimate model to count the number of fluorescent emitters within a diffraction limited area.
+Here, we present \ours, a maximum likelihood estimate model to count the number of fluorescent emitters within a diffraction limited spot.
 %
-One advantage of \ours is that intensity parameters, and blinking rates are jointly estimated, improving the fit of all parameters compared to \lbfcs resulting in a doubling of the counting ability. 
+One advantage of \ours is that intensity parameters and blinking rates are jointly estimated, improving the fit of all parameters compared to \lbfcs, and resulting in a doubling of the counting ability. 
 %
-Another advantage is that \ours calculates a likelihood making different model fits, and counts directly comparable. 
+Another advantage is that \ours calculates a likelihood, thus making different models and counts directly comparable. 
 %
 
-However, \ours is built on a few assumptions, the largest of which is that all emitters behave independently. While this assumption holds true for idealized scenarios, emitters can have effects on both the intensity and rate parameters of their neighbors, especially when in close proximity.
+\ours is built on a few assumptions, most important being that all emitters behave independently. While this assumption holds true for idealized scenarios, emitters can have effects on both the intensity and rate parameters of their immediate neighbors.
 %
-Another assumption is that all emitters in an area blink at the same rate. Blinking rates are dependent on local environment, and while all emitters in an area have similar local environments, variations do exist and can possibly have a significant effect. 
+Another assumption is that all emitters in a spot blink at the same rate and that their parameters are constant over time. However, blinking rates and intensity are dependent on the local nano environment, and small variations in this environment could lead to large differences between emitters.
 %
-A final assumption is that emitter parameters remain constant over time. While the structures of interest remain fixed and constant, emitter parameters are highly dependent on experimental conditions which can fluctuate over without proper techniques and controls. 
+Moreover, these parameters are also highly dependent on experimental conditions \ie temperature, which can fluctuate over time without proper controls. 
 %
 While further experiments are needed to asses the validity of these assumptions, none are fundamentally limiting to the function of \ours. 
+%
+In conclusion, \ours expands the range of molecular counting by a factor of two, by holistically modeling each timepoint of the intensity trace.
