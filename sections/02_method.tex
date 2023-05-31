@@ -5,7 +5,7 @@ The goal of this method is to determine the true number of emitters \truen given
 
 \subsection{Model}
 
-First, focusing on only a single timepoint $t$, we need an emission distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and can be approximated by a log-normal distribution \cite{mutch_deconvolving_2007} \ie.
+First, focusing on only a single timepoint $t$, we need an emission distribution to describe the relationship between the number of active emitters \y{t} and the observed intensity \x{t}. The individual intensities of multiple emitters are additive, and are approximatly log-normally distributed \cite{mutch_deconvolving_2007} \ie.
 %
 \begin{equation*}
   p(\x{t}|\y{t}, \mu, \sigma) =
@@ -46,8 +46,8 @@ Expanding these distributions to account for entire intensity trace \trace and m
   \label{eq:method:likelihood}
 \end{align*}
 
-Maximum likelihood estimation can then be used to find the \parameters that best fit the observation \trace, given \n. 
-Finally this process can be repeated for all possible values of n, and maximum likelihood estimation used to find the estimated number of emitters in the system \estimatedn:
+We then use maximum likelihood estimation to find the \parameters that best fit the observation \trace, given \n. 
+Finally this process is repeated for all possible values of n, and maximum likelihood estimation used to find the estimated number of emitters in the system \estimatedn:
 
 \begin{equation}
     \estimatedn =
@@ -62,8 +62,8 @@ Finally this process can be repeated for all possible values of n, and maximum l
 
 Because there is no closed form solution to  \eqref{eq:method:optimization} we can use gradient ascent to find the optimal $\theta$ given \n.
 The gradient of the likelihood function $p(\trace | \n, \theta)$ was calculated using JAX, an auto-differentiation library.
-This was done recursively, as is standard for hidden Markov models, through the forward algorithm.
-The likelihood $p(\trace | \n, \theta)$ was defined recursively through \pchain(\y{t}), the probability of observing the sequence of events 0 through $t$.
+This was done, as is standard for hidden Markov models, through the forward algorithm.
+The likelihood $p(\trace | \n, \theta)$ is defined through \pchain(\y{t}), the probability of observing the sequence of events 0 through $t$.
 Therefore the probability of observing trace \trace is $ p(\trace|\n,\parameters) = \sum_{\y{T}} \pchain_T(\y{T})$ and, omitting \n and \parameters for simplicity, \pchain(\y{t})  is defined as:
 
 \begin{align*}
@@ -72,12 +72,12 @@ Therefore the probability of observing trace \trace is $ p(\trace|\n,\parameters
 \end{align*}
 
 Because $\pchain_{t}$ depends multiplicatively on the previous $\pchain_{t-1}$,
-the probability becomes vanishingly small for large times $t$, leading to
-numerical stability problems. Further, because there is a marginalization over
+the probabilities become vanishingly small for large times $t$, leading to
+numerical stability problems during auto-differentiation. Further, because there is a marginalization over
 \states at each $t$, the standard trick of moving to log space, is not
 effective.
 
-To alleviate this issue, we introduce a normalized recursive scheme, where
+To alleviate this issue, we introduce a normalized forward algorithm, where
 $\pchainnorm$ are normalized to sum up to one for all \y{}:
 %
 \begin{align*}
