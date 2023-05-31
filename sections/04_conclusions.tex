@@ -1,14 +1,16 @@
 \section{Conclusions}
-Here, we present blinx, a maximum likelihood estimate model to count the number of fluorescent emitters within a diffraction limited area.
+
+Here, we present \ours, a maximum likelihood estimate model to count the number of fluorescent emitters within a diffraction limited area.
 %
-Because blinx, estimates all parameters jointly, it allows for counting 
-While blinx displays great accuracy on this simulated data, it relies on a few assumptions that could be relaxed in experimental data.
+One advantage of \ours is that intensity parameters, and blinking rates are jointly estimated, improving the fit of all parameters compared to \lbfcs resulting in a doubling of the counting ability. 
 %
-The first assumption is that all emitters in an area have a common \pon and \poff. 
-%
-While this assumption holds in controlled environments, local environment has been shown to significantly effect fluorescent emitter kinetics, and if the emitter kinetics vary significantly, this could have a detrimental effect on the counting ability of blinx. 
-%
-Another assumption is that the emitter intensities are log-normally distributed, and the mean intensity remains constant over time. While, both these assumptions are experimentally supported, the emitter intensity is highly variable with imaging conditions and can change significantly over the time-course if experimental parameters are not carefully managed. 
+Another advantage is that \ours calculates a likelihood making different model fits, and counts directly comparable. 
 %
 
-
+However, \ours is built on a few assumptions, the largest of which is that all emitters behave independently. While this assumption holds true for idealized scenarios, emitters can have effects on both the intensity and rate parameters of their neighbors, especially when in close proximity.
+%
+Another assumption is that all emitters in an area blink at the same rate. Blinking rates are dependent on local environment, and while all emitters in an area have similar local environments, variations do exist and can possibly have a significant effect. 
+%
+A final assumption is that emitter parameters remain constant over time. While the structures of interest remain fixed and constant, emitter parameters are highly dependent on experimental conditions which can fluctuate over without proper techniques and controls. 
+%
+While further experiments are needed to asses the validity of these assumptions, none are fundamentally limiting to the function of \ours. 

@@ -1,6 +1,6 @@
 \section{Method}
 
-Consider a complex of fluorescent emitters, smaller than can be visually separated. Each emitter activates stochastically and independently of the others, producing a signal of fluctuating intensity over time (Figure).
+Consider a complex of fluorescent emitters, smaller than can be visually separated. Each emitter activates stochastically and independently of the others, producing a signal of fluctuating intensity over time \figref{fig:results:comparison}.
 The goal of this method is to determine the true number of emitters \truen given the observed intensity trace.
 
 \subsection{Model}
@@ -29,7 +29,7 @@ Next, to model the temporal fluctuations in intensity, observed in the trace \tr
     \poff
 \end{align*}
 %
-Note that this distribution depends on the total number of available emitters
+Where $a$ is the number of emitters changing state. Note that this distribution depends on the total number of available emitters
 \n, as the probability of a change in the number of activate transmitters
 depends on the total number of emitters available.
 
@@ -60,14 +60,11 @@ Finally this process can be repeated for all possible values of n, and maximum l
 
 \subsection{Inference}
 
-\todo{mention: no closed form solution to estimate \parameters}
-\todo{solution: gradient ascent on \parameters}
-
 Because there is no closed form solution to  \eqref{eq:method:optimization} we can use gradient ascent to find the optimal $\theta$ given \n.
 The gradient of the likelihood function $p(\trace | \n, \theta)$ was calculated using JAX, an auto-differentiation library.
 This was done recursively, as is standard for hidden Markov models, through the forward algorithm.
-The likelihood $p(\trace | \n, \theta)$ was calculated recursively using the forward algorithm, where \pchain(\y{t}) is the probability of observing the sequence of events 0 through $t$.
-Therefore the probability of observing trace \trace is $ p(\trace|\n,\parameters) = \sum_{\y{T}} \pchain_T(\y{T})$ and, omitting \n and \parameters for clarity, \pchain(\y{t})  is defined as:
+The likelihood $p(\trace | \n, \theta)$ was defined recursively through \pchain(\y{t}), the probability of observing the sequence of events 0 through $t$.
+Therefore the probability of observing trace \trace is $ p(\trace|\n,\parameters) = \sum_{\y{T}} \pchain_T(\y{T})$ and, omitting \n and \parameters for simplicity, \pchain(\y{t})  is defined as:
 
 \begin{align*}
   \pchain_{t}(\y{t}) &= p(\x{t}|\y{t}) \sum_{\y{t-1}} p(\y{t} | \y{t-1}) \pchain_{t-1}(\y{t-1})\\
@@ -105,11 +102,13 @@ $\pchainnorm$ are normalized to sum up to one for all \y{}:
     p(\x{1}|\y{})
     p(\y{1})\\
 \end{align*}
-
+%
+Redefining $\pchain_{t}$ in terms of $\pchainnorm_{t}$:
+%
 \begin{equation*}
   \pchain_t(\y{t}) = \pchainnorm_t \prod_{t'=1}^t \norms_{t'}
 \end{equation*}
-
+Plugging back into the likelihood function, we find that the likelihood is simply the product of all $\beta$s 
 \begin{align*}
   p(\trace|\n,\parameters)
     &= \sum_{\y{T}} \pchainnorm_{t}(\y{T}) \prod_{t'=1}^T \norms_{t'}\\
