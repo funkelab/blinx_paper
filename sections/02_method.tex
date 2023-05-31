@@ -47,14 +47,14 @@ Expanding these distributions to account for entire intensity trace \trace and m
 \end{align*}
 
 Maximum likelihood estimation can then be used to find the \parameters that best fit the observation \trace, given \n. 
-Finally this process can be repeated for all possible values of n, and maximum likelihood estimation used to find the estimated number of emitters in the system \estimatedn.
+Finally this process can be repeated for all possible values of n, and maximum likelihood estimation used to find the estimated number of emitters in the system \estimatedn:
 
 \begin{equation}
     \estimatedn =
     \argmax{\n}
     \max_\parameters
     p(\trace|\n,\parameters)
-  \text{,}
+  \text{.}
   \label{eq:method:optimization}
 \end{equation}
 
@@ -100,19 +100,20 @@ $\pchainnorm$ are normalized to sum up to one for all \y{}:
   \norms_1 &=
     \sum_{\y{}}
     p(\x{1}|\y{})
-    p(\y{1})\\
+    p(\y{1})  \text{.}\\
 \end{align*}
 %
-Redefining $\pchain_{t}$ in terms of $\pchainnorm_{t}$:
+The original \pchain_{t} can now be recovered by denormalizing \pchainnorm_{t}:
 %
 \begin{equation*}
   \pchain_t(\y{t}) = \pchainnorm_t \prod_{t'=1}^t \norms_{t'}
 \end{equation*}
-Plugging back into the likelihood function, we find that the likelihood is simply the product of all $\beta$s 
+In fact, because the sum of \pchain_{t} over all \y{t} is one by definition, the measurement likelihood is equivalent to the product of all normalization factors:
 \begin{align*}
   p(\trace|\n,\parameters)
     &= \sum_{\y{T}} \pchainnorm_{t}(\y{T}) \prod_{t'=1}^T \norms_{t'}\\
     &= \left( \prod_{t'=1}^T \norms_{t'} \right)
       \underbrace{\sum_{\y{T}} \pchainnorm_{t}(\y{T})}_{=1}
-    = \prod_{t'=1}^T \norms_{t'}\\
+    = \prod_{t'=1}^T \norms_{t'} ,\text{.}\\
 \end{align*}
+This allows us to circumvent the marginalization over y and we can now move to log space, and compute the likelihood in a numerically stable way.
