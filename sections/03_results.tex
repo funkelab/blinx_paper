@@ -1,39 +1,25 @@
 \section{Results}
 
-\begin{figure*}[ht]
-  \includegraphics[width=\linewidth]{figures/comparison_lbfcs}
-  \caption{A), B) simulated traces of 2 and 20 emitters respectively, generated with experimentally plausible parameters. C) Comparison of counting results between \ours and \lbfcs. Both models were applied to 10 simulated traces for each \truen. The accuracy of \lbfcs decreased significantly once \truen \textgreater 12 and failed completely for \truen \textgreater 21, while \ours was able to count up to \truen = 30.  }
-  \label{fig:results:comparison}
-\end{figure*}
-
-\begin{figure}[ht]
-  \includegraphics[width=\linewidth]{figures/kinetic_regime}
-  \caption{A) The effect of rate parameters \pon and \poff on accuracy of \ours. All traces simulated traces with a \truen = 5.  Two points were then expanded to include \truen from one to 30 and an increase in accuracy was seen as \pon became greater than \poff. }
-  \label{fig:results:regime}
-\end{figure}
-
 \subsection{Comparison to state of the art \lbfcs}
 
 %
 Over time, the intensity contributions from independent emitters, combined for each timepoint, produce a fluctuating intensity trace.
 	%
-	For a small number of emitters \ie $\truen = 2$, this trace contains series of easily distinguishable intensity steps corresponding to the number of emitters bound at each timepoint.
+	For a small number of emitters, \ie, $\truen = 2$, this trace contains series of easily distinguishable intensity steps corresponding to the number of emitters bound at each timepoint.
 	%
-	However, for a larger number of emitters \ie $\truen = 20$ individual intensity steps can no longer be distinguished \figref{fig:results:comparison}.
+  However, for a larger number of emitters, \ie, $\truen = 20$ individual intensity steps can no longer be distinguished (see \figref{fig:results:comparison} A,B).
 
-The current state of the art \lbfcs, was benchmarked on simulated traces of a known number of emitters up to $\truen = 30$, with experimentally plausible parameters $(\mu=2000, \sigma=0.03, \pon=0.1, \poff=0.1)$.
-	%
-	A direct comparison to other models is not possible due to differences in the types of data required.
+The current state of the art, \lbfcs, was benchmarked on simulated traces of a known number of emitters up to $\truen = 30$, with experimentally plausible parameters $(\mu=2000, \sigma=0.03, \pon=0.1, \poff=0.1)$.
 	% 
-	While \lbfcs performed well for \truen \textless 12, performance quickly declined with increasing \truen ultimately failing to produce any prediction for \truen \textgreater 21 \figref{fig:results:comparison}.
+While \lbfcs performed well for \truen \textless 12, performance quickly declined with increasing \truen ultimately failing to produce any prediction for $\truen > 21$ (see \figref{fig:results:comparison} C).
 	% lbfcs is limited by histogram fitting of mu
-	This drop in performance is a result of \lbfcs’s ability to identify the intensity of a single emitter ($\mu$ in \ours). \lbfcs is reliant on a histogram based method that works by identifying the specific $\y=1$ peak. However, for large \truen, observing this specific state becomes increasingly less likely. 
+This drop in performance is a result of \lbfcs’s inability to identify the intensity of a single emitter ($\mu$ in \ours). \lbfcs is reliant on a histogram based method that works by identifying the specific $\y{}=1$ peak. However, for large \truen, observing this specific state becomes increasingly less likely. 
 
 Holistic methods like \ours on the other hand, allow inferring the intensity of a single emitter
 jointly with the number of emitters active at every time-step, thus
 circumventing the problem of having to observe a specific number of active emitters.
 % blinx performance 
-	As a result \ours is able to count up to \truen = 30, effectively doubling the range of countable emitters \figref{fig:results:comparison}.
+As a result \ours is able to count up to \truen = 30, effectively doubling the range of countable emitters (see \figref{fig:results:comparison} C).
 
 % summary and transition 
 

@@ -30,6 +30,21 @@
 ]
 
 \input{sections/00_abstract.tex}
+
+\begin{figure*}
+  \includegraphics[width=\linewidth]{figures/comparison_lbfcs}
+  \vspace{-8mm}
+  \caption{A), B) simulated traces of 2 and 20 emitters respectively, generated with experimentally plausible parameters. C) Comparison of counting results between \ours and \lbfcs. Both models were applied to 10 simulated traces for each \truen. The accuracy of \lbfcs decreased significantly once \truen \textgreater 12 and failed completely for \truen \textgreater 21, while \ours was able to count up to \truen = 30.  }
+  \label{fig:results:comparison}
+\end{figure*}
+
+\begin{figure}[t]
+  \includegraphics[width=0.9\linewidth]{figures/kinetic_regime}
+  \vspace{-5mm}
+  \caption{A) The effect of rate parameters \pon and \poff on accuracy of \ours. All traces simulated traces with a \truen = 5.  Two points were then expanded to include \truen from one to 30 and an increase in accuracy was seen as \pon became greater than \poff. }
+  \label{fig:results:regime}
+\end{figure}
+
 \input{sections/01_introduction.tex}
 \input{sections/02_method.tex}
 \input{sections/03_results.tex}

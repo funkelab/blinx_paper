@@ -103,12 +103,15 @@ $\pchainnorm$ are normalized to sum up to one for all \y{}:
     p(\y{1})  \text{.}\\
 \end{align*}
 %
-The original \pchain_{t} can now be recovered by denormalizing \pchainnorm_{t}:
+The original $\pchain_{t}$ can now be recovered by denormalizing $\pchainnorm_{t}$:
 %
 \begin{equation*}
   \pchain_t(\y{t}) = \pchainnorm_t \prod_{t'=1}^t \norms_{t'}
+  \text{.}
 \end{equation*}
-In fact, because the sum of \pchain_{t} over all \y{t} is one by definition, the measurement likelihood is equivalent to the product of all normalization factors:
+%
+In fact, because the sum of $\pchain_{t}$ over all \y{t} is one by definition, the measurement likelihood is now equivalent to the product of all normalization factors:
+%
 \begin{align*}
   p(\trace|\n,\parameters)
     &= \sum_{\y{T}} \pchainnorm_{t}(\y{T}) \prod_{t'=1}^T \norms_{t'}\\
@@ -116,4 +119,6 @@ In fact, because the sum of \pchain_{t} over all \y{t} is one by definition, the
       \underbrace{\sum_{\y{T}} \pchainnorm_{t}(\y{T})}_{=1}
     = \prod_{t'=1}^T \norms_{t'} ,\text{.}\\
 \end{align*}
-This allows us to circumvent the marginalization over y and we can now move to log space, and compute the likelihood in a numerically stable way.
+%
+This allows us to compute the measurement likelihood from a single product,
+which can be done in log space to ensure numerical stability.
