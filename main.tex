@@ -1,55 +1,67 @@
-\documentclass{article}
+\documentclass[twocolumn]{article}
 
 \input{preamble}
-\usepackage{icml2023}
-% \usepackage[accepted]{icml2023}  % uncomment for camera ready
-
-\icmltitlerunning{Maximum Likelihood Estimation for Molecular Counts}
+\input{definitions}
 
 \begin{document}
 
-\twocolumn[
-  %\icmltitle{A Differentiable Markov-Chain for Maximum Likelihood Estimation of Molecular Counts}
-  \icmltitle{A Differentiable Markov-Chain to Estimate\\ the Number of Fluorescent Emitters from Intensity Traces}
+\title{A Basyian approach to the molecular counting problem}
 
-  \begin{icmlauthorlist}
-  \icmlauthor{Alexander Hillsley}{janelia}
-  \icmlauthor{Johannes Stein}{wyss}
-  \icmlauthor{Paul Tillberg}{janelia}
-  \icmlauthor{David Stern}{janelia}
-  \icmlauthor{Jan Funke}{janelia}
-  \end{icmlauthorlist}
+\author{
+  Alexander Hillsley$^{1}$,
+  Johannes Stein$^{2}$,
+  Paul Tillberg$^{1}$,
+  David Stern$^{1}$,
+  Jan Funke$^{1}$\thanks{Corresponding Author}
 
-  \icmlaffiliation{janelia}{HHMI Janelia Research Campus, Ashburn, VA}
-  \icmlaffiliation{wyss}{Wyss Institute for Biologically Inspired Engineering, Harvard University, Boston, MA}
-  \icmlcorrespondingauthor{Alexander Hillsley}{hillsleya@janelia.hhmi.org}
+  \normalsize{$^1$ HHMI},
+  \normalsize{$^2$ Wyss}
+}
 
-  \icmlkeywords{Machine Learning, ICML, Differentiable Model, Markov-chain, Fluorescence Microscopy, Molecular Counting}
+\maketitle
 
-  \vskip 0.3in
-]
-
-\input{sections/00_abstract.tex}
+\input{sections/00_abstract}
+\input{sections/01_introduction}
+\input{sections/02_method}
 
 \begin{figure*}
-  \includegraphics[width=\linewidth]{figures/comparison_lbfcs}
-  \vspace{-8mm}
-  \caption{A, B) simulated traces of 2 and 20 emitters respectively, generated with experimentally plausible parameters. C) Comparison of counting results between \ours and \lbfcs. Both models were applied to 10 simulated traces for each \truen. The accuracy of \lbfcs decreased significantly for \truen \textgreater 12 and did not return a valid result for \truen \textgreater 21, while \ours was able to count up to \truen = 30.  }
-  \label{fig:results:comparison}
+  \includegraphics[width=\linewidth]{figures/fig_1.png}
+  \caption{A) Overview of the blinx method (scale bar: 1 $\mu$m) B) blinx is based on a Hidden Markov Model who's parameters are optimized to build the final posterior
+  distribution}
+  \label{fig:method:overview}
 \end{figure*}
 
-\begin{figure}[t]
-  \includegraphics[width=0.9\linewidth]{figures/kinetic_regime}
-  \vspace{-5mm}
-  \caption{A) The effect of rate parameters \pon and \poff on accuracy of \ours. All traces simulated with \truen = 5.  B)  For two parameter sets we varied \truen from one to 30. The accuracy of \estimatedn increased when \pon became greater than \poff. }
-  \label{fig:results:regime}
-\end{figure}
+\input{sections/03_results}
 
-\input{sections/01_introduction.tex}
-\input{sections/02_method.tex}
-\input{sections/03_results.tex}
-\input{sections/04_conclusions.tex}
-\bibliography{references}
-\bibliographystyle{icml2023}
+\begin{figure*}
+  \includegraphics[width=\linewidth]{figures/fig_2.png}
+  \caption{A) Trace simulated from 10 emitters, and the posterior distribution estimated by blinx B) simulated from 20 emitters
+  C) The blinx posterior is able to accurately estimate significantly higher molecular counts than the current state of the art, lbFCS
+  D) As trace length increases, the variance of the blinx posterior decreases E) As the signal to noise ratio increases the variance of 
+  the blinx posterior decreases. }
+  \label{fig:method:overview}
+\end{figure*}
 
+\begin{figure*}
+  \includegraphics[width=\linewidth]{figures/fig_3.png}
+  \caption{A) the counting ability of blinx varies significantly with blinking kinetics of the emitters, showing increased model accuracy when
+   $p_{on} > p_{off}$. B) When $p_{on} < p_{off}$ the distribution of observed z states is shifted towards 0 C) When $p_{on} > p_{off}$ the 
+   distribution of z states is shifted towards the maximum possible z state (N)}
+  \label{fig:method:overview}
+\end{figure*}
+
+\input{sections/04_discussion}
+
+{
+  \small
+  \bibliographystyle{plain}
+  \bibliography{references}
+}
+
+\clearpage
+% \begin{appendices}
+% \renewcommand{\thefigure}{S\arabic{figure}}
+% \setcounter{figure}{0}
+% \input{sections/appendix}
+% \end{appendices}
 \end{document}

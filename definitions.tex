@@ -8,9 +8,10 @@
 
 % Variables
 \def\n{\ensuremath{n}\xspace}                 % count
+\def\ndist{\ensuremath{\vct{n}}\xspace}        % distribution of predictions
 \def\truen{\ensuremath{n^*}\xspace}           % true count
 \def\estimatedn{\ensuremath{\hat{n}}\xspace}  % estimated count
-\def\y#1{\ensuremath{y_{#1}}\xspace}          % number of active emitters at time t: \y{t}
+\def\z#1{\ensuremath{z_{#1}}\xspace}          % number of active emitters at time t: \y{t}
 \def\x#1{\ensuremath{x_{#1}}\xspace}          % intensity at time t: \x{t}
 \def\states{\ensuremath{\vct{y}}\xspace}      % all active emitters over time
 \def\trace{\ensuremath{\vct{x}}\xspace}       % all intensities over time
@@ -24,4 +25,4 @@
 \def\norms{\ensuremath{\beta\xspace}} % normalization factors for \pchain
 
 % Functions
-\newcommand{\argmax}[1]{\mathop{\arg\max}_{#1}\hspace{0.5em}}
+%\newcommand{\argmax}[1]{\mathop{\arg\max}_{#1}\hspace{0.5em}}
