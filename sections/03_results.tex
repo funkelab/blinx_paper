@@ -1,48 +1,44 @@
 \section{Results}
 
-\subsection{Comparison to state of the art \lbfcs}
+\subsection{Simulated Experiments}
 
+As a proof of concept, our model was first tested on simulated data (\figref{fig:results:sim_traces} A). 
+	Traces were simualted by sampling a sequence of 4000 \states values from 
+	the transition distribution \eqref{eq:method:transition}, 
+	(effect of trace length investigated in SI),
+	then randomly sampling from the intensity distribution \eqref{eq:method:intensity_distribution} given each timepoint in the \states sequence.
 %
-%Over time, the intensity contributions from independent emitters, combined for each timepoint, produce a fluctuating intensity trace.
-	%
-%	For a small number of emitters, \ie, $\truen = 2$, this trace contains series of easily distinguishable intensity steps corresponding to the number of emitters bound at each timepoint.
-	%
-  %However, for a larger number of emitters, \ie, $\truen = 20$ individual intensity steps can no longer be distinguished (see \figref{fig:results:comparison} A,B).
-
-The current state of the art, \lbfcs, was benchmarked on simulated traces of a known number of emitters up to $\truen = 30$, with experimentally plausible parameters $(\mu=2000, \sigma=0.03, \pon=0.1, \poff=0.1)$.
-	% 
-While \lbfcs performed well for \truen \textless 12, performance quickly declined with increasing \truen, ultimately yielding invalid results for $\truen > 21$ (see \figref{fig:results:comparison}C).
-	% lbfcs is limited by histogram fitting of mu
-This drop in performance is a result of \textsc{lbFCS+}’s inability to identify the intensity of a single emitter ($\mu$ in \ours). \lbfcs is reliant on a histogram based method that works by identifying the $\y{}=1$ peak. However, for large \truen, observing this specific state becomes increasingly less likely. 
-
-Holistic methods like \ours, on the other hand, allow inferring the intensity of a single emitter
-jointly with the number of emitters active at every time-step, thus
-circumventing the problem of having to observe a specific number of active emitters.
-% blinx performance 
-As a result \ours is able to count up to $\truen = 30$, effectively doubling the range of countable emitters (see \figref{fig:results:comparison} C).
-
-% summary and transition 
-
-
-\subsection{Informing experiment}
-
-% Transition to effect of parameters on model accuracy
-Next we investigated the robustness of \ours to the underlying blinking rates of individual emitters. 
-% maximize signal to noise through microscope parameters
-To determine the role of blinking rates on the accuracy of \ours, traces were simulated with \truen = 5 and \pon and \poff ranging from 0.01 to 0.2 (\figref{fig:results:regime}). 
-% 3 regions in plot on>off on=off on<off
-The results of these simulations can be sparated into 3 distinct regimes: \poff \textgreater \pon, \poff = \pon, and \poff \textless \pon. 
-% on<off
-In the regime where \poff \textgreater \pon, \ours displayed a very low accuracy. This poor performance is related to the hidden state \y{t} observed at each timepoint. 
+	Camera properties, $\mu=600$ ADU, $\sigma=49$ ADU, and $g=2.17$ ADU$/e^{-}$ were chosen based on the spec sheet provided by the camera manufacturer.
 %
-As \poff increases relative to \pon the likelihood of observing \y{t}=0 increases while the likelihood for observing any other state decreases. As a result, the observed intensity traces in this regime only exhibit a small subset of the total possible states \y{}, leaving the model unable to determine \truen. 
-%on=off
-Interestingly, in the regime of \poff=\pon, an increase in \ours accuracy with increasing \pon is observed. Intuitively this makes sense, as both \pon and \poff increases the number of blinking events, providing more information in the signal. This result also suggests that if the observation time were increased, the accuracy of all regimes would increase as well. 
-%on>off
+	The active emitter ($r_{E}=2.8$ $e^{-}/\text{ms}$) and background ($r_{BG}=16.6$ $e^{-}/\text{ms}$) photon emission rates, 
+	as well as the transition probabilities ($\pon=0.046$ $/\Delta t$, $\poff=0.035$ $/\Delta t$)
+	were estimated from a preliminary experiment (\figref{fig:si:preliminary_trace}).
 
-Based on these results, we suspected that accuracy could be further
-increased by shifting the experimental kinetics such that \pon $\gg$ \poff. Simulating
-traces with \pon=0.17 and \poff= 0.01, yielded a substantially tighter distribution
-around the correct count, compared to traces simulated with \pon =
-\poff = 0.1 (\figref{fig:results:regime}B). While it is not possible to know the exact blinking
-kinetics ahead of time, this finding can be used in experimental design: for maximizing the counting potential of the model, the blinking rates should be adjusted so that \pon is greater than \poff.
+To test the accuracy of our model, 10 traces were simulated for each true count $n=1-20$. 
+	Possible counts of $n=1-25$ were then fit,
+	and the posterior probability distribution ($\ndist$) is shown as a heatmap in \figref{a}. 
+%
+	For this experiment, $\mu$, $\sigma$, and $g$ were not fixed at the same values as the simulation and not fit through gradient descent, 
+	as they could be experiemntally determined in future experiemnts.
+%
+	As shown in figure \figref{a}, our model is able to recover the correct \pon and \poff value with consistant accuracy even as the count
+	increases up to 20 individual emitters.
+
+Next, we compared the performance of our model, to that of the current state of the art lbFCS (source).
+%
+
+\subsection{informing experiment}
+% One of the advantages of using DNA-PAINT to produce blinking (vs PALM or STORM) is the precise control over blinking kinetics
+
+% did a parameter sweep of on and off rates to see their effect on model performance
+
+\subsection{Experimental traces}
+
+%Made DNA-origami with N=1 known binding site
+
+% used blinx, with set N=1 to determine kinetics
+
+% shifted to favorable regime by increasing concentration and decreasing temperature
+
+% stacked N=1 traces to generate “half-simulated” traces up through N=20
+% Figure: counting results for these stacked traces
