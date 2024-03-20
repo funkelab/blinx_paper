@@ -7,7 +7,9 @@ default:
 	-mkdir -p figures/tikzexternal
 	-mkdir -p .latexmk/figures/tikzexternal
 	(ulimit -n 1024; latexmk -auxdir=.latexmk -outdir=.latexmk -pdf -shell-escape -interaction=nonstopmode -halt-on-error -file-line-error main.tex)
+	(ulimit -n 1024; latexmk -auxdir=.latexmk -outdir=.latexmk -pdf -shell-escape -interaction=nonstopmode -halt-on-error -file-line-error figures.tex)
 	cp .latexmk/main.pdf .
+	cp .latexmk/figures.pdf .
 
 arxiv_export: clean default
 	-rm -rf arxiv_export
