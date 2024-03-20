@@ -280,3 +280,4 @@ TSWLatexianTemp*
 *.lpz
 
 .latexmk
+figures/tikzexternal
