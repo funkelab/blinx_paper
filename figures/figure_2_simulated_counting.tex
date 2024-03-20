@@ -1,4 +1,14 @@
 \begin{figure*}
+  \centerline{
+    \def\posteriorcsv{figures/data/sim_counting/posteriors.csv}
+    \def\posteriorcol{posterior_10}
+    \tikzsetnextfilename{figure_1_posterior_n1}
+    \input{figures/p_n_given_x.tikz}
+  }
+\end{figure*}
+
+
+\begin{figure*}
   \includegraphics[width=\linewidth]{figures/placeholders/figure_2_simulated_counting.png}
   \caption{A) Trace simulated from 10 emitters, and the posterior distribution estimated by blinx B) simulated from 20 emitters
   C) The blinx posterior is able to accurately estimate significantly higher molecular counts than the current state of the art, lbFCS
