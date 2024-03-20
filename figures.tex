@@ -20,40 +20,10 @@
 
 \maketitle
 
-\begin{figure*}
-  \includegraphics[width=\linewidth]{figures/placeholders/figure_1_overview.png}
-  \caption{A) Overview of the blinx method (scale bar: 1 $\mu$m) B) blinx is based on a Hidden Markov Model who's parameters are optimized to build the final posterior
-  distribution}
-  \label{fig:method:overview}
-\end{figure*}
-
-\begin{figure*}
-  \includegraphics[width=\linewidth]{figures/placeholders/figure_2_simulated_counting.png}
-  \caption{A) Trace simulated from 10 emitters, and the posterior distribution estimated by blinx B) simulated from 20 emitters
-  C) The blinx posterior is able to accurately estimate significantly higher molecular counts than the current state of the art, lbFCS
-  D) As trace length increases, the variance of the blinx posterior decreases E) As the signal to noise ratio increases the variance of 
-  the blinx posterior decreases. }
-  \label{fig:method:overview}
-\end{figure*}
-
-\begin{figure*}
-  \includegraphics[width=\linewidth]{figures/placeholders/figure_3_compare_kinetics.png}
-  \caption{A) the counting ability of blinx varies significantly with blinking kinetics of the emitters, showing increased model accuracy when
-   $p_{on} > p_{off}$. B) When $p_{on} < p_{off}$ the distribution of observed z states is shifted towards 0 C) When $p_{on} > p_{off}$ the 
-   distribution of z states is shifted towards the maximum possible z state (N)}
-  \label{fig:method:overview}
-\end{figure*}
-
-\begin{figure*}
-  \includegraphics[width=\linewidth]{figures/placeholders/figure_4_qpaint_kinetics.png}
-  \caption{comapre in bad kinetic regime}
-  \label{fig:method:overview}
-\end{figure*}
-
-\begin{figure*}
-  \includegraphics[width=\linewidth]{figures/placeholders/figure_5_experimental_counting.png}
-  \caption{experimental counting}
-  \label{fig:method:overview}
-\end{figure*}
+\input{figures/figure_1_overview}
+\input{figures/figure_2_simulated_counting}
+\input{figures/figure_3_compare_kinetics}
+\input{figures/figure_4_qpaint_kinetics}
+\input{figures/figure_5_experimental_counting}
 
 \end{document}
