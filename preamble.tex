@@ -1,32 +1,24 @@
-\usepackage{graphicx}
-\usepackage[hidelinks]{hyperref}
-\usepackage[english]{babel}
 \usepackage{amsmath}
-\usepackage[table]{xcolor}
+\usepackage{amssymb}
+\usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{pgfplots}
-\usepackage{xifthen}
-\usepackage{caption}
-\captionsetup{font=footnotesize}
+\usepackage[textwidth=1.7cm,textsize=tiny,linecolor=orange!60!white,bordercolor=orange!60!white,color=orange!20!white]{todonotes}
+\setlength{\marginparwidth}{1.7cm}
 \usepackage{xspace}
-\usepackage{enumitem}
-\usepackage[textwidth=1.7cm,textsize=small]{todonotes}
-\usepackage{import}
-\usepackage{natbib}
-\usepgfplotslibrary{colorbrewer}
-\usepackage{authblk}
-\usepackage{booktabs}
-\usepackage{bm}
-\usepackage{subcaption}
-\usepackage{datatool}
-\usepackage{cleveref}
 \usepackage{soul}
 \usepackage{siunitx}
-
-\input{definitions}
-\input{figures/tikzstyles}
-\input{figures/pgfstyles}
-\input{figures/macros}
+\usepackage{natbib}
+\usepackage{bm}
+\usepackage[title]{appendix}
+\usepackage[hidelinks]{hyperref}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=figures/tikzexternal/]
+\makeatletter
+\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+\makeatother
+\input{colors}
+\input{figures/styles}
 
 % references
 \def\figref#1{Fig.~\ref{#1}}
@@ -39,20 +31,7 @@
 \newcommand{\eg}{\emph{e.g.}\xspace}
 \newcommand{\ie}{\emph{i.e.}\xspace}
 
-% todo notes with \todo{}
-\let\todonote\todo%
-\renewcommand{\todo}[1]{\todonote[color=orange!50!white]{\footnotesize #1}\xspace}
 
 % introduce a new word
-%\def\introduce#1{{\color{funkey_color_1}\ul{#1}}}
-\def\introduce#1{#1}  % uncomment this for final version
-
-% prefer JPG when available
-\usepackage{grfext}
-\PrependGraphicsExtensions*{.jpg,.JPG}
-
-% evaluate a mathematical expression #2 and assign the result to macro #1
-\def\mathlet#1#2{\pgfmathparse{#2}\let#1\pgfmathresult}
-
-% set text in tikz node
-\newcommand{\tikztext}[2]{\tikz[baseline]\node[anchor=base,inner sep=0] (#1) {#2};}
+\def\introduce#1{{\color{funkey_color_1}\ul{#1}}}
+%\def\introduce#1{#1}  % uncomment this for final version
