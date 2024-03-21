@@ -1,44 +1,55 @@
 \section{Results}
 
 \subsection{Simulated Experiments}
+% Simulated traces based on exerpimentally relevant parameters
+Running blinx as a forward model, traces were generated for counts N=1 to 30
+	(\figref{X} A) ,with experimentally relevent blinking and noise characteristics.
+	%
+	Camera parameters were determined from an empirical calibration of the
+	sCMOS camera, and kinetic and emission parameters were determined through an
+	initial experiment, further the kinetic parameters closely match those reported
+	in literature.
+	%
+	Traces were generated for 4000 framnes, corresponding to an imaging time of 
+	14 minutes.
 
-As a proof of concept, our model was first tested on simulated data (\figref{fig:results:sim_traces} A). 
-	Traces were simualted by sampling a sequence of 4000 \states values from 
-	the transition distribution \eqref{eq:method:transition}, 
-	(effect of trace length investigated in SI),
-	then randomly sampling from the intensity distribution \eqref{eq:method:intensity_distribution} given each timepoint in the \states sequence.
-%
-	Camera properties, $\mu=600$ ADU, $\sigma=49$ ADU, and $g=2.17$ ADU$/e^{-}$ were chosen based on the spec sheet provided by the camera manufacturer.
-%
-	The active emitter ($r_{E}=2.8$ $e^{-}/\text{ms}$) and background ($r_{BG}=16.6$ $e^{-}/\text{ms}$) photon emission rates, 
-	as well as the transition probabilities ($\pon=0.046$ $/\Delta t$, $\poff=0.035$ $/\Delta t$)
-	were estimated from a preliminary experiment (\figref{fig:si:preliminary_trace}).
+% priors were placed on camera parameters, but all others were uniform
+While fitting, tight gaussian priors were placed on the camera parameters,
+	loose priors on the emission parameters, and flat/uniform priors on the
+	kinetic parameters. 
 
-To test the accuracy of our model, 10 traces were simulated for each true count $n=1-20$. 
-	Possible counts of $n=1-25$ were then fit,
-	and the posterior probability distribution ($\ndist$) is shown as a heatmap in \figref{a}. 
-%
-	For this experiment, $\mu$, $\sigma$, and $g$ were not fixed at the same values as the simulation and not fit through gradient descent, 
-	as they could be experiemntally determined in future experiemnts.
-%
-	As shown in figure \figref{a}, our model is able to recover the correct \pon and \poff value with consistant accuracy even as the count
-	increases up to 20 individual emitters.
+% blinx can count!
+blinx successfully fit all simulated traces with counts up to N=30.
+	For N=10 and below, blinx fit the correct count, with a significantly higher
+	likelihood than all other possiblilites. Above N=10 the likelihood of other 
+	possible counts increased, but the posterior distribution remained
+	centered on the correct count.
 
-Next, we compared the performance of our model, to that of the current state of the art lbFCS (source).
-%
+% blinx outperforms lbFCS, counting up to 30 
+This is a trippling in performance compared to lbFCS, which counted accurately up
+	to N=7, but failed to estimate higher counts.
+	% main limitation of lbFCS is estimation of the "step size" corresponding to r_e
+	Upon further analysis, the main limitation of lbFCS is the estimation of the 
+	intensity of a single emitter, corresponding to $r_e$ in blinx. If this value is 
+	first estimated by blinx, then supplied to lbFCS, performance is singificantly 
+	rescued (SI Figure)
+% Longer traces lead to better fits
+Next, we investigated the effect of trace length on counting accuracy (\figref{X} C).
+	As expected accuracy increased and the variance of the posterior distribution decreased, 
+	as the number of observations increased.
+	% Also notice a underestimation of count with low trace length
+	Iterestingly, for short trace lengths, blinx underestimated the true count. Underestimating 
+	more serverly as the true count increased.
+	% This is most likely due to the system only occupying a subset of all possible zs in this short time
 
-\subsection{informing experiment}
-% One of the advantages of using DNA-PAINT to produce blinking (vs PALM or STORM) is the precise control over blinking kinetics
+% there is a lower bound to SNR, below a specific SNR, model maximally overcounts
+Finally, the effect of SNR
 
-% did a parameter sweep of on and off rates to see their effect on model performance
 
-\subsection{Experimental traces}
+\subsection{qPAINT Kinetic Regime}
 
-%Made DNA-origami with N=1 known binding site
 
-% used blinx, with set N=1 to determine kinetics
 
-% shifted to favorable regime by increasing concentration and decreasing temperature
+\subsection{Kinetic sweep}
 
-% stacked N=1 traces to generate “half-simulated” traces up through N=20
-% Figure: counting results for these stacked traces
+\subsection{Experimental Counting}
