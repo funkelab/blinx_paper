@@ -19,6 +19,7 @@
 \makeatother
 \input{colors}
 \input{figures/styles}
+\input{figures/macros}
 
 % references
 \def\figref#1{Fig.~\ref{#1}}
@@ -35,3 +36,5 @@
 % introduce a new word
 \def\introduce#1{{\color{funkey_color_1}\ul{#1}}}
 %\def\introduce#1{#1}  % uncomment this for final version
+
+\def\mathlet#1#2{\pgfmathparse{#2}\let#1\pgfmathresult}

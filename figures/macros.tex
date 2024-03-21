@@ -1,1 +1,13 @@
 \def\tikzmath#1#2{\tikz[remember picture,baseline=(#1.base),inner sep=0pt] \node (#1) {$\displaystyle #2$};}
+
+\newenvironment{panel}[2]{%
+  \begin{minipage}[t][][t]{#2}%
+    \tikzset{external/export next=false}%
+    \begin{tikzpicture}[remember picture, overlay]%
+      \node {#1};%%
+      \pgfresetboundingbox%
+    \end{tikzpicture}%
+
+}{%
+  \end{minipage}%
+}

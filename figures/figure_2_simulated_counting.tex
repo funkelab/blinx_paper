@@ -1,10 +1,52 @@
 \begin{figure*}
-  \centerline{
+
+  \begin{panel}{(a)}{\textwidth}
+    \def\histogramcsv{figures/data/sim_counting/intensity_histogram.csv}
+    \def\tracecsv{figures/data/sim_counting/trace_and_fit_N10.csv}
+    \def\traceintensitycol{trace}
+    \def\zcol{fit}
+    \def\histbincol{N10_bins}
+    \def\histcountcol{N10_measured}
+    \def\modelfitcol{N10_model}
+    \tikzsetnextfilename{figure_2_trace_N10}
+    \input{figures/fancy_trace.tikz}%
+  \end{panel}
+
+  \begin{panel}{(b)}{\textwidth}
+    \def\histogramcsv{figures/data/sim_counting/intensity_histogram.csv}
+    \def\tracecsv{figures/data/sim_counting/trace_and_fit_N20.csv}
+    \def\traceintensitycol{trace}
+    \def\zcol{fit}
+    \def\histbincol{N20_bins}
+    \def\histcountcol{N20_measured}
+    \def\modelfitcol{N20_model}
+    \tikzsetnextfilename{figure_2_trace_N20}
+    \input{figures/fancy_trace.tikz}
+  \end{panel}
+
+  \vspace{4mm}
+  \begin{panel}{(c)}{0.4\textwidth}
+    \def\posteriormatrixcsv{figures/data/sim_counting/heatmap.csv}
+    \def\lbfcscsv{figures/data/sim_counting/heatmap_lbfcs.csv}
+    \tikzsetnextfilename{figure_2_lbfcs_comparison}
+    \input{figures/matrix_plot.tikz}
+  \end{panel}
+  \hspace{1cm}
+  \begin{panel}{(d)}{0.2\textwidth}
     \def\posteriorcsv{figures/data/sim_counting/posteriors.csv}
     \def\posteriorcol{posterior_10}
-    \tikzsetnextfilename{figure_1_posterior_n1}
+    \def\posteriorcolextra{posterior_20}
+    \tikzsetnextfilename{figure_2_posterior_n10_n20}
     \input{figures/p_n_given_x.tikz}
-  }
+  \end{panel}
+  \begin{panel}{(e)}{0.4\textwidth}
+    \def\tracelengthcsv{figures/data/trace_length/trace_length_results.csv}
+    \def\mapcol{max_likelihoods_20}
+    \def\varcol{variance_20}
+    \tikzsetnextfilename{figure_2_trace_length}
+    \input{figures/trace_length.tikz}
+  \end{panel}
+
 \end{figure*}
 
 
