@@ -11,6 +11,7 @@
     grid style={dashed},
     scaled ticks=false,
     ticklabel style={font=\small},
+    legend style={nodes={scale=0.6, transform shape}},
   ]
 
     \addplot [
@@ -25,6 +26,7 @@
       x=frames,
       y=\traceintensitycol
     ] {\tracecsv};
+    \addlegendentry{intensity trace}
 
     \addplot [
       color=ztracecolor,
@@ -34,6 +36,7 @@
       x=frames,
       y=\zcol
     ] {\tracecsv};
+    \addlegendentry{inferred state}
 
     % remember min/max y-axis values for next plot
     \pgfplotsextra{
@@ -60,6 +63,7 @@
     ymin=\ymin,
     ymax=\ymax,
     ticklabel style={font=\small},
+    legend style={nodes={scale=0.6, transform shape}},
   ]
 
     \addplot+[
@@ -74,6 +78,7 @@
       y=\histbincol,
       x=\histcountcol,
     ] {\histogramcsv};
+    \addlegendentry{intensity histogram}
 
     \addplot[
       color=intensitymodelcolor!80!black,
@@ -83,6 +88,7 @@
       y=\histbincol,
       x=\modelfitcol
     ] {\histogramcsv};
+    \addlegendentry{inferred model}
 
   \end{axis}
 \end{tikzpicture}%
