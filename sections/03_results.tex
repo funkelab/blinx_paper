@@ -19,7 +19,7 @@ While fitting, tight gaussian priors were placed on the camera parameters,
 	kinetic parameters. 
 
 % blinx can count!
-blinx successfully fit all simulated traces with counts up to N=30.
+blinx successfully fit all simulated traces with counts up to N=30 (\figref{}).
 	For N=10 and below, blinx fit the correct count, with a significantly higher
 	likelihood than all other possiblilites. Above N=10 the likelihood of other 
 	possible counts increased, but the posterior distribution remained
@@ -45,11 +45,27 @@ Next, we investigated the effect of trace length on counting accuracy (\figref{X
 % there is a lower bound to SNR, below a specific SNR, model maximally overcounts
 Finally, the effect of SNR
 
-
 \subsection{qPAINT Kinetic Regime}
+% qPAINT operates in a different kinetic regime that lbFCS
+qPAINT is based on an accurate measure of the average dark time between blinking events. 
+	As a result, this method operates in an entirely different kinetic regime than lbFCS, where blinking 
+	"on" events are short and infrequent (\figref{X}).
+	% this presents challanges to blinx
+	This regime presents a challange to blinx. If the only states ever observed are z=0 or 1 (off or on),
+	there is not enough information in the system to estimate count without prior knowledge.
+	% However, blinx is fully Bayesian and we can overcome these challanges by tightening priors
+	However, blinx, as a fully Bayesian model can easily incorperate priors of the kinetic parameters
+	(obtained from a calibration similar to qPAINT), and once again accurately count up to N=30 (\figref{}).
 
-
+% qPAINT undercounts but blinx does not
+Due to the stochastic nature of blinking,especially at higher counts, multiple molecules can blink at the same time.
+	This is not captured in the qPAINT model, and as a result, qPAINT begins to underestimate molecular count,
+	especially noticable above N=20. This phenomena is captured by the blinx model and as a result, this undercounting
+	is not seen in blinx.
 
 \subsection{Kinetic sweep}
+% blinking kinetics can have a significant effect on blinx performance
+
+% looking at kinetic performance without any priors
 
 \subsection{Experimental Counting}

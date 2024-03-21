@@ -1,18 +1,2 @@
 \section{Discussion}
 
-One advantage of \ours is that intensity parameters and blinking rates are jointly estimated, improving the fit of all parameters compared to \lbfcs, and resulting in a doubling of the counting ability. 
-%
-Another advantage is that \ours calculates a likelihood, thus making different models and counts directly comparable. 
-%
-
-\ours is built on a few assumptions, most important being that all emitters behave independently. While this assumption holds true for idealized scenarios, emitters can have effects on both the intensity and rate parameters of their immediate neighbors.
-%
-Another assumption is that all emitters in a spot blink at the same rate and that their parameters are constant over time. However, blinking rates and intensity are dependent on the local nano environment, and small variations in this environment could lead to large differences between emitters.
-%
-Moreover, these parameters are also highly dependent on experimental conditions, \ie, temperature, which can fluctuate over time without proper controls.
-%
-Nevertheless, we did not find those potential limitations to be detrimental in
-preliminary SMLM imaging experiments.
-%
-In conclusion, we believe that holistic methods like \ours are key for future
-experiment designs that require counting large numbers of fluorescent emitters.
