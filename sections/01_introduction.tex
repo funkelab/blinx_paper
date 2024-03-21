@@ -1,125 +1,88 @@
 \section{Introduction}
 
-% counting structures is important
-% super resolution to the rescue
-%
-Fluorescence microscopy is a foundational tool in the field of biology and
-provides useful information on the abundance and localization of labeled
-structures.
-%
-  However, determining the exact molecular count of subunits in a complex smaller than the diffraction limit
-  remains a challenge. Single Molecule Localization Microscopy (SMLM) such as PALM
-  \cite{betzig_imaging_2006}, STORM \cite{rust_sub-diffraction-limit_2006}, and
-  DNA-PAINT \cite{schnitzbauer_super-resolution_2017} have circumvented the diffraction limit
-  by achieving resolutions as high as \SI{20}{\nm}.
 
-% key concept of super-resolution: fluorescence over time
-% doesn't work for many very small structures
-%
-The underlying principle of SMLM is the
-seperation of fluorescence signals from individual fluorophores over time:
-%
-  only a sparse subset of fluorescent emitters are \introduce{\emph{active}}
-  (\ie, emitting light) at each timepoint.
-  %
-  Each spatially distinct emitter can then be localized with sub-pixel accuracy
-  by fitting its point spread function. Subsequently, all localizations over
-  all frames can be combined into a super-resolved reconstruction.
-  %
-  Although this method allows the spatial separation of subunits of larger complexes, the resolution is insufficient to determine the number of subunits of complexes at the nano-scale, prompting the need for new methods of molecular
-  counting.
 
-% intro to molecular counting for computer scientists: what is the data, what
-% do we want to predict?
+% Challenges of fluorescence microscopy
+Fluorescence microscopy is a foundational tool in the field of biology,
+  providing useful information on the presence and localization 
+  of labeled structures.
 %
-At that scale the challenge for molecular counting is to disentangle the contributions
-of multiple fluorescent emitters that overlap in space.
-%
-  % multiple emitters, single spot
-  % intensity trace of combined intensity
-  % unknown number of active emitters per timepoint
-  % noisy measurements, randomly distributed with unknown parameters
-  % dependency on "kinetics" of emitters
-  %
-  % -> joint inference problem: number of active emitters per timepoint and
-  %    parameters
-  This problem is ill-posed in a static image, where the intensities of all
-  emitters are combined into a single \introduce{spot}. However, for blinking fluorophores the
-  fluctuating \introduce{intensity trace} over time can provide enough
-  information to infer the number of emitters.
-  %
-  %While this problem is ill-posed in a static image, the fluctuating
-  %\introduce{intensity trace} of the combined intensity of independently
-  %blinking emitters over time in a single \introduce{spot} can provide enough
-  %information to infer the number of emitters:
-  %
-  At each timepoint, a subset of all emitters will be active, and thus
-  contribute to the combined intensity. Between timepoints, the number of
-  active emitters changes accordingly to their underlying \introduce{blinking
-  rates}.
-  %
-  None of the parameters of this process (\eg, intensity of a single emitter,
-  probability of activating or deactivating) are known \emph{a-priori} and need
-  to be inferred jointly with the total number of emitters.
+  However, it is often difficult to extract precise, quantitative information
+  from fluorescent images, such as the molecular count.
+  % Counting strucutres is important
+  Determining molecular count can give important insights to the fucntion
+  of protein complexes such as X, which ...
 
-Here we propose \ours, a differentiable Markov-chain model for intensity
-traces, which is conditioned on the total number of emitters, the parameters of
-the intensity distribution, and the blinking rates.
+% Sometimes we can visually seperate structures,
+% but often they are too close together
+When the structures of interest are large, such as whole cells, organelles,
+  or even X, they can be spatially separated, and precise counting becomes trivial.
+  However many structures are smaller than the diffraction limited resoltution of 200 - 250 nm.
 %
-  \ours allows joint estimation of the parameters of the intensity distribution
-  per emitter as well as their blinking rates through maximum likelihood
-  optimization.
+% While we cant separate spatially, we can temporally
+While these small structures can no longer be directly spatially resolved, many super-resolution 
+  imaging techniques utilize stochastic blinking to seperate these structures in time,
+  and reconstuct a composite with a resolution well below the diffraction limit. 
   %
-  The most likely number of emitters per trace is then found as the maximum
-  \emph{a-posteriori} solution.
-
-We compare \ours on synthetic traces (where the true number of emitters is
-known) and compare its predictions against the current state-of-the-art method,
-\lbfcs~\citep{stein_calibration-free_2021}.
-%
-  \ours is consistently more accurate than \lbfcs and extends the range of
-  countable subunits up to 30.
+  PALM, and STORM, and other single-molecule localization microscopy techniques
+  have been shown to achieve resolutions as high as 5-30 nm (seeing beyond the limit)
+  % Even with this separation there are things that are smaller
+  However, there are still smaller structures such as X, X, or X, that 
+  cannot be seperated and quantified, even with these advanced techniques. 
   %
-  Furthermore, we show that \ours can be used to inform experimental design by
-  identifying conditions that facilitate molecular counting.
+  Transition: new methods of molecular counting are needed
 
-\paragraph{Related Work}
+% Related Work
+% --------------
+% Overview of other counting methods
+Perhaps the simplest method of molecular counting is correlating fluorescent
+    intensity with number of labels. i.e. the brighter it is, the more there are. 
+    This method works well for qualitative measures, but lacks the precision needed 
+    to report exact counts. 
+    % temporal information is useful for counting
+    Similar to PALM and STORM, moleculr counting methods can make use of temporal information
+    to achieve higher precision.
+    % utilize random fluctuations
+    Methods such as fluorescence correlation spectroscopy (FCS) and 
+    balanced super-resolution optical fluctuation imaging (bSOFI)
+    utilize random flucutations in fluorescent intensity over time to estimate the molecular count.
+    % structured fluctuations in time are even more useful
+    Using blinking fluorophores, a predictable structure can be introduced 
+    to the intensity fluctuations, boosting the performance of counting algorithms.
+    % limited by bleaching
+    However, these models are limited by the complex behaviour of the fluorophores and their
+    tendency to photobleach after a few blinking cycles.
 
-% molecular counting
-Many molecular counting approaches similarly
-  make use of imaging over time to extract additional information from the
-  system. 
-  %Some of the simplest systems count events that are designed to happen
-  %only once per emitter such as photobleaching steps \cite{Ulbrich_subunit_2007} or
-  %blinks from a 1 time photo-switching emitter
-  %\cite{gunzenhauser_quantitative_2012}. However, these events are often difficult to
- % detect, and can easily be missed leading to severe undercounting.
-Some of the simplest systems count events that happen only a single time per emitter \cite{Ulbrich_subunit_2007}; \cite{gunzenhauser_quantitative_2012}.
-Other methods make use of emitters that blink repeatedly to reduce the
-dependence on individual events.
-%
-  By modeling the blinking rates of STORM emitters as a continuous time
-  Markov process \cite{patel_blinking_2021, rollins_stochastic_2015}, one can extract the total count of emitters
-  in a spot. However, these models are limited in accuracy by the complex
-  photobleaching nature of the emitters used. Another temporal counting method is
-  qPAINT \cite{jungmann_quantitative_2016} which utilizes DNA-PAINT to minimize photobleaching and
-  correlates the frequency of repeated binding and unbinding events to the
-  molecular count. This method shows an excellent accuracy for counts under 15,
-  but relies heavily on previous knowledge of binding rates and is
-  susceptible to simultaneous binding events.
 
-%Although not precise enough to determine molecular counts, the linear
-%relationship observed between fluorescence intensity and emitter abundance
-%\cite{schmied_fluorescence_2012}, provides additional information to improve the
-%accuracy of these methods.
-%
-  Still other methods use correlation functions to combine both the temporal and
-  intensity information to estimate the molecular count, such as balanced
-  super-resolution optical fluctuation imaging \cite{geissbuehler_mapping_2012} and fluorescence
-  correlation spectroscopy (FCS) which has been used to estimate the copy
-  number of specific proteins within the nuclear pore complex
-  \cite{otsuka_quantitative_2023}. Similar techniques have also been applied to the
-  consistent blinking behavior of DNA-PAINT in \lbfcs \cite{stein_calibration-free_2021}, which has
-  accurately counted up to ~ eight molecules and without relying on previous
-  calibrations. These models work by fitting the entire observation series to a
-  single equation, in the process greatly simplifying the information. 
+% DNA-PAINT is extra useful because its emitters dont bleach either
+In contrast, DNA-PAINT is a method of producing blinking fluorescence that is functioanlly
+    immune to photobleaching due to the continuous replenishment of fluorophores from solution.
+    % lbFCS
+    Localization based FCS (lbFCS), combines the strucutred blinking of DNA-PAINT, with the 
+    principles of FCS, fitting the autocorrelation function of intensity over time to produce a count,
+    and is able to count up to 6 molecules.
+    % qPAINT
+    Quantitative DNA-PAINT (qPAINT) estiamtes the molecular count based on the frequency of blinking events. i.e.
+    a blinking rate of 1 event per second is calibrated to 1 molecule, therefore an obervation of 10 events per second
+    produces a count of 10 molecules.
+    % Limitations
+    Both of these methods are limited in that they fit summary statistics,
+    rather than the data directly. 
+    %
+    Further, all of the methods mentioned provide a single estimate of molecular count.
+    A well calibrated probabilistic estimate would provide 
+    
+% Our Model
+% ----------
+% fully Bayesian
+We propose blinx, a fully Bayesian model to estimate the molecular 
+  count directly from a fluctuating sequence of fluorescent intensity measurements over time.
+  % Based on a fully differentiable markov chain
+  Based on a fully differentiable Hidden Markov Model, blinx fits 7 parameters
+  directly to the sequence of measurements, estimating a likelihood for each possible count. 
+  % probabilistic
+  These likelihoods can be directly compared, producing a posterior distribution of counts 
+  given the observation sequence. 
+  % more accurate than existing methods 
+
+Here we first use blinx as a forward model to simulate data with a realistic noise model
