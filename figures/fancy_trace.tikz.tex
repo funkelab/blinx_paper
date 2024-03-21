@@ -1,4 +1,4 @@
-\begin{tikzpicture}
+\begin{tikzpicture}%
   \begin{axis}[
     name=trace,
     width=0.8\textwidth,
@@ -10,8 +10,6 @@
     grid=major,
     grid style={dashed},
     scaled ticks=false,
-    ymin=\minintensity,
-    ymax=\maxintensity,
     ticklabel style={font=\small},
   ]
 
@@ -37,6 +35,14 @@
       y=\zcol
     ] {\tracecsv};
 
+    % remember min/max y-axis values for next plot
+    \pgfplotsextra{
+      \pgfmathparse{\pgfkeysvalueof{/pgfplots/ymin}}
+      \global\let\ymin\pgfmathresult
+      \pgfmathparse{\pgfkeysvalueof{/pgfplots/ymax}}
+      \global\let\ymax\pgfmathresult
+    }
+
   \end{axis}
 
   \begin{axis}[
@@ -49,10 +55,10 @@
     xlabel=probability,
     grid=major,
     grid style={dashed, very thin},
-    enlarge x limits=0,
+    enlarge x limits={value=0.1,upper},
     scaled ticks=false,
-    ymin=\minintensity,
-    ymax=\maxintensity,
+    ymin=\ymin,
+    ymax=\ymax,
     ticklabel style={font=\small},
   ]
 
@@ -79,5 +85,4 @@
     ] {\histogramcsv};
 
   \end{axis}
-\end{tikzpicture}
-
+\end{tikzpicture}%
