@@ -1,4 +1,7 @@
-\begin{tikzpicture}
+\@ifundefined{noylabels}{}{%
+  \pgfplotsset{yticklabel=\empty}%
+}%
+\begin{tikzpicture}%
 
   \def\eps{0.001}
 

@@ -1,13 +1,43 @@
 \begin{figure*}
 
-  \begin{panel}{(b)}{\textwidth}
+  \begin{panel}{(a)}{\textwidth}
+    \tikzexternaldisable
+    \vspace{4mm}
+    \input{figures/overview.tikz.tex}
+    \vspace{4mm}
+    \tikzexternalenable
+  \end{panel}
+
+  \begin{panel}{(b)}{0.4\textwidth}
     \vspace{4mm}
     \tikzsetnextfilename{figure_1_model}
     \input{figures/model.tikz}%
   \end{panel}
-\end{figure*}
+  \begin{panel}{(c)}{0.6\textwidth}
+    \hspace{4mm}
+    \footnotesize
+    \begin{tabular}{l|l}
+      \hline
+      \multicolumn{2}{c}{\bf emission parameters \parameterse} \\
+      \hline
+      \re          & fluorophore photon emission rate \\
+      \rb          & background photon emission rate \\
+      \hline
+      \hline
+      \multicolumn{2}{c}{\bf transition parameters \parameterst} \\
+      \hline
+      \multicolumn{2}{c}{\input{figures/p_on_off.tikz}} \\
+      \hline
+    %\end{tabular}
+    %\begin{tabular}{l|l}
+      \multicolumn{2}{c}{\bf camera parameters \parametersc} \\
+      \hline
+      \camoffset   & camera intensity offset \\
+      \camvar      & camera noise variance \\
+      \camgain     & camera amplification gain \\
+    \end{tabular}
+  \end{panel}
 
-\begin{figure*}
   \includegraphics[width=\linewidth]{figures/placeholders/figure_1_overview.png}
   \caption{A) Overview of the blinx method (scale bar: 1 $\mu$m) B) blinx is based on a Hidden Markov Model who's parameters are optimized to build the final posterior
   distribution}

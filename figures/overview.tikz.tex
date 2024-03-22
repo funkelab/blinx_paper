@@ -1,0 +1,98 @@
+\usetikzlibrary{spy}%
+\def\blinky#1#2#3#4#5{%
+  \begin{tikzpicture}[node distance=3mm]
+    \node[site#1] (s1) {};
+    \node[site#2,right of=s1] (s2) {};
+    \coordinate (s12) at ($(s1)!.5!(s2)$);
+    \node[site#3,right of=s2] (s3) {};
+    \node[site#4,below of=s12] (s4) {};
+    \node[site#5,right of=s4] (s5) {};
+    \foreach \angle in {0, 45, 90, 135, 180, 225, 270, 315}{
+      \begin{scope}[rotate=\angle]
+        \draw[sitelight#1] ($(s1)+(0,0.13)$) -- ($(s1)+(0,0.16)$);
+        \draw[sitelight#2] ($(s2)+(0,0.13)$) -- ($(s2)+(0,0.16)$);
+        \draw[sitelight#3] ($(s3)+(0,0.13)$) -- ($(s3)+(0,0.16)$);
+        \draw[sitelight#4] ($(s4)+(0,0.13)$) -- ($(s4)+(0,0.16)$);
+        \draw[sitelight#5] ($(s5)+(0,0.13)$) -- ($(s5)+(0,0.16)$);
+      \end{scope}
+    }
+  \end{tikzpicture}
+}%
+\begin{tikzpicture}
+
+  \begin{scope}[spy using outlines={magnification=2,size=12mm,very thick}]
+
+    \node[image] (frame) {\includegraphics[width=4cm]{figures/data/overview/sample_frame}};
+
+    \spy on ($(frame)+(1.1, 1.2)$)
+      in node (patch_3) [image,right=6mm,anchor=north west]
+      at (frame.north east);
+    \spy on ($(frame)+(0.9, 1.1)$)
+      in node (patch_2) [image,right=6mm,anchor=north west]
+      at ($(frame.north east)-(0.1,0.1)$);
+    \spy[
+        draw=funkey_color_1,
+        every spy on node/.append style={ultra thick},
+        every spy in node/.append style={ultra thick},
+        spy connection path={\draw[ultra thick] (tikzspyonnode) -- (tikzspyinnode);}
+    ]
+      on ($(frame)+(1.0, 1.2)$)
+      in node (patch_1) [image,right=6mm,anchor=north west]
+      at ($(frame.north east)-(0.2,0.2)$);
+  \end{scope}
+
+  % example trace
+  \node[right=4mm,anchor=north west,text width=6cm,inner sep=0] (trace) at (patch_3.north east) {%
+    \def\tracecsv{figures/data/overview/trace.csv}%
+    \def\traceintensitycol{trace}%
+    \def\nolabels{}%
+    \tikzexternaldisable%
+    \centerline{\input{figures/fancy_trace.tikz}}%
+    \tikzexternalenable%
+  };
+  \node[anchor=north,inner sep=0pt] at (trace.230) {\tiny time};
+  \node[rotate=90,anchor=south,inner sep=1pt] at (trace.west) {\tiny intensity};
+
+  % observed / hidden line
+  \draw[gray,very thick]
+    (patch_1.west|-frame.355) --
+      node[pos=0,anchor=south west] {observed}
+      node[pos=0,anchor=north west] {hidden}
+      node[pos=0.35] (sample_1) {}
+      node[pos=0.60] (sample_2) {}
+      node[pos=0.96] (sample_3) {}
+    (trace.east|-frame.355);
+
+  % brace to MLE
+  \draw[decorate,decoration={brace,raise=2mm}]
+    (trace.north east) --
+    node[pos=0.5,right=5mm,draw,rectangle,rounded corners] (mle) {\ours}
+    (trace.south east);
+
+  % posterior
+  \node[anchor=north west,text width=3.6cm] (posterior) at ($(trace.north east)+(1.8,0.3)$) {%
+    \def\posteriorcsv{figures/data/overview/posterior.csv}%
+    \def\posteriorcol{posterior}%
+    \def\noylabels{}%
+    \tikzexternaldisable%
+    \input{figures/p_n_given_x.tikz}%
+    \tikzexternalenable%
+  };
+  \draw[arrow,shorten >=-8] (mle) -- (mle-|posterior.west);
+
+  % blinky things
+  \node (hidden) at (frame.330-|patch_1) {\blinky{off}{off}{off}{off}{off}};
+  \node (z_sample_1) at (frame.330-|sample_1) {\blinky{on}{off}{on}{on}{off}};
+  \node (z_sample_2) at (frame.330-|sample_2) {\blinky{on}{off}{on}{off}{off}};
+  \node (z_sample_3) at (frame.330-|sample_3) {\blinky{on}{off}{off}{off}{off}};
+
+  \draw[arrow] (z_sample_1) -- +(0, 2.4);
+  \draw[arrow] (z_sample_2) -- +(0, 2.05);
+  \draw[arrow] (z_sample_3) -- +(0, 1.7);
+
+  \node[anchor=north,inner sep=10pt] at (hidden) {\strut$\n=5$};
+  \node[anchor=north,inner sep=10pt] at (z_sample_1) {\strut$\z{}=3$};
+  \node[anchor=north,inner sep=10pt] at (z_sample_2) {\strut$\z{}=2$};
+  \node[anchor=north,inner sep=10pt] at (z_sample_3) {\strut$\z{}=1$};
+
+\end{tikzpicture}

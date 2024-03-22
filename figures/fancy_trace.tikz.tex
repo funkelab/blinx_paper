@@ -1,10 +1,29 @@
-\begin{tikzpicture}
+\@ifundefined{nolabels}{%
+  \def\xlabel{frames}%
+  \def\ylabel{intensity}%
+}{%
+  \def\xlabel{}%
+  \def\ylabel{}%
+  \pgfplotsset{xticklabel=\empty}%
+  \pgfplotsset{yticklabel=\empty}%
+}%
+\@ifundefined{histogramcsv}{%
+  \setlength{\plotwidth}{\textwidth}%
+  \setlength{\plotheight}{0.3\textwidth}%
+  \def\scaleonlyaxis{true}%
+}{%
+  \setlength{\plotwidth}{0.8\textwidth}%
+  \setlength{\plotheight}{0.3\textwidth}%
+  \def\scaleonlyaxis{false}%
+}%
+\begin{tikzpicture}%
   \begin{axis}[
     name=trace,
-    width=0.8\textwidth,
-    height=5cm,
-    xlabel=frames,
-    ylabel=intensity,
+    width=\plotwidth,
+    height=\plotheight,
+    scale only axis=\scaleonlyaxis,
+    xlabel=\xlabel,
+    ylabel=\ylabel,
     enlarge x limits=false,
     xtick distance=500,
     grid=major,
@@ -26,17 +45,19 @@
       x=frames,
       y=\traceintensitycol
     ] {\tracecsv};
-    \addlegendentry{intensity trace}
+    \@ifundefined{nolabels}{\addlegendentry{intensity trace}}{}
 
-    \addplot [
-      color=ztracecolor,
-      thick
-    ] table [
-      col sep=comma,
-      x=frames,
-      y=\zcol
-    ] {\tracecsv};
-    \addlegendentry{inferred state}
+    \@ifundefined{zcol}{}{
+      \addplot [
+        color=ztracecolor,
+        thick
+      ] table [
+        col sep=comma,
+        x=frames,
+        y=\zcol
+      ] {\tracecsv};
+      \@ifundefined{nolabels}{\addlegendentry{inferred state}}{}
+    }
 
     % remember min/max y-axis values for next plot
     \pgfplotsextra{
@@ -48,47 +69,49 @@
 
   \end{axis}
 
-  \begin{axis}[
-    at={($(trace.east) + (4mm,0)$)},
-    anchor=west,
-    width=0.3\textwidth,
-    height=5cm,
-    yticklabel=\empty,
-    xtick distance=0.005,
-    xlabel=probability,
-    grid=major,
-    grid style={dashed, very thin},
-    enlarge x limits={value=0.1,upper},
-    scaled ticks=false,
-    ymin=\ymin,
-    ymax=\ymax,
-    ticklabel style={font=\small},
-    legend style={nodes={scale=0.6, transform shape}},
-  ]
+  \@ifundefined{histogramcsv}{}{
+    \begin{axis}[
+      at={($(trace.east) + (4mm,0)$)},
+      anchor=west,
+      width=0.3\textwidth,
+      height=\plotheight,
+      yticklabel=\empty,
+      xtick distance=0.005,
+      xlabel=probability,
+      grid=major,
+      grid style={dashed, very thin},
+      enlarge x limits={value=0.1,upper},
+      scaled ticks=false,
+      ymin=\ymin,
+      ymax=\ymax,
+      ticklabel style={font=\small},
+      legend style={nodes={scale=0.6, transform shape}},
+    ]
 
-    \addplot+[
-      xbar interval,
-      mark=none,
-      color=tracecolor,
-      fill=tracecolor,
-      fill opacity=0.6,
-      draw=none,
-    ] table [
-      col sep=comma,
-      y=\histbincol,
-      x=\histcountcol,
-    ] {\histogramcsv};
-    \addlegendentry{intensity histogram}
+      \addplot+[
+        xbar interval,
+        mark=none,
+        color=tracecolor,
+        fill=tracecolor,
+        fill opacity=0.6,
+        draw=none,
+      ] table [
+        col sep=comma,
+        y=\histbincol,
+        x=\histcountcol,
+      ] {\histogramcsv};
+      \addlegendentry{intensity histogram}
 
-    \addplot[
-      color=intensitymodelcolor!80!black,
-      thick
-    ] table [
-      col sep=comma,
-      y=\histbincol,
-      x=\modelfitcol
-    ] {\histogramcsv};
-    \addlegendentry{inferred model}
+      \addplot[
+        color=intensitymodelcolor!80!black,
+        thick
+      ] table [
+        col sep=comma,
+        y=\histbincol,
+        x=\modelfitcol
+      ] {\histogramcsv};
+      \addlegendentry{inferred model}
 
-  \end{axis}
+    \end{axis}
+  }
 \end{tikzpicture}%

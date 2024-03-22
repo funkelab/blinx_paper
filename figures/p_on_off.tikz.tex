@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+  \node[siteoff,inner sep=4pt] (off) {};
+  \node[siteon,right=2cm of off,inner sep=4pt] (on) {};
+  \foreach \angle in {0, 45, 90, 135, 180, 225, 270, 315}{
+    \begin{scope}[rotate=\angle]
+      \draw[sitelighton,ultra thick] ($(on)+(0,0.26)$) -- ($(on)+(0,0.32)$);
+    \end{scope}
+  }
+  \draw[arrow,shorten >=2mm,shorten <=2mm] (off) to[bend left] node[pos=0.5,above] {\pon} (on);
+  \draw[arrow,shorten >=2mm,shorten <=2mm] (on) to[bend left] node[pos=0.5,below] {\poff} (off);
+
+  \node[right=14mm of on] (re) {\re};
+  \node[left=14mm of off] (rb) {\rb};
+  \draw[arrow,decorate,decoration={coil,aspect=0,segment length=4,post=curveto,post length=2mm}] ($(on.east)+(0.2,0)$) -- (re);
+  \draw[arrow,decorate,decoration={coil,aspect=0,segment length=4,post=curveto,post length=2mm}] ($(off.west)-(0.2,0)$) -- (rb);
+\end{tikzpicture}

@@ -1,7 +1,9 @@
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{backgrounds}
 \usetikzlibrary{calc}
+\usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{fit}
+\usetikzlibrary{spy}
 \pgfplotsset{compat=1.18}
 \usepgfplotslibrary{fillbetween}
 
@@ -9,4 +11,9 @@
 \tikzstyle{state}=[var,fill=funkey_color_1!20!white]
 \tikzstyle{observation}=[var,fill=funkey_color_3!20!white]
 \tikzstyle{plate}=[rectangle,rounded corners,draw,fill=gray!20!white]
+\tikzstyle{siteon}=[circle,inner sep=2pt,fill=orange!80!white,draw=orange]
+\tikzstyle{siteoff}=[circle,inner sep=2pt,fill=gray]
+\tikzstyle{sitelighton}=[orange,thick,line cap=round]
+\tikzstyle{sitelightoff}=[draw=none]
 \tikzstyle{arrow}=[->,-{Latex}]
+\tikzstyle{image}=[rectangle,draw,inner sep=0]
