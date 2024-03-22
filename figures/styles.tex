@@ -1,8 +1,12 @@
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{backgrounds}
 \usetikzlibrary{calc}
+\usetikzlibrary{fit}
 \pgfplotsset{compat=1.18}
 \usepgfplotslibrary{fillbetween}
 
-\tikzstyle{var}=[circle,draw,fill=orange!20!white]
+\tikzstyle{var}=[circle,draw,minimum width=8mm,fill=funkey_color_2!20!white]
+\tikzstyle{state}=[var,fill=funkey_color_1!20!white]
+\tikzstyle{observation}=[var,fill=funkey_color_3!20!white]
+\tikzstyle{plate}=[rectangle,rounded corners,draw,fill=gray!20!white]
 \tikzstyle{arrow}=[->,-{Latex}]

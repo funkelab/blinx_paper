@@ -8,7 +8,7 @@
 
 % Variables
 \def\n{\ensuremath{n}\xspace}                 % count
-\def\ndist{\ensuremath{\vct{n}}\xspace}        % distribution of predictions
+\def\ndist{\ensuremath{\vct{n}}\xspace}       % distribution of predictions
 \def\truen{\ensuremath{n^*}\xspace}           % true count
 \def\estimatedn{\ensuremath{\hat{n}}\xspace}  % estimated count
 \def\z#1{\ensuremath{z_{#1}}\xspace}          % number of active emitters at time t: \y{t}
@@ -18,6 +18,9 @@
 \def\pon{\ensuremath{p_\text{on}}\xspace}     % prob. for activating
 \def\poff{\ensuremath{p_\text{off}}\xspace}   % prob. for deactivating
 \def\parameters{\ensuremath{\theta}\xspace}   % all parameters (mu, sigma, ...)
+\def\parameterst{\ensuremath{\parameters_T}}  % transition parameters
+\def\parameterse{\ensuremath{\parameters_E}}  % emission parameters
+\def\parametersc{\ensuremath{\parameters_C}}  % camera parameters
 
 \def\pchain{\ensuremath{\alpha\xspace}}       % recursive probability for forward algorithm
 \def\pchainnorm{\ensuremath{\tilde{\alpha}\xspace}}
