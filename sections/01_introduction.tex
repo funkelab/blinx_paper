@@ -3,41 +3,54 @@
 
 % Challenges of fluorescence microscopy
 Fluorescence microscopy is a foundational tool in the field of biology,
-  providing useful information on the presence and localization 
+  providing essential information on the presence and localization 
   of labeled structures.
 %
-  However, it is often difficult to extract precise, quantitative information
-  from fluorescent images, such as the molecular count.
-  % Counting strucutres is important
-  Determining molecular count can give important insights to the fucntion
-  of protein complexes such as X, which ...\todo{important here to bridge from counting molecules (fluorophores) over binding sites to whatever one is interested in (subcomplexes, peptide motives, amino acids)}
+    However, often in biology, localization is only the first step,
+    and a deeper understanding of the system requires more precise
+    quantitative information, such as molecular count. 
+    %
+    One example of the importance of molecular count is found in the microclusters 
+    that initiate T cell activation, where intercelluar
+    signal strength is controled by the number of proteins in the microcluster.
+    %
+    Another example is in focal adhesions, where the traction force generated is a function of the stoicheometry 
+    of different integrins within the adhesion. 
+    %
+    Accurate molecular counting, will deepen our understanding of these and other processes where absolute count, 
+    and stoicheometery play important roles in biological function. 
+
+  
+  %X, which ...\todo{important here to bridge from counting molecules (fluorophores) over binding sites to whatever one is interested in (subcomplexes, peptide motives, amino acids)}
 
 % Sometimes we can visually seperate structures,
 % but often they are too close together
-When the structures of interest are large, such as whole cells, organelles,
-  or even X, they can be spatially separated, and precise counting becomes trivial.
-  However many structures are smaller than the diffraction limited resoltution of 200 - 250 nm.
+When the labeled structures of interest are large, such as cells organelles, or other large complexes,
+  they can be spatially separated, and precise counting becomes trivial.
+  However many structures are smaller than the diffraction limited resolution of 200 - 250 nm.
 %
 % While we cant separate spatially, we can temporally
-While these small structures can no longer be directly spatially resolved, many\todo{all?} super-resolution 
+While these small structures can no longer be directly spatially resolved, many super-resolution % not all 
   imaging techniques utilize stochastic blinking to seperate these structures in time,
   and reconstuct a composite with a resolution well below the diffraction limit. 
   %
   PALM, and STORM, and other single-molecule localization microscopy techniques
   have been shown to achieve resolutions as high as 5-30 nm.
   % Even with this separation there are things that are smaller
-  However, there are still smaller structures such as X, X, or X, that 
-  cannot be seperated and quantified with those techniques.
+  However, there are still smaller structures such as sub-complexes, individual monomers, that 
+  cannot be seperated and quantified with these techniques.
+  %Transition: new methods of molecular counting are needed
+  To quantify the number of objects in this smallest regime, methods must be developed that no longer rely on spatial seperation.
   %
-  Transition: new methods of molecular counting are needed
+  
   \todo{distinction: super-resolution aims to localize, not count}
-  \todo{ExM is also a way to get beyond the resolution limit}
+  \todo{ExM is also a way to get beyond the resolution limit} % there are also methods like STED and EM, but I only wanted too mention the blinking ones...
 
 % Related Work
 % --------------
 % Overview of other counting methods
 Perhaps the simplest method of molecular counting is correlating fluorescent
-    intensity with the number of labels\todo{labels, fluorophores, binding sites: let's decide on one and be consistent (I vote for binding sites)}, \ie,\todo{remember we have beautiful macros for \ie and \eg :)} the brighter it is, the more there are.
+    intensity with the number of labels\todo{labels, fluorophores, binding sites: let's decide on one and be consistent (I vote for binding sites)}, \ie the brighter it is, the more there are.
     %
     This method works well for qualitative measures, but lacks the precision needed 
     to report exact counts\todo{good and true, but why?}.
@@ -47,13 +60,13 @@ Perhaps the simplest method of molecular counting is correlating fluorescent
     % utilize random fluctuations
     Methods such as fluorescence correlation spectroscopy (FCS) and 
     balanced super-resolution optical fluctuation imaging (bSOFI)
-    utilize random flucutations\todo{install a spell-checker ;)} in fluorescent intensity over time to estimate the molecular count.
+    utilize random fluctuations in fluorescent intensity over time to estimate the molecular count.
     % structured fluctuations in time are even more useful
     Using blinking fluorophores, a predictable structure can be introduced 
     to the intensity fluctuations, boosting the performance of counting algorithms.
-    % limited by bleaching
+    % limited by bleaching (re-write this!)
     However, these models are limited by the complex behaviour of the fluorophores and their
-    tendency to photobleach after a few blinking cycles.
+    tendency to photobleach after a few blinking cycles. \todo{mention PC-PALM somewhere}
 
 
 % DNA-PAINT is extra useful because its emitters dont bleach either
@@ -62,7 +75,7 @@ In contrast, DNA-PAINT is a method of producing blinking fluorescence that is fu
     % lbFCS
     Localization based FCS (lbFCS), combines the structured blinking of DNA-PAINT, with the 
     principles of FCS, fitting the autocorrelation function of intensity over time to produce a count,
-    and is able to count up to 6 molecules\todo{in a single diffraction limited spot}.
+    and is able to count up to 6 molecules in a single diffraction limited spot.
     % qPAINT
     Quantitative DNA-PAINT (qPAINT) estiamtes the molecular count based on the frequency of blinking events, \ie, 
     a blinking rate of 1 event per second is calibrated to 1 molecule, therefore an obervation of 10 events per second
