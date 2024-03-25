@@ -4,6 +4,11 @@
   \pgfplotsset{yticklabel=\empty}%
   \def\scaleonlyaxis{true}%
 }%
+\@ifundefined{noxlabel}{%
+  \pgfplotsset{xlabel=$n$}%
+}{%
+  \pgfplotsset{xlabel=\empty}%
+}%
 \begin{tikzpicture}%
 
   \def\eps{0.001}
@@ -12,16 +17,15 @@
     width=\textwidth,
     height=\textwidth,
     scale only axis=\scaleonlyaxis,
-    xlabel=\n,
-    xlabel=$p(\n|\trace)$,
     grid=major,
     grid style={dashed, very thin},
-    enlarge x limits=0.1,
+    enlarge x limits=0.4,
     enlarge y limits=0,
     ymin=0,
     ymax=1,
     scaled ticks=false,
-    ticklabel style={font=\small},
+    ticklabel style={font=\tiny},
+    axis background/.style={fill=white},
   ]
 
     \addplot+[

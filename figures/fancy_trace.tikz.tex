@@ -28,7 +28,7 @@
     xtick distance=500,
     grid=major,
     grid style={dashed},
-    scaled ticks=false,
+    %scaled ticks=false,
     ticklabel style={font=\small},
     legend style={nodes={scale=0.6, transform shape}},
   ]
@@ -72,6 +72,7 @@
   \@ifundefined{histogramcsv}{}{
     \begin{axis}[
       at={($(trace.east) + (4mm,0)$)},
+      name=histogram,
       anchor=west,
       width=0.3\textwidth,
       height=\plotheight,
@@ -80,7 +81,7 @@
       xlabel=probability,
       grid=major,
       grid style={dashed, very thin},
-      enlarge x limits={value=0.1,upper},
+      enlarge x limits={value=0.4,upper},
       scaled ticks=false,
       ymin=\ymin,
       ymax=\ymax,

@@ -1,8 +1,17 @@
 \def\intervalplot#1#2{%
   \addplot[%
+    color=#2,%
+    very thick,%
+  ] table [%
+    col sep=comma,%
+    x=length,%
+    y=max_likelihoods_#1,%
+  ] {\tracelengthcsv};%
+  \addplot[%
     name path=lower,%
     draw=none,%
     fill=none,%
+    forget plot,%
   ] table [%
     col sep=comma,%
     x=length,%
@@ -12,6 +21,7 @@
     name path=upper,%
     draw=none,%
     fill=none,%
+    forget plot,%
   ] table [%
     col sep=comma,%
     x=length,%
@@ -19,22 +29,17 @@
   ] {\tracelengthcsv};%
   \addplot [%
     color=#2,%
-    opacity=0.6,%
+    opacity=0.4,%
+    forget plot,%
   ] fill between[of=lower and upper];%
-  \addplot[%
-    color=#2,%
-  ] table [%
-    col sep=comma,%
-    x=length,%
-    y=max_likelihoods_#1,%
-  ] {\tracelengthcsv};%
+  \addlegendentry{$n=#1$};
 }%
 \begin{tikzpicture}
   \begin{axis}[
     width=\textwidth,
-    height=\textwidth,
+    height=0.47\textwidth,
     xlabel={length [frames]},
-    ylabel=estimated count,
+    %ylabel=estimated count,
     enlarge x limits=false,
     enlarge y limits=false,
     xtick distance=4000,
@@ -44,15 +49,12 @@
     grid style={dashed},
     scaled ticks=false,
     ticklabel style={font=\small},
+    legend columns=4,
     legend style={nodes={scale=0.6, transform shape}},
   ]
-  \intervalplot{20}{funkey_color_1}
-  \addlegendentry{$\n = 20$}%
-  \intervalplot{15}{funkey_color_2}
-  \addlegendentry{$\n = 15$}%
-  \intervalplot{10}{funkey_color_3}
-  \addlegendentry{$\n = 10$}%
-  \intervalplot{5}{funkey_color_4}
-  \addlegendentry{$\n = 5$}%
+    \intervalplot{20}{funkey_color_1}
+    \intervalplot{15}{funkey_color_2}
+    \intervalplot{10}{funkey_color_3}
+    \intervalplot{5}{funkey_color_4}
   \end{axis}
 \end{tikzpicture}%

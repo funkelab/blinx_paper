@@ -8,8 +8,20 @@
     \def\histbincol{N10_bins}
     \def\histcountcol{N10_measured}
     \def\modelfitcol{N10_model}
+    \def\posteriorcsv{figures/data/sim_counting/posteriors.csv}
+    \def\posteriorcol{posterior_10}
+    \hspace{-2mm}
     \tikzsetnextfilename{figure_2_trace_N10}
-    \input{figures/fancy_trace.tikz}%
+    \begin{tikzpicture}
+      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
+      \def\noylabels{}
+      \def\noxlabel{}
+      \node[anchor=south east,text width=12mm]
+        at ($(fancyplot.south east)+(-0.6,0.8)$)
+        {\input{figures/p_n_given_x.tikz}};
+    \end{tikzpicture}
+
+    \vspace{-4mm}
   \end{panel}
 
   \begin{panel}{(b)}{\textwidth}
@@ -20,32 +32,70 @@
     \def\histbincol{N20_bins}
     \def\histcountcol{N20_measured}
     \def\modelfitcol{N20_model}
+    \def\posteriorcsv{figures/data/sim_counting/posteriors.csv}
+    \def\posteriorcol{posterior_20}
+    \hspace{-2mm}%
     \tikzsetnextfilename{figure_2_trace_N20}
-    \input{figures/fancy_trace.tikz}
+    \begin{tikzpicture}
+      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
+      \def\noylabels{}
+      \def\noxlabel{}
+      \node[anchor=south east,text width=12mm]
+        at ($(fancyplot.south east)+(-0.6,0.8)$)
+        {\input{figures/p_n_given_x.tikz}};
+    \end{tikzpicture}
   \end{panel}
 
-  \vspace{4mm}
-  \begin{panel}{(c)}{0.4\textwidth}
+  \begin{panel}{(c)}{0.45\textwidth}
     \def\posteriormatrixcsv{figures/data/sim_counting/heatmap.csv}
     \def\lbfcscsv{figures/data/sim_counting/heatmap_lbfcs.csv}
+    \tikzexternaldisable
     \tikzsetnextfilename{figure_2_lbfcs_comparison}
     \input{figures/matrix_plot.tikz}
+    \tikzexternalenable
   \end{panel}
   \hspace{1cm}
-  \begin{panel}{(d)}{0.2\textwidth}
-    \def\posteriorcsv{figures/data/sim_counting/posteriors.csv}
-    \def\posteriorcol{posterior_10}
-    \def\posteriorcolextra{posterior_20}
-    \tikzsetnextfilename{figure_2_posterior_n10_n20}
-    \input{figures/p_n_given_x.tikz}
+  \begin{panel}{(d)}{0.5\textwidth}
+    \begin{panel}{}{\textwidth}
+      \vspace{2mm}
+      \hspace{2mm}
+      \small
+      \def\tracelengthcsv{figures/data/trace_length/trace_length_results.csv}
+      \def\mapcol{max_likelihoods_20}
+      \def\varcol{variance_20}
+      \tikzexternaldisable
+      \tikzsetnextfilename{figure_2_trace_length}
+      \input{figures/trace_length.tikz}
+      \tikzexternalenable
+    \end{panel}
+    \begin{panel}{(e)}{\textwidth}
+      \hspace{2mm}
+      \small
+      \def\tracelengthcsv{figures/data/trace_length/trace_length_results.csv}
+      \def\mapcol{max_likelihoods_20}
+      \def\varcol{variance_20}
+      \tikzexternaldisable
+      \tikzsetnextfilename{figure_2_trace_length}
+      \input{figures/trace_length.tikz}
+      \tikzexternalenable
+    \end{panel}
   \end{panel}
-  \begin{panel}{(e)}{0.4\textwidth}
-    \def\tracelengthcsv{figures/data/trace_length/trace_length_results.csv}
-    \def\mapcol{max_likelihoods_20}
-    \def\varcol{variance_20}
-    \tikzsetnextfilename{figure_2_trace_length}
-    \input{figures/trace_length.tikz}
-  \end{panel}
+
+  \caption{
+    \panelref{a, b} Trace simulated from 10/20 emitters, and the posterior
+    distribution estimated by \ours.
+    %
+    \panelref{c} The \ours posterior is able to accurately estimate
+    significantly higher molecular counts than the current state of the art,
+    lbFCS
+    %
+    \panelref{d} As trace length increases, the variance of the \ours posterior
+    decreases.
+    %
+    \panelref{e} As the signal to noise ratio increases the variance of the
+    \ours posterior decreases.
+  }
+  \label{fig:method:overview}
 
 \end{figure*}
 
