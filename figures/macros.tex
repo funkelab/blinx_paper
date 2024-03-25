@@ -2,12 +2,14 @@
 
 \newenvironment{panel}[2]{%
   \begin{minipage}[t][][t]{#2}%
-    \tikzset{external/export next=false}%
-    \begin{tikzpicture}[remember picture, overlay]%
-      \node {#1};%%
-      \pgfresetboundingbox%
-    \end{tikzpicture}%
+    %\tikzset{external/export next=false}%
+    %\begin{tikzpicture}[remember picture, overlay]%
+      %\node {#1};%
+      %\pgfresetboundingbox%
+    %\end{tikzpicture}%
+    #1
 
+    \vspace{-\baselineskip}%
 }{%
   \end{minipage}%
 }
@@ -15,3 +17,24 @@
 % useful for setting/computing the width of plots
 \newlength{\plotwidth}
 \newlength{\plotheight}
+
+% draw 5 example fluorophores, args are "on" or "off"
+\def\blinky#1#2#3#4#5{
+  \begin{tikzpicture}[node distance=3mm]
+    \node[site#1] (s1) {};
+    \node[site#2,right of=s1] (s2) {};
+    \coordinate (s12) at ($(s1)!.5!(s2)$);
+    \node[site#3,right of=s2] (s3) {};
+    \node[site#4,below of=s12] (s4) {};
+    \node[site#5,right of=s4] (s5) {};
+    \foreach \angle in {0, 45, 90, 135, 180, 225, 270, 315}{
+      \begin{scope}[rotate=\angle]
+        \draw[sitelight#1] ($(s1)+(0,0.13)$) -- ($(s1)+(0,0.16)$);
+        \draw[sitelight#2] ($(s2)+(0,0.13)$) -- ($(s2)+(0,0.16)$);
+        \draw[sitelight#3] ($(s3)+(0,0.13)$) -- ($(s3)+(0,0.16)$);
+        \draw[sitelight#4] ($(s4)+(0,0.13)$) -- ($(s4)+(0,0.16)$);
+        \draw[sitelight#5] ($(s5)+(0,0.13)$) -- ($(s5)+(0,0.16)$);
+      \end{scope}
+    }
+  \end{tikzpicture}
+}

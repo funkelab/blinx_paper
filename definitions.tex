@@ -26,11 +26,16 @@
 \def\parameterst{\ensuremath{\parameters_T}}  % transition parameters
 \def\parameterse{\ensuremath{\parameters_E}}  % emission parameters
 \def\parametersc{\ensuremath{\parameters_C}}  % camera parameters
+\def\photonse{\ensuremath{c_e}\xspace}        % number of photons per active emitter
+\def\photons{\ensuremath{c}\xspace}           % number of photons per spot
+\def\deltat{\ensuremath{\Delta t}\xspace}     % length of frame
 
 \def\pchain{\ensuremath{\alpha\xspace}}       % recursive probability for forward algorithm
 \def\pchainnorm{\ensuremath{\tilde{\alpha}\xspace}}
                                               % \pchain normalized
 \def\norms{\ensuremath{\beta\xspace}} % normalization factors for \pchain
+
+\DeclareMathOperator{\poisson}{Poisson}
 
 % Functions
 %\newcommand{\argmax}[1]{\mathop{\arg\max}_{#1}\hspace{0.5em}}

@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+
+  \node (z) {\blinky{on}{off}{on}{on}{off}};
+  \node[var,right=18mm of z] (c) {$\photons$};
+  \node[annotation,below of=c] (c_dist) {$\sim\poisson((\z{}\re + \rb)\deltat)$};
+  \draw (c) -- (c_dist);
+  \draw[arrow,decorate,decoration={coil,aspect=0,segment length=6,post=curveto,post length=2mm}]
+    (z.east) -- (c);
+
+  \node[right=12mm of c,inner sep=0,yshift=2mm] (camera) {
+    \tikz[plane x={(0.8,-0.4)},canvas is plane,transform shape]{
+      \draw[gray,step=0.25] (0, 0) grid (1, 1);
+      \node[anchor=south,gray] at (0.5, 1.1) {detector};
+    }
+  };
+
+  \coordinate (camera_center) at (camera.center|-c);
+  \draw[arrow,shorten >=3mm] (c) -- (camera_center);
+  \node[observation,right=18mm of camera_center] (x) {$\x{}$};
+  \node[annotation,below of=x] (x_dist) {$\sim\mathcal{N}(\photons\camgain + \camoffset, \camvar)$};
+  \draw (x) -- (x_dist);
+  \draw[arrow] (camera.east|-c) -- (x);
+
+  % parameter collections
+  \node[parameters,anchor=south west] at (z.north east) {\strut$\parameterse = (\re, \rb)$};
+  \node[parameters,anchor=south east] at (z.north-|x_dist.east) {\strut$\parametersc = (\camgain, \camoffset, \camvar)$};
+\end{tikzpicture}

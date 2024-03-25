@@ -1,10 +1,10 @@
 \begin{tikzpicture}
 
   % parameters
-  \node[var] (n) {\n};
-  \node[var,below of=n] (theta_T) {\parameterst};
-  \node[var,below of=theta_T] (theta_E) {\parameterse};
-  \node[var,below of=theta_E] (theta_C) {\parametersc};
+  \node[parameter] (n) {\n};
+  \node[parameter,below of=n] (theta_T) {\parameterst};
+  \node[parameter,below of=theta_T] (theta_E) {\parameterse};
+  \node[parameter,below of=theta_E] (theta_C) {\parametersc};
 
   % hidden states
   \node[state,right=1cm] (z1) at ($(n)!.5!(theta_T)$) {\z{1}};

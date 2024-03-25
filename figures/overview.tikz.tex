@@ -1,23 +1,4 @@
 \usetikzlibrary{spy}%
-\def\blinky#1#2#3#4#5{%
-  \begin{tikzpicture}[node distance=3mm]
-    \node[site#1] (s1) {};
-    \node[site#2,right of=s1] (s2) {};
-    \coordinate (s12) at ($(s1)!.5!(s2)$);
-    \node[site#3,right of=s2] (s3) {};
-    \node[site#4,below of=s12] (s4) {};
-    \node[site#5,right of=s4] (s5) {};
-    \foreach \angle in {0, 45, 90, 135, 180, 225, 270, 315}{
-      \begin{scope}[rotate=\angle]
-        \draw[sitelight#1] ($(s1)+(0,0.13)$) -- ($(s1)+(0,0.16)$);
-        \draw[sitelight#2] ($(s2)+(0,0.13)$) -- ($(s2)+(0,0.16)$);
-        \draw[sitelight#3] ($(s3)+(0,0.13)$) -- ($(s3)+(0,0.16)$);
-        \draw[sitelight#4] ($(s4)+(0,0.13)$) -- ($(s4)+(0,0.16)$);
-        \draw[sitelight#5] ($(s5)+(0,0.13)$) -- ($(s5)+(0,0.16)$);
-      \end{scope}
-    }
-  \end{tikzpicture}
-}%
 \begin{tikzpicture}
 
   \begin{scope}[spy using outlines={magnification=2,size=12mm,very thick}]
@@ -46,9 +27,9 @@
     \def\tracecsv{figures/data/overview/trace.csv}%
     \def\traceintensitycol{trace}%
     \def\nolabels{}%
-    \tikzexternaldisable%
+    %\tikzexternaldisable%
     \centerline{\input{figures/fancy_trace.tikz}}%
-    \tikzexternalenable%
+    %\tikzexternalenable%
   };
   \node[anchor=north,inner sep=0pt] at (trace.230) {\tiny time};
   \node[rotate=90,anchor=south,inner sep=1pt] at (trace.west) {\tiny intensity};
@@ -64,21 +45,23 @@
     (trace.east|-frame.355);
 
   % brace to MLE
-  \draw[decorate,decoration={brace,raise=2mm}]
+  \draw[decorate,decoration={brace,raise=2mm,aspect=0.2}]
     (trace.north east) --
-    node[pos=0.5,right=5mm,draw,rectangle,rounded corners] (mle) {\ours}
+    node[pos=0.2,right=2mm] (brace) {}
+    node[pos=0.2,right=16mm,draw,rectangle,rounded corners] (mle) {\ours}
     (trace.south east);
 
   % posterior
-  \node[anchor=north west,text width=3.6cm] (posterior) at ($(trace.north east)+(1.8,0.3)$) {%
+  \node[below=3mm of mle,anchor=north,text width=2.6cm] (posterior) {%
     \def\posteriorcsv{figures/data/overview/posterior.csv}%
     \def\posteriorcol{posterior}%
     \def\noylabels{}%
-    \tikzexternaldisable%
-    \input{figures/p_n_given_x.tikz}%
-    \tikzexternalenable%
+    %\tikzexternaldisable%
+    \centerline{\input{figures/p_n_given_x.tikz}}%
+    %\tikzexternalenable%
   };
-  \draw[arrow,shorten >=-8] (mle) -- (mle-|posterior.west);
+  \draw[arrow] (brace) -- (mle);
+  \draw[arrow,shorten >=-8] (mle) -- (posterior);
 
   % blinky things
   \node (hidden) at (frame.330-|patch_1) {\blinky{off}{off}{off}{off}{off}};

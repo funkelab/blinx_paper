@@ -1,5 +1,8 @@
-\@ifundefined{noylabels}{}{%
+\@ifundefined{noylabels}{%
+  \def\scaleonlyaxis{false}%
+}{%
   \pgfplotsset{yticklabel=\empty}%
+  \def\scaleonlyaxis{true}%
 }%
 \begin{tikzpicture}%
 
@@ -8,6 +11,7 @@
   \begin{axis}[
     width=\textwidth,
     height=\textwidth,
+    scale only axis=\scaleonlyaxis,
     xlabel=\n,
     xlabel=$p(\n|\trace)$,
     grid=major,
@@ -56,4 +60,4 @@
 
   \end{axis}
 
-\end{tikzpicture}
+\end{tikzpicture}%
