@@ -9,8 +9,8 @@ Fluorescence microscopy is a foundational tool in the field of biology,
   Due to the diffraction limit, standard fluorescence imaging methods are unable to distinguish 
   individual structures below 200 nm in size.
   % Super resolution has added a ton
-  The development of super resolution imaging technqiues has surpassed 
-  this limit and achieved resolutions as high as 10 nm.
+  The development of super resolution imaging technqiues \cite{betzig_2006, rust_2006} has surpassed 
+  this limit and achieved resolutions as high as 10 nm \cite{valli_seeing_2021}.
 % However getting quantitative information, specifically absolute counts out of these methods is difficult
   These advances have been revolutionary to understanding biology, 
   but often localization is only the first step,
@@ -22,22 +22,25 @@ Determining the absolute number of molecules associated in a complex, or molecul
   underlying biology of a system. 
   % Number of ligands to activate a T cell
   In the immune responce, different single-molecule counts of ligands can stimulate different responces in the activation of T cells.
+  \cite{irvine_2002}
   % oligomerization of Smad in TGF-B signalling
   In the TGF-B singalling pathway, the molecular specificity of Smad signalling proteins depends on their oligomeric state,
   with monomers, homotrimers, and heterotrimers, where only heterotrimers translocate to the nucleus. 
+  \cite{moustakas_2002, inman_2002} 
   % G protein coupled receptor clustering
   G-protein coupled receptors exist as monomers, dimers, or higher order oligomers, and their oligomerization state has significant effects
-  on ligand binding, receptor activation, receptor signalling, and trafficing. 
+  on ligand binding, receptor activation, receptor signalling, and trafficing.
+  \cite{felce_2018, breitwieser_2004}
   % When objects are large, clustering is easy
   % when objects become small it gets harder
   % An algorithm that could reliably count these small objects would be great
-  Although other characterization techniques exist, a robust, accurate, fluorescence based molecular counting 
+  Although other characterization techniques exist \todo{add refs}, a robust, accurate, fluorescence based molecular counting 
   method would greatly simplify the process and also allow multiplexing with the other benifits of fluorescent imaging, such as localization.
 
 % Related work
 % fluorescence intensity based counting
 Perhaps the simplest method of molecular counting is correlating fluorescent
-  intensity with the number of labels, \ie the brighter the spot is, the more there are.
+  intensity with the number of labels \cite{schmied_2012, tolar_2005}, \ie the brighter the spot is, the more there are.
   %
   This method works well for qualitative measures, but due to the noise in intensities 
   measured from any single fluorophore, lacks the precision needed to report exact counts.
@@ -45,14 +48,15 @@ Perhaps the simplest method of molecular counting is correlating fluorescent
   In order to extract more information from the system, other methods utilize temporal information, 
   in addition to intensity based information. 
   % FCS and bSOFI
-  Methods such as fluorescence correlation spectroscopy (FCS) and 
-  balanced super-resolution optical fluctuation imaging (bSOFI)
+  Methods such as fluorescence correlation spectroscopy (FCS) \cite{otsuka_2023, wachsmuth_2015, politi_2018} and 
+  balanced super-resolution optical fluctuation imaging (bSOFI) \cite{geissbuehler_2012}
   utilize random fluctuations (fit higher order statistics?) in fluorescent intensity over time to estimate the molecular count.
   % Bleaching based
   In other methods, temporal variation in intensity can be induced, rather than just random, \ie
-  counting, by measuring the number of distinct bleaching steps observed.
+  counting, by measuring the number of distinct bleaching steps observed \cite{ulbrich_2007, jain_2011}.
   % PALM and STORM based
   Methods have also been developed based on the blinking fluorphores used in PALM and STORM. 
+  % Some of these methods are also based on HMMs, should we mention that here?
   The known blinking behaviour allows for more precise models than the random fluctuations measured in FCS and bSOFI, while the 
   repeated transitions in intensity provide more information than the irreversible switch in bleaching based counting.
   % PC-PALM
@@ -65,14 +69,14 @@ Perhaps the simplest method of molecular counting is correlating fluorescent
 
 
 % DNA-PAINT is extra useful because its emitters dont bleach either
-In contrast, DNA-PAINT is a method of producing blinking fluorescence that is functionally
+In contrast, DNA-PAINT \cite{schnitzbauer_2017} is a method of producing blinking fluorescence that is functionally
     immune to photobleaching due to the continuous replenishment of fluorophores from solution.
     % lbFCS
-    Localization based FCS (lbFCS), combines the structured blinking of DNA-PAINT, with the 
+    Localization based FCS (lbFCS) \cite{stein_2021}, combines the structured blinking of DNA-PAINT, with the 
     principles of FCS, fitting the autocorrelation function of intensity over time to produce a count,
     and is able to count up to 6 molecules in a single diffraction limited spot.
     % qPAINT
-    Quantitative DNA-PAINT (qPAINT) estiamtes the molecular count based on the frequency of blinking events, \ie, 
+    Quantitative DNA-PAINT (qPAINT \cite{jungmann_2016}) estiamtes the molecular count based on the frequency of blinking events, \ie, 
     a blinking rate of 1 event per second is calibrated to 1 molecule, therefore an obervation of 10 events per second
     produces a count of 10 molecules.
     % Limitations
@@ -95,7 +99,7 @@ We propose \ours, a fully Bayesian model to estimate the molecular
   given the observation sequence. 
   % more accurate than existing methods 
 
-Here we first validate \ours on simualted experiments. Next \cite{patel_blinking_2021}
+Here we first validate \ours on simualted experiments.
 
 %TODO: add exact size information
 % TODO: add references
