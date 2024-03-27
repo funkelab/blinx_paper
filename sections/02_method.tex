@@ -9,7 +9,7 @@ yielding a fluctuating intensity signal over time (see \figref{fig:method:overvi
 The goal of this method is to determine the posterior distribution over 
 possible number of emitters \ndist given the observed intensity trace \trace.
 %
-Beacuase \ndist is discrete, individual models must be independantly fit 
+Because \ndist is discrete, individual models must be independently fit 
 for each possible value of $n$, and the posterior distribution can be written as:
 % 
 \begin{equation*}
@@ -37,10 +37,10 @@ Laplace approximation also called an Occam factor (derrivation in SI)
 \end{equation*}
 
 %
-Where $|A|$ is the determinant of the Hessian matrix of second derrivatives 
-of the negative log posterior, and $M$ is the dimentionality of $\theta$. 
+Where $|A|$ is the determinant of the Hessian matrix of second derivative
+of the negative log posterior, and $M$ is the dimensionality of $\theta$. 
 %
-In the case of our models, the dimentionality of $\theta$ is constant 
+In the case of our models, the dimensionally of $\theta$ is constant 
 for all possible $n$ (only the size of the transition matrix changes),
 therefore this term becomes a constant and can be dropped from 
 \eqref{eq:method:evidence_with_m}, resulting in:
@@ -55,7 +55,7 @@ and to define any priors on $\theta$.
 
 \subsection{Optimization of individual models}
 
-Because \trace is a series of squential intensity measurements, 
+Because \trace is a series of sequential intensity measurements, 
 we choose to model this distribution as a Hidden Markov Model with hidden state $z$
 
 \begin{equation}
@@ -64,37 +64,57 @@ we choose to model this distribution as a Hidden Markov Model with hidden state 
 \end{equation}
 
 Where $z_{t}$ represents the number of emitters "active" and producing 
-flourescent signal at time $t$.
+fluorescent signal at time $t$.
 
 \subsubsection{Intensity Model}
-%
-\begin{equation*}
-  p(n | \trace) \propto p(\trace| n)
-\end{equation*}
-%
-Expanding this expression to include all observations $t$ from time $t=0,...,T$
-%
-\begin{equation*}
-  p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | n)
-\end{equation*}
-%
-Accounting for the intensity fluctuations due to blinking, 
-we define $z_{t}$ as the number of emitters that are active 
-and emitting photons at time $t$.
-%
-\begin{equation}
-  p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | z_{t}) p(z_{t} | n)
-  \label{eq:method:base}
-\end{equation}
-%
-Next, we must derrive expression for the intensity distribution $p(x | z)$ 
-and for the transition distribution $p(z | n)$
+When using an sCMOS camera, the readout noise of the detector must be accounted for.
+  This noise is gaussian and the measured intensity $x_{t}$ in ADU units is:
 
-\subsubsection{Intensity Model}
+  \begin{equation}
+    p(x_{t}|c) = N(cg + \mu, \sigma),
+    \label{eq:read_out}
+  \end{equation}
 
+  where $c$ is the number of detected photons, and $g$, $\mu$, and $\sigma$ are the
+  camera gain, offset (mean), and variance respectively.
+
+Due to shot noise, the number of photons detected in a single frame $t$ follows a
+  Poisson distribution~\cite{mehta_poisson_2016}.
+
+  \begin{equation}
+    p(c) = \text{Poisson}(\lambda_{t})
+    \label{eq:shot}
+  \end{equation}
+
+  where $\lambda_{t}$ is the mean number of photons detected in a single frame.
+  Therefore the observed intensity, can be expressed as the convolution of 
+  \eqref{eq:read_out} and \eqref{eq:shot}.
+
+  \begin{equation*}
+    p(x_{t}| \lambda_{t}) = A \sum_{c=0}^{\text{inf}}\frac{1}{c!} e^{-\lambda} \lambda^{c}
+    \frac{1}{\sqrt{2\pi\sigma}}
+    exp \left[ - \frac{(x - cg - \mu)^2}{2\sigma}\right]
+  \end{equation*}
+
+  This distribution is intractable, but can be approximated as a normal distribution 
+  following an approximation by Huang et. al. \cite{huang_video-rate_2013}.
+
+  \begin{equation}
+    p(\tilde{x}_{t}| \lambda_{t}) = N \left(\lambda_{t}, \lambda_{t} + \frac{\sigma}{g^{2}} \right)
+    \label{eq:method:intensity_distribution}
+  \end{equation}
+  
+  \begin{equation*}
+    \tilde{x}_{t} = \frac{(x_{t} - \mu)}{g}
+  \end{equation*}
+
+
+
+    where $z_{t}$ is the hidden state, or number of emitters on at time $t$
+% --------------------
 For a single frame $t$, with an exposure time of $\Delta t$, 
 the number of photons detected is altered by shot noise and can be decribed 
-by the poisson distribution \cite{mehta_poisson_2016}:
+by the poisson distribution 
 %
 \begin{equation*}
   p(c) = \text{Poisson}(\lambda_{t})
@@ -136,7 +156,7 @@ $\theta = (\mu, \sigma, g, r_{E}, r_{BG})$, and $\mu$, $\sigma$,
 and $g$ are the mean camera offset, variance, and gain respectively.
 %
 A full derrivation of \eqref{eq:method:intensity_distribution} can be found in the SI.
-
+% ---------------------------------------
 
 \subsubsection{Transition Model}
 Next, to model the step-like temporal fluctuations in intensity, observed in the trace \trace, 
