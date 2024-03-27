@@ -1,48 +1,82 @@
 \section{Introduction}
 
+% FLIP this first paragraph
+Often in fluorescence microscopy, localization is only the first step, and precise quantitative information, 
+  such as molecular count, is required to gain a deeper understanding of the system.
+  %
+  For large structures, such as whole cells or organelles, individual \objects can be spatially separated, 
+  and counting becomes trivial.
+  %
+  However, due to the diffraction limit, standard fluorescent imaging methods cannot distinguish individual \objects 
+  below roughly 200 nm in size. 
+  %
+  In this regime, individual \objects can no longer be spatially separated, and counting becomes much more challenging. 
+  %
+  The development of super-resolution techniques \cite{betzig_2006, rust_2006}, has surpassed the diffraction limit, and allows
+  for the spatial separation of \objects as close as 10 nm apart \cite{valli_seeing_2021}.
+  %
+  However, many \objects of interest are smaller still, or physically spaced closer 
+  together and cannot be spatially separated even with super-resolution techniques.
 
-% Fluorescence microscopy is a foundational tool
-Fluorescence microscopy is a foundational tool in the field of biology,
-  providing essential information on the presence and localization 
-  of labeled structures.
-  % Standard fluorescence is limited by the diffraction limit
-  Due to the diffraction limit, standard fluorescence imaging methods are unable to distinguish 
-  individual structures below 200 nm in size.
-  % Super resolution has added a ton
-  The development of super resolution imaging technqiues \cite{betzig_2006, rust_2006} has surpassed 
-  this limit and achieved resolutions as high as 10 nm \cite{valli_seeing_2021}.
-% However getting quantitative information, specifically absolute counts out of these methods is difficult
-  These advances have been revolutionary to understanding biology, 
-  but often localization is only the first step,
-  and a deeper understanding of the system requires more precise
-  quantitative information, such as molecular count. 
+% % Fluorescence microscopy is a foundational tool
+% Fluorescence microscopy is a foundational tool in the field of biology,
+%   providing essential information on the presence and localization 
+%   of labeled structures.
+%   % Standard fluorescence is limited by the diffraction limit
+%   Due to the diffraction limit, standard fluorescence imaging methods are unable to distinguish 
+%   individual structures below 200 nm in size.
+%   % Super resolution has added a ton
+%   The development of super resolution imaging techniques \cite{betzig_2006, rust_2006} has surpassed 
+%   this limit and achieved resolutions as high as 10 nm \cite{valli_seeing_2021}.
+% % However getting quantitative information, specifically absolute counts out of these methods is difficult
+%   These advances have been revolutionary to understanding biology, 
+%   but often localization is only the first step,
+%   and a deeper understanding of the system requires more precise
+%   quantitative information, such as molecular count. 
 
 % absolute counts can tell us alot about biology
+% re-format this as a list, and be much more direct about how counting would help here
 Molecular counting aims to determine the absolute number of molecules
-associated in a complex, a quantity that is essential to understand the
-underlying biology of a system.
+  associated in a \object, a quantity that is often essential to understanding the
+  underlying biology of a system. 
   %
-  % Number of ligands to activate a T cell
-  In the immune response, for example, different single-molecule counts of
-  ligands can stimulate different responses in the activation of
-  T-cells~\cite{irvine_2002}.
-  % oligomerization of Smad in TGF-B signalling
-  In the TGF-B singalling pathway, the molecular specificity of Smad signalling
-  proteins depends on their oligomeric state, with monomers, homotrimers, and
-  heterotrimers, where only heterotrimers translocate to the
-  nucleus~\cite{moustakas_2002, inman_2002}.
-  % G protein coupled receptor clustering
-  G-protein coupled receptors exist as monomers, dimers, or higher order
-  oligomers, and their oligomerization state has significant effects on ligand
-  binding, receptor activation, receptor signalling, and
-  trafficing~\cite{felce_2018, breitwieser_2004}.
-  % When objects are large, clustering is easy
-  % when objects become small it gets harder
-  % An algorithm that could reliably count these small objects would be great
-  Although other characterization techniques exist \todo{add refs}, a robust,
-  accurate, fluorescence based molecular counting method would greatly simplify
-  the process\todo{which process?} and also allow multiplexing with the other
-  benefits of fluorescent imaging, such as localization.
+  Here are three examples:
+  \begin{itemize}
+
+    \item Immune response: the activation of T cells is sensitive to single ligands, and quantifying 
+      the molecular count of ligand - receptor interactions informs understanding of downstream signalling pathways and sensitivity~\cite{irvine_2002}.
+
+    \item TGF-$\beta$ signaling: the function of Smad is dependant on its oligomeric state. Determining the relative 
+      amounts of monomeric, and trimeric states, though molecular counting, informs understanding of pathway activity.
+
+    \item GPCRs signaling: G-protein coupled receptors exist as monomers, dimers, or higher order oligomers, 
+      and again downstream signalling is dependant on oligomeric state~\cite{felce_2018, breitwieser_2004}.
+      Quantifying molecular count of these oligomers would inform understanding of the signalling state of the cell.
+
+  \end{itemize}
+
+  % %
+  % % Number of ligands to activate a T cell
+  % In the immune response, for example, different single-molecule counts of
+  % ligands can stimulate different responses in the activation of
+  % T-cells~\cite{irvine_2002}.
+  % % oligomerization of Smad in TGF-B signalling
+  % In the TGF-B singalling pathway, the molecular specificity of Smad signalling
+  % proteins depends on their oligomeric state, with monomers, homotrimers, and
+  % heterotrimers, where only heterotrimers translocate to the
+  % nucleus~\cite{moustakas_2002, inman_2002}.
+  % % G protein coupled receptor clustering
+  % G-protein coupled receptors exist as monomers, dimers, or higher order
+  % oligomers, and their oligomerization state has significant effects on ligand
+  % binding, receptor activation, receptor signalling, and
+  % trafficing~\cite{felce_2018, breitwieser_2004}.
+  % % When objects are large, clustering is easy
+  % % when objects become small it gets harder
+  % % An algorithm that could reliably count these small objects would be great
+  % Although other characterization techniques exist \todo{add refs}, a robust,
+  % accurate, fluorescence based molecular counting method would greatly simplify
+  % the process\todo{which process?} and also allow multiplexing with the other
+  % benefits of fluorescent imaging, such as localization.
 
 % Related work
 % fluorescence intensity based counting
