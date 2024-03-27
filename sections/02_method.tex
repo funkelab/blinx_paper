@@ -6,9 +6,11 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
 Each emitter blinks stochastically and independently of the others, 
 yielding a fluctuating intensity signal over time (see \figref{fig:method:overview} A).
 %
-The goal of this method is to determine the posterior distribution over possible number of emitters \ndist given the observed intensity trace \trace.
+The goal of this method is to determine the posterior distribution over 
+possible number of emitters \ndist given the observed intensity trace \trace.
 %
-Beacuase \ndist is discrete, individual models must be independantly fit for each possible value of $n$, and the posterior distribution can be written as:
+Beacuase \ndist is discrete, individual models must be independantly fit 
+for each possible value of $n$, and the posterior distribution can be written as:
 % 
 \begin{equation*}
   p(n | \trace) \propto p(n) p(\trace | n)
@@ -24,7 +26,8 @@ where $p(\trace|n)$ is the model evidence also known as the marginal likelihood:
   p(x | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
 \end{equation*}
 
-This integral over all possible parameters can be approximated using the Laplace approximation also called an Occam factor (derrivation in SI)
+This integral over all possible parameters can be approximated using the 
+Laplace approximation also called an Occam factor (derrivation in SI)
 \begin{equation}
   \ln p(\trace | n) \approx \ln p(\trace | \theta_{MAP}) + \ln p(\theta_{MAP}) + \frac{M}{2} \ln(2\pi) - \frac{1}{2} \ln |A|
   \label{eq:method:evidence_with_m}
@@ -34,28 +37,34 @@ This integral over all possible parameters can be approximated using the Laplace
 \end{equation*}
 
 %
-Where $|A|$ is the determinant of the Hessian matrix of second derrivatives of the negative log posterior, and $M$ is the dimentionality of $\theta$. 
+Where $|A|$ is the determinant of the Hessian matrix of second derrivatives 
+of the negative log posterior, and $M$ is the dimentionality of $\theta$. 
 %
-In the case of our models, the dimentionality of $\theta$ is constant for all possible $n$ (only the size of the transition matrix changes),
-therefore this term becomes a constant and can be dropped from \eqref{eq:method:evidence_with_m}, resulting in:
+In the case of our models, the dimentionality of $\theta$ is constant 
+for all possible $n$ (only the size of the transition matrix changes),
+therefore this term becomes a constant and can be dropped from 
+\eqref{eq:method:evidence_with_m}, resulting in:
 \begin{equation}
   \ln p(\trace | n) \approx \ln p(\trace | \theta_{MAP}, n) + \ln p(\theta_{MAP}) - \frac{1}{2} \ln |A|
   \label{eq:method:evidence}
 \end{equation}
 
-Therefore, to estimate the posterior distribution over $n$ we first need to find the maximum a posteriori parameters for each value of $n$,
+Therefore, to estimate the posterior distribution over $n$ we first need to 
+find the maximum a posteriori parameters for each value of $n$,
 and to define any priors on $\theta$.
 
 \subsection{Optimization of individual models}
 
-Because \trace is a series of squential intensity measurements, we choose to model this distribution as a Hidden Markov Model with hidden state $z$
+Because \trace is a series of squential intensity measurements, 
+we choose to model this distribution as a Hidden Markov Model with hidden state $z$
 
 \begin{equation}
   p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | z_{t}, \theta) p(z_{t} | z_{t-1}, \theta n)
   \label{eq:method:base}
 \end{equation}
 
-Where $z_{t}$ represents the number of emitters "active" and producing flourescent signal at time $t$.
+Where $z_{t}$ represents the number of emitters "active" and producing 
+flourescent signal at time $t$.
 
 \subsubsection{Intensity Model}
 %
@@ -69,18 +78,23 @@ Expanding this expression to include all observations $t$ from time $t=0,...,T$
   p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | n)
 \end{equation*}
 %
-Accounting for the intensity fluctuations due to blinking, we define $z_{t}$ as the number of emitters that are active and emitting photons at time $t$.
+Accounting for the intensity fluctuations due to blinking, 
+we define $z_{t}$ as the number of emitters that are active 
+and emitting photons at time $t$.
 %
 \begin{equation}
   p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | z_{t}) p(z_{t} | n)
   \label{eq:method:base}
 \end{equation}
 %
-Next, we must derrive expression for the intensity distribution $p(x | z)$ and for the transition distribution $p(z | n)$
+Next, we must derrive expression for the intensity distribution $p(x | z)$ 
+and for the transition distribution $p(z | n)$
 
 \subsubsection{Intensity Model}
 
-For a single frame $t$, with an exposure time of $\Delta t$, the number of photons detected is altered by shot noise and can be decribed by the poisson distribution:
+For a single frame $t$, with an exposure time of $\Delta t$, 
+the number of photons detected is altered by shot noise and can be decribed 
+by the poisson distribution \cite{mehta_poisson_2016}:
 %
 \begin{equation*}
   p(c) = \text{Poisson}(\lambda_{t})
@@ -90,10 +104,13 @@ For a single frame $t$, with an exposure time of $\Delta t$, the number of photo
 \end{equation*}
 
 
-where $c$ is the photon count, $\Lambda$ is the mean number of photons detected and $r_{E}$ is the photon emission rate of an active emitter.
+where $c$ is the photon count, $\Lambda$ is the mean number of photons detected 
+and $r_{E}$ is the photon emission rate of an active emitter.
 %
-Assuming that all emitters are independant, $\Lambda$ can be re-written to account for $z$ emitters and a background photon emission rate 
-$r_{BG}$ (In DNA-PAINT experiments this background emission is produced by un-bound imager strands in solution):
+Assuming that all emitters are independant, $\Lambda$ can be re-written 
+to account for $z$ emitters and a background photon emission rate 
+$r_{BG}$ (In DNA-PAINT experiments this background emission is produced 
+by un-bound imager strands in solution):
 %
 \begin{equation*}
 	\lambda_{t} = (z_{t} r_{E} + r_{BG})\Delta t
@@ -114,7 +131,8 @@ Finally, at large means, the poisson distribution approaches the normal distribu
 \end{equation*}
 
 
-Where $x$ is the observed intensity readout in ADU, $\theta = (\mu, \sigma, g, r_{E}, r_{BG})$, and $\mu$, $\sigma$,
+Where $x$ is the observed intensity readout in ADU, 
+$\theta = (\mu, \sigma, g, r_{E}, r_{BG})$, and $\mu$, $\sigma$,
 and $g$ are the mean camera offset, variance, and gain respectively.
 %
 A full derrivation of \eqref{eq:method:intensity_distribution} can be found in the SI.
@@ -152,7 +170,8 @@ depends on the total number of emitters available.
 
 
 
-Substituting the intensity distribution \eqref{eq:method:intensity_distribution} and transition distribution \eqref{eq:method:transition} 
+Substituting the intensity distribution \eqref{eq:method:intensity_distribution} 
+and transition distribution \eqref{eq:method:transition} 
 into \eqref{eq:method:base} and marginalizing over all possible \states
 % 
 \begin{align}
@@ -170,9 +189,12 @@ into \eqref{eq:method:base} and marginalizing over all possible \states
 %
 Where $\theta = (\pon, \poff, r_{E}, r_{BG}, \mu, \sigma, g)$
 
-All parameters within \parameters can then be fit through maximum likelihood optimization to best fit the observation \trace, given \n. 
+All parameters within \parameters can then be fit through 
+maximum likelihood optimization to best fit the observation \trace, given \n. 
 %
-Repeating this process for all possible values of \n, allows us to build the postirior distribution $p(n | \trace)$ and to estimate the most likely count \estimatedn.
+Repeating this process for all possible values of \n, allows us to build 
+the postirior distribution $p(n | \trace)$ and to estimate 
+the most likely count \estimatedn.
 %
 \begin{equation}
     \estimatedn =
