@@ -35,6 +35,51 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
   an intensity distribution and a transition distribution. 
 
 \subsubsection{Intensity Model}
+
+\begin{equation}
+  p(\x{}|\z{},\parameters) = \sum_\photons p(\x{}|\photons,\parametersc)p(\photons|\z{},\parameterse)
+\end{equation}
+
+Camera model:
+\begin{equation}
+  p(\x{}|\photons,\parametersc) = \mathcal{N}[\photons\camgain + \camoffset, \camvar](\x{})
+\end{equation}
+
+\begin{equation}
+  \xp{} = \frac{\x{} - \camoffset}{\camgain}
+  \;\;\;\;
+  \x{} = \xp{}\camgain + \camoffset
+\end{equation}
+
+\begin{align}
+  p(\xp{}|\photons,\parametersc)
+    &= \mathcal{N}[\photons, \frac{\camvar}{\camgain^2}](\xp{}) \\
+    &= \mathcal{N}[0, \frac{\camvar}{\camgain^2}](\xp{} - \photons)
+\end{align}
+
+
+Emission model:
+\begin{align}
+  p(\photons|\z{},\parameterse)
+    &= \poisson[\underbrace{(\z{}\re + \rb)\deltat}_{\lambda}](\photons) \\
+    &\approx \mathcal{N}[\lambda, \lambda](\photons)
+\end{align}
+
+Putting it back together:
+\begin{align}
+  p(\xp{}|\z{},\parameters)
+    &= \sum_\photons
+      \mathcal{N}[0, \frac{\camvar}{\camgain^2}](\xp{} - \photons)
+      \mathcal{N}[\lambda, \lambda](\photons) \\
+    &= \mathcal{N}[\lambda, \lambda + \frac{\camvar}{\camgain^2}](\xp{})
+\end{align}
+
+\begin{equation}
+  p(\x{}|\z{},\parameters) =
+    \mathcal{N}[\lambda, \lambda + \frac{\camvar}{\camgain^2}](\frac{\x{}-\camoffset}{\camgain})
+\end{equation}
+
+
 % Readout noise is gaussian
 Assuming a constant number of photons detected, the measured intensity $x_{t}$ from an sCMOS
   camera follows a gaussian distribution, due to the readout noise of the detector \figref{fig:method:overview}.
