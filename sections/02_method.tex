@@ -3,14 +3,14 @@
 \subsection{Model}
 Consider multiple fluorescent emitters, smaller than can be visually separated.
   %
-  Each emitter blinks stochastically and independently of the others, 
-  yielding a fluctuating intensity signal over time (see \figref{fig:method:overview} A).
+  Each blinking stochastically and independently of the others, 
+  yielding a fluctuating intensity signal over time \figref{fig:method:overview}.
   %
   The goal of this method is to determine the posterior distribution over 
   possible number of emitters \ndist given the observed intensity trace \trace.
   %
-  Because \ndist is discrete, individual models must be independently fit 
-  for each possible value of $n$, and the posterior distribution can be written as:
+  Because \ndist is discrete, models must be fit independently for each possible value of $n$.
+  Beginning with Bayes law, the posterior distribution can be written as:
   % Bayes Law
   \begin{equation*}
     p(n | \trace) \propto p(n) p(\trace | n)
@@ -20,55 +20,24 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
   \begin{equation*}
     p(n | \trace) \propto p(\trace | n)
   \end{equation*}
-  % focus on model evidence 
-  where $p(\trace|n)$ is the model evidence also known as the marginal likelihood:
-  \begin{equation*}
-    p(x | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
-  \end{equation*}
-  %
-  This integral over all possible parameters $\theta$ can be approximated using the 
-  Laplace approximation also called an Occam factor (derivation in SI) % cite bishop?
+  % choose to model as HMM
+  Because \trace is a series of sequential intensity measurements, 
+    we choose to model this distribution as a Hidden Markov Model, parameterized by $\theta$,
+     with hidden state $z$, which represents the number of emitters active and emitting photons at time $t$.
+    
+
   \begin{equation}
-    \ln p(\trace | n) \approx \ln p(\trace | \theta_{MAP}) + \ln p(\theta_{MAP}) + \frac{M}{2} \ln(2\pi) - \frac{1}{2} \ln |A|
-    \label{eq:method:evidence_with_m}
+    p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | z_{t}, \theta) p(z_{t} | z_{t-1}, \theta, n)
+    \label{eq:method:HMM}
   \end{equation}
-  \begin{equation*}
-    A = -\nabla \nabla \ln p(\theta_{MAP} | \trace)
-  \end{equation*}
-%
-Where $|A|$ is the determinant of the Hessian matrix of second derivative
-of the negative log posterior, and $M$ is the dimensionality of $\theta$. 
-%
-In the case of our models, the dimensionally of $\theta$ is constant 
-for all possible $n$ (only the size of the transition matrix changes),
-therefore this term becomes a constant and can be dropped from 
-\eqref{eq:method:evidence_with_m}, resulting in:
-\begin{equation}
-  \ln p(\trace | n) \approx \ln p(\trace | \theta_{MAP}, n) + \ln p(\theta_{MAP}) - \frac{1}{2} \ln |A|
-  \label{eq:method:evidence}
-\end{equation}
 
-Therefore, to estimate the posterior distribution over $n$ we first need to 
-find the maximum a posteriori parameters for each value of $n$,
-and to define any priors on $\theta$.
-
-\subsection{Optimization of individual models}
-
-Because \trace is a series of sequential intensity measurements, 
-we choose to model this distribution as a Hidden Markov Model with hidden state $z$
-
-\begin{equation}
-  p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | z_{t}, \theta) p(z_{t} | z_{t-1}, \theta n)
-  \label{eq:method:base}
-\end{equation}
-
-Where $z_{t}$ represents the number of emitters "active" and producing 
-fluorescent signal at time $t$.
+  Following this framework, the likelihood is the product of two probability distributions,
+  an intensity distribution and a transition distribution. 
 
 \subsubsection{Intensity Model}
 % Readout noise is gaussian
-Assuming a constant number of photons detected, the measured intensity ($x_{t}$) from an sCMOS
-  camera follows a gaussian distribution, due to the readout noise of the detector \figref{X}.
+Assuming a constant number of photons detected, the measured intensity $x_{t}$ from an sCMOS
+  camera follows a gaussian distribution, due to the readout noise of the detector \figref{fig:method:overview}.
 
   \begin{equation}
     p(x_{t}|c) = N(cg + \mu, \sigma),
@@ -76,24 +45,24 @@ Assuming a constant number of photons detected, the measured intensity ($x_{t}$)
   \end{equation}
 
   where $c$ is the number of detected photons, and $g$, $\mu$, and $\sigma$ are the
-  camera gain, offset (mean), and variance respectively.
+  camera gain, offset (mean dark readout), and variance respectively.
   % shot noise is Poisson
   However, due to shot noise, the number of photons detected in a single frame $t$ is not constant, 
-  but follows a Poisson distribution~\cite{mehta_poisson_2016} \figref{}.
+  but follows a Poisson distribution~\cite{mehta_poisson_2016} \figref{fig:method:overview}.
 
   \begin{equation}
     p(c) = \text{Poisson}(\lambda_{t})
     \label{eq:shot}
   \end{equation}
   \begin{equation*}
-    \lambda_{t} = (z_{t}r_e + r_{bg}) \Delta t
+    \lambda_{t} = (z_{t}r_e + r_{b}) \Delta t
   \end{equation*}
 
   % expand lambda (not sure where to put this part)
-  $\lambda_{t}$, the mean number of photons detected over time $t$, 
+  $\lambda_{t}$, the mean number of photons detected in a frame, and
     can be expressed as a photon rate multiplied by the exposure time of the frame $\Delta t$.
-    In this system, there are two sources emitting photons, a number $z_t$ of blinking emitters in the on state $r_e$, and 
-    other out of plane emitters producing a constant background emission $r_bg$.
+    In this system, there are two sources emitting photons, a number of emitters in the active state $z_t$, each producing $r_e$ (photons/ms), and 
+    other out of plane emitters producing a constant background number of photons/ms $r_b$.
 
 Substituting $c$ as a random variable \eqref{eq:shot} into \eqref{eq:read_out} 
   the observed intensity, can be expressed as the convolution the two distributions.
@@ -104,11 +73,12 @@ Substituting $c$ as a random variable \eqref{eq:shot} into \eqref{eq:read_out}
     exp \left[ - \frac{(x - cg - \mu)^2}{2\sigma}\right]
   \end{equation*}
 
-  This distribution is intractable, but can be approximated as a normal distribution 
+  % what is the right word here?
+  This distribution is intractable , but can be approximated as a normal distribution 
   following an approximation by Huang et. al. \cite{huang_video-rate_2013}.
 
   \begin{equation}
-    p(\tilde{x}_{t}| \lambda_{t}) = N \left(\lambda_{t}, \lambda_{t} + \frac{\sigma}{g^{2}} \right)
+    p(\tilde{x}_{t}| z_{t}, \theta_{E}, \theta_{C}) = N \left(\lambda_{t}, \lambda_{t} + \frac{\sigma}{g^{2}} \right)
     \label{eq:method:intensity_distribution}
   \end{equation}
   
@@ -116,41 +86,40 @@ Substituting $c$ as a random variable \eqref{eq:shot} into \eqref{eq:read_out}
     \tilde{x}_{t} = \frac{(x_{t} - \mu)}{g}
   \end{equation*}
 
+  where $\theta_{E}$ are the emission parameters ($r_{e}$, $r_{b}$) and 
+  $\theta_{C}$ are the camera parameters ($g$, $\mu$, $\sigma$)
+
 \subsubsection{Transition Model}
 Next, to model the step-like temporal fluctuations in intensity, observed in the trace \trace, 
-a distribution is needed that describes the change in the number of active emitters \states over time. 
-%
-To do this, we assume that the process is Markovian and the number of active emitters \z{t} 
-at time $t$ is only dependent on the number of active emitters at the previous timepoint \z{t-1}.
-%
-On the individual emitter level, we define \poff as the probability of an emitter active at $t-1$ becoming 
-inactive at $t$. Conversely, we define \pon as the probability of an emitter inactive at $t-1$ becoming active at time $t$
-%
-Finally, assuming that all emitters share the same \poff and \pon, the transition distribution can be written as:
-% 
-\begin{align}
-  \label{eq:method:transition}
-  p(z_{t} = z | z_{t-1}, n, \pon, \poff) &=\\
-	\sum_{a = 0}^{z_{t-1}}
-    {a \choose z_{t-1}}
-    &\poff
-    {z - z_{t-1} + a \choose \n - z_{t-1}}
-    \pon
-    \text{,} \notag\
-\end{align}
-%
-Note that this distribution depends on the total number of available emitters
-$n$, as the probability of a change in the number of activate emitters
-depends on the total number of emitters available.
-
+  a distribution is needed that describes the change in the number of active emitters $z$ over time. 
+  %
+  To do this, we assume that the process is Markovian and the number of active emitters \z{t} 
+  at time $t$ is only dependent on the number of active emitters at the previous time point \z{t-1}.
+  %
+  On the individual emitter level, we define \pon as the probability of an emitter inactive at time $t-1$ becoming active at time $t$. 
+  Conversely,  we define \poff as the probability of an emitter active at $t-1$ becoming inactive at time $t$ \figref{fig:method:overview}
+  %
+  Finally, assuming that all emitters share the same \pon and \poff, and that both remain constant over time, 
+  the transition distribution can be written as:
+  % 
+  \begin{align}
+    \label{eq:method:transition}
+    p(z_{t} = z | z_{t-1}, n, \theta_{T}) &=\\
+    \sum_{a = 0}^{z_{t-1}}
+      {a \choose z_{t-1}}
+      &\poff
+      {z - z_{t-1} + a \choose \n - z_{t-1}}
+      \pon
+      \text{,} \notag\
+  \end{align}
+  %
+  Note that this distribution depends on the total possible number of  emitters $n$.
 
 \subsubsection{Combined Model}
 
-
-
 Substituting the intensity distribution \eqref{eq:method:intensity_distribution} 
 and transition distribution \eqref{eq:method:transition} 
-into \eqref{eq:method:base} and marginalizing over all possible \states
+into \eqref{eq:method:HMM} and marginalizing over all possible \states
 % 
 \begin{align}
   \label{eq:method:likelihood}
@@ -165,32 +134,60 @@ into \eqref{eq:method:base} and marginalizing over all possible \states
   \text{.}
 \end{align}
 %
-Where $\theta = (\pon, \poff, r_{E}, r_{BG}, \mu, \sigma, g)$
-
-All parameters within \parameters can then be fit through 
-maximum likelihood optimization to best fit the observation \trace, given \n. 
-%
-Repeating this process for all possible values of \n, allows us to build 
-the postirior distribution $p(n | \trace)$ and to estimate 
-the most likely count \estimatedn.
-%
-\begin{equation}
-    \estimatedn =
-    \text{arg}\max_{n}(
-    \max_\parameters
-    p(\trace|\n,\parameters))
-  \text{.}
-  \label{eq:method:optimization}
-\end{equation}
+Where $\theta = (\theta_{E}, \theta_{C}, \theta_{T})$
 
 \subsubsection{Inference}
 
+\eqref{eq:method:likelihood} describes the likelihood of observing \trace given seven fittable parameters.
+  However, because the complexity of this expression is dependant on \n, the likelihoods for each \n are not directly comparable to one another.
+  Rather, the model evidence, also known as the marginal likelihood, must be used to compare different values of \n and build the posterior. 
 
+  \begin{equation*}
+    p(\trace | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
+  \end{equation*}
+
+  This integral over all possible parameters $\theta$ can be approximated using the 
+  Laplace approximation also called an Occam factor \cite{bishop_pattern_2006}
+  %
+  \begin{align*}
+    \ln p(\trace | n) \approx \ln p(\trace | \theta_{MAP}) + \ln p(\theta_{MAP}) &\\
+    + \frac{M}{2} \ln(2\pi) - \frac{1}{2} \ln |A|
+    \label{eq:method:evidence_with_m}
+  \end{align*}
+
+  \begin{equation*}
+    A = -\nabla \nabla \ln p(\theta_{MAP} | \trace)
+  \end{equation*}
+
+  $M$ is the dimensionality of $\theta$, which in \ours is constant
+  for all $n$ (only the size of the transition matrix changes).
+  Therefore this term becomes a constant and can be dropped from 
+  \eqref{eq:method:evidence_with_m}, resulting in:
+  \begin{equation}
+    \ln p(\trace | n) \approx \ln p(\trace | \theta_{MAP}, n) + \ln p(\theta_{MAP}) - \frac{1}{2} \ln |A|
+    \label{eq:method:evidence}
+  \end{equation}
+  %
+  Therefore, to estimate the posterior distribution over $n$ we first need to 
+  find the maximum a posteriori (MAP) parameters for each value of $n$. 
+
+  % blinx if fully differentiable
+  \ours is fully differentiable, so $p(\trace | \theta_{MAP}, n)$ can be efficiently 
+  fit through gradient ascent.
+  %
+  Finally, the molecular count can be obtained:
+  %
+  \begin{equation}
+      \estimatedn =
+      \text{arg}\max_{n}(
+      \max_\parameters
+      p(\trace|\n,\parameters))
+    \text{.}
+    \label{eq:method:optimization}
+  \end{equation}
 
 \subsection{Experimental}
 \subsubsection{DNA-Origami}
-
-
 \subsubsection{Microscopy}
 
 
