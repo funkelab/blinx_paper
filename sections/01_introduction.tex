@@ -1,16 +1,14 @@
 \section{Introduction}
 
 % FLIP this first paragraph
-Often in biology, fluorescence microscopy based localization is only the first step, and precise quantitative information, 
-  such as molecular count, is required to gain a deeper understanding of the system.
+Fluorescence microscopy has advanced understanding of biological systems by providing precise localization information 
+  of molecular species, but its ability to determine quantitative information, such as molecular counts remains limited.
   %
   For large structures, such as whole cells or organelles, individual \objects can be spatially separated, 
   and counting becomes trivial.
   %
-  However, due to the diffraction limit, standard fluorescent imaging methods cannot distinguish individual \objects 
-  below roughly 200 nm in size. 
-  %
-  In this regime, individual \objects can no longer be spatially separated, and counting becomes much more challenging. 
+  However, due to the diffraction limit, standard fluorescent imaging methods are limited to a resolution of 200 nm and 
+  individual objects smaller than this threshold can no longer be separated.
   %
   The development of super-resolution techniques \cite{betzig_2006, rust_2006}, has surpassed the diffraction limit, and allows
   for the spatial separation of \objects as close as 10 nm apart \cite{valli_seeing_2021}.
@@ -38,9 +36,9 @@ Molecular counting aims to determine the absolute number of \smallobjects
 
     \end{itemize}
     % Motivate fluorescence based methods
-    Although other methods exist to quantify molecular count at this scale, a robust, accurate,
-    fluorescence based method would make quantification much more accessible. Further, it would 
-    allow multiplexing with the other benefits of fluorescence such as localization. 
+    Although other methods exist to quantify molecular count at this scale, a robust, accurate, % needs citations
+    fluorescence based method would make quantification much more accessible, while maintaining the benefits
+    of fluorescence imaging, such as spatial localization.
 
 % Related work
 % fluorescence intensity based counting
@@ -50,8 +48,8 @@ Perhaps the simplest method of molecular counting is correlating fluorescent
   This method works well for qualitative measures, but due to the noise in intensities 
   measured from any single fluorophore, lacks the precision needed to report exact counts.
   % Other methods work by separating things out in time
-  In order to extract more information from the system, other methods utilize temporal information, 
-  in addition to intensity based information. 
+  In order to extract more information from the system for a more reliable count, other methods, 
+  in addition to intensity values, utilize temporal information.
   % FCS and bSOFI
   Methods such as fluorescence correlation spectroscopy (FCS) \cite{otsuka_2023, wachsmuth_2015, politi_2018} and 
   balanced super-resolution optical fluctuation imaging (bSOFI) \cite{geissbuehler_2012}
@@ -66,7 +64,7 @@ Perhaps the simplest method of molecular counting is correlating fluorescent
   The known blinking behavior allows for more precise models than the random fluctuations measured in FCS and bSOFI, while the 
   repeated transitions in intensity provide more information than the irreversible switch in bleaching based counting.
   % Limitations
-  A major limitation of these methods is the effect of photo-bleaching, this limits the amount of time
+  A major limitation of these methods is the effect of photo-bleaching, as this limits the amount of time
   a single fluorophore can be observed, and makes it difficult to differentiate blinking from photo-bleaching.
 
 
@@ -82,7 +80,7 @@ In contrast, DNA-PAINT \cite{schnitzbauer_2017} is a method of producing blinkin
     a blinking rate of 1 event per second is calibrated to 1 molecule, therefore an observation of 10 events per second
     produces a count of 10 molecules.
     % Limitations
-    Both of these methods are limited in that they fit summary statistics,
+    However, both of these methods are limited in that they fit summary statistics,
     rather than the data directly. 
     %
     Further, all of the methods mentioned provide a single estimate of molecular count.
