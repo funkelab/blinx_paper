@@ -1,7 +1,76 @@
 \begin{figure*}
-  \includegraphics[width=\linewidth]{figures/placeholders/figure_3_compare_kinetics.png}
-  \caption{A) the counting ability of blinx varies significantly with blinking kinetics of the emitters, showing increased model accuracy when
-   $p_{on} > p_{off}$. B) When $p_{on} < p_{off}$ the distribution of observed z states is shifted towards 0 C) When $p_{on} > p_{off}$ the 
-   distribution of z states is shifted towards the maximum possible z state (N)}
+
+  \begin{panel}{(a)}{0.55\textwidth}
+    \small
+    \def\kineticsheatmapcsv{figures/data/kinetics_grid/heatmap.csv}
+    \tikzsetnextfilename{figure_3_kinetics_heatmap}
+    \input{figures/kinetics_heatmap.tikz}
+  \end{panel}
+  \begin{panel}{(b)}{0.45\textwidth}
+    \vspace{2mm}
+
+    \def\kineticscsv{figures/data/kinetics_grid/exp_kinetics.csv}
+    \tikzsetnextfilename{figure_3_kinetics}
+    \input{figures/kinetics.tikz}
+  \end{panel}
+
+  \begin{panel}{(c)}{\textwidth}
+    \small
+    \def\tracecsv{figures/data/kinetics_grid/traces.csv}%
+    \def\traceintensitycol{qpaint_trace}%
+    \def\zcol{qpaint_fit}
+    \def\histogramcsv{figures/data/kinetics_grid/intensity_histogram.csv}
+    \def\histbincol{qpaint_bins}
+    \def\histcountcol{qpaint_measured}
+    \def\modelfitcol{qpaint_model}
+    \def\posteriorcsv{figures/data/kinetics_grid/posteriors.csv}
+    \def\posteriorcol{qpaint}
+    \tikzsetnextfilename{figure_3_trace_qpaint}
+    \begin{tikzpicture}
+      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
+      \def\noylabels{}
+      \def\noxlabel{}
+      \node[anchor=south east,text width=12mm]
+        at ($(fancyplot.south east)+(-1.0,1.4)$)
+        {\input{figures/p_n_given_x.tikz}};
+    \end{tikzpicture}
+  \end{panel}
+
+  \begin{panel}{(d)}{\textwidth}
+    \small
+    \def\tracecsv{figures/data/kinetics_grid/traces.csv}%
+    \def\traceintensitycol{lbfcs_trace}%
+    \def\zcol{lbfcs_fit}
+    \def\histogramcsv{figures/data/kinetics_grid/intensity_histogram.csv}
+    \def\histbincol{lbfcs_bins}
+    \def\histcountcol{lbfcs_measured}
+    \def\modelfitcol{lbfcs_model}
+    \def\posteriorcsv{figures/data/kinetics_grid/posteriors.csv}
+    \def\posteriorcol{lbfcs}
+    \tikzsetnextfilename{figure_3_trace_lbfcs}
+    \begin{tikzpicture}
+      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
+      \def\noylabels{}
+      \def\noxlabel{}
+      \node[anchor=south east,text width=12mm]
+        at ($(fancyplot.south east)+(-0.4,0.8)$)
+        {\input{figures/p_n_given_x.tikz}};
+    \end{tikzpicture}
+  \end{panel}
+
+  \caption{%
+    \panelref{a} The counting ability of \ours varies significantly with
+    blinking kinetics of the emitters, showing increased model accuracy when
+    $\pon > \poff$. Top inset: when $\pon < \poff$, the distribution of
+    observed \z{} states is shifted towards 0 (top inset). Bottom inset: for
+    $\pon > \poff$, the distribution of \z{} states is shifted towards \n (the
+    number of emitters).
+    %
+    \panelref{b} TODO
+    %
+    \panelref{c} TODO
+    %
+    \panelref{d} TODO
+  }
   \label{fig:method:overview}
 \end{figure*}

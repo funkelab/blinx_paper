@@ -1,0 +1,90 @@
+\pgfplotsset{/pgf/number format/.cd,fixed,precision=3}%
+\begin{tikzpicture}
+  \begin{axis}[
+    width=\textwidth,
+    height=1.2\textwidth,
+    xlabel=\pon,
+    ylabel=\poff,
+    grid=major,
+    grid style={dashed},
+    scaled ticks=false,
+    ticklabel style={font=\small},
+  ]
+    \pgfplotsset{
+      colormap={posteriorcolormap}{
+        color(0.0)=(funkey_color_7)
+        color(0.5)=(funkey_color_2)
+        color(1.0)=(funkey_color_1!50!red)
+      }
+    }
+
+    \addplot[
+      patch,
+      patch type=rectangle,
+      shader=interp,
+      draw=black,
+      fill opacity=0.4,
+    ] table[
+      x=pon_mean,
+      y=poff_mean,
+      point meta=\thisrow{temperature},
+    ] {
+      pon_mean    pon_var       poff_mean   poff_var      temperature concentration
+      0.02813685  8.5348165e-06 0.07232066  9.0882335e-05 25          10
+      0.02797574  1.8311839e-05 0.04775255  5.822931e-05  18          10
+      0.05270538  6.0997234e-05 0.04954245  4.0005598e-05 18          20
+      0.059536304 5.9824146e-05 0.08741606  0.00014375064 25          20
+
+      0.05270538  6.0997234e-05 0.04954245  4.0005598e-05 18          20
+      0.059536304 5.9824146e-05 0.08741606  0.00014375064 25          20
+      0.07053028  4.2747815e-05 0.10869306  8.929498e-05  25          30
+      0.072243474 0.00016735448 0.05488883  0.0012168097  18          30
+
+      0.02797574  1.8311839e-05 0.04775255  5.822931e-05  18          10
+      0.05270538  6.0997234e-05 0.04954245  4.0005598e-05 18          20
+      0.045684416 6.31415e-05   0.03472516  8.919405e-05  13          20
+      0.024452658 2.4062621e-05 0.036942866 4.378218e-05  13          10
+
+      0.05270538  6.0997234e-05 0.04954245  4.0005598e-05 18          20
+      0.072243474 0.00016735448 0.05488883  0.0012168097  18          30
+      0.052961048 0.00010537513 0.03289487  6.0903745e-05 13          30
+      0.045684416 6.31415e-05   0.03472516  8.919405e-05  13          20
+    };
+
+    \addplot[
+      scatter,
+      mark=*,
+      only marks,
+      point meta=\thisrow{temperature},
+      scatter/@pre marker code/.append style={
+        /tikz/mark size=\size,
+      },
+      visualization depends on={\thisrow{concentration} \as \concentration},
+      visualization depends on={2+\thisrow{concentration}*0.1 \as \size},
+    ] table [
+      col sep=comma,
+      x=pon_mean,
+      y=poff_mean,
+    ] {\kineticscsv};
+
+    \coordinate (n_25_10) at (axis cs:0.02813685,0.07232066) {};
+    \coordinate (n_18_10) at (axis cs:0.02797574,0.04775255) {};
+    \coordinate (n_13_10) at (axis cs:0.024452658,0.036942866) {};
+    \coordinate (n_25_20) at (axis cs:0.059536304,0.08741606) {};
+    \coordinate (n_18_20) at (axis cs:0.05270538,0.04954245) {};
+    \coordinate (n_13_20) at (axis cs:0.045684416,0.03472516) {};
+    \coordinate (n_25_30) at (axis cs:0.07053028,0.10869306) {};
+    \coordinate (n_18_30) at (axis cs:0.072243474,0.05488883) {};
+    \coordinate (n_13_30) at (axis cs:0.052961048,0.03289487) {};
+
+    \begin{pgfonlayer}{background}
+      \draw (n_13_10) -- node[pos=0.5,above,sloped] {\tiny10nM} (n_18_10) -- (n_25_10);
+      \draw (n_13_20) -- node[pos=0.5,above,sloped] {\tiny20nM} (n_18_20) -- (n_25_20);
+      \draw (n_13_30) -- node[pos=0.5,above,sloped] {\tiny30nM} (n_18_30) -- (n_25_30);
+      \draw (n_13_10) -- node[pos=0.5,above,sloped] {\tiny$T=13$} (n_13_20) -- (n_13_30);
+      \draw (n_18_10) -- node[pos=0.5,above,sloped] {\tiny$T=18$} (n_18_20) -- (n_18_30);
+      \draw (n_25_10) -- node[pos=0.5,above,sloped] {\tiny$T=25$} (n_25_20) -- (n_25_30);
+    \end{pgfonlayer}
+  \end{axis}
+
+\end{tikzpicture}%

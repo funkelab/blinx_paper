@@ -1,0 +1,65 @@
+\begin{tikzpicture}
+  \begin{axis}[
+    width=0.6\textwidth,
+    height=\textwidth,
+    xlabel=\pon,
+    ylabel=\poff,
+    enlarge x limits=false,
+    enlarge y limits=false,
+    scaled ticks=false,
+    ticklabel style={/pgf/number format/.cd,fixed,precision=3},
+    xtick distance=0.04,
+    xtick align=outside,
+    xtick pos=lower,
+    ytick align=outside,
+    ytick pos=lower,
+    colorbar,
+  ]
+
+    \pgfplotsset{
+      colormap={posteriorcolormap}{
+        color(0.0)=(funkey_color_2!50!white)
+        color(0.1)=(funkey_color_2)
+        color(0.9)=(funkey_color_1)
+        color(1.0)=(funkey_color_1!50!black)
+      }
+    }
+
+    \addplot[
+      matrix plot*,
+      mesh/cols=10,
+      point meta=explicit,
+    ] table [
+      col sep=comma,
+      x=p_on,
+      y=p_off,
+      meta=error,
+    ] {\kineticsheatmapcsv};
+
+    % highlight qpaint and lbfcs points
+    \node[circle,draw=funkey_color_9,thick] (qpaint) at (axis cs:0.01, 0.2) {};
+    \node[circle,draw=funkey_color_9,thick] (lbfcs) at (axis cs:0.02, 0.02) {};
+
+  \end{axis}
+
+  \node[anchor=140] (qpaint_zs) at ($(qpaint)+(5.1,0)$) {
+    \def\zhistogramcsv{figures/data/kinetics_grid/state_histogram.csv}%
+    \def\zhistogramcol{qpaint}%
+    \def\noylabels{}%
+    \input{figures/z_histogram.tikz}%
+  };
+  \node[fit=(qpaint_zs),inner sep=0,rounded corners,draw=funkey_color_9,thick] (qpaint_box) {};
+
+  \node[anchor=200] (lbfcs_zs) at (lbfcs-|qpaint_zs.west) {
+    \def\zhistogramcsv{figures/data/kinetics_grid/state_histogram.csv}%
+    \def\zhistogramcol{lbfcs}%
+    \def\noylabels{}%
+    \input{figures/z_histogram.tikz}%
+  };
+  \node[fit=(lbfcs_zs),inner sep=0,rounded corners,draw=funkey_color_9,thick] (lbfcs_box) {};
+
+  \draw[funkey_color_3,thick] (qpaint) -- (qpaint-|qpaint_box.west);
+  \draw[funkey_color_3,thick] (lbfcs) -- (lbfcs-|lbfcs_box.west);
+
+\end{tikzpicture}
+
