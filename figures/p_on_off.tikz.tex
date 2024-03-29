@@ -6,11 +6,13 @@
       \draw[sitelighton,ultra thick] ($(on)+(0,0.26)$) -- ($(on)+(0,0.32)$);
     \end{scope}
   }
-  \draw[arrow,shorten >=2mm,shorten <=2mm] (off) to[bend left] node[pos=0.5,above] {\pon} (on);
+  \draw[arrow,shorten >=2mm,shorten <=2mm] (off) to[bend left] node[pos=0.5,above] (pon) {\pon} (on);
   \draw[arrow,shorten >=2mm,shorten <=2mm] (on) to[bend left] node[pos=0.5,below] {\poff} (off);
 
-  \node[right=14mm of on] (re) {$\photonse\sim\poisson(\re\deltat)$};
+  \node[right=14mm of on] (re) {$\sim\poisson(\re\deltat)$};
   \draw[arrow,decorate,decoration={coil,aspect=0,segment length=6,post=curveto,post length=2mm}] ($(on.east)+(0.2,0)$) -- (re);
 
-  \node[parameters,anchor=south] at (re.north) {\strut$\parameterst = (\pon, \poff)$};
+  %\node[parameters,anchor=south] at (re.north) {\strut$\parameterst = (\pon, \poff)$};
+
+  \node[above=1mm of pon,gray] {transition model};
 \end{tikzpicture}

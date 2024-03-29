@@ -6,6 +6,7 @@
   \def\ylabel{}%
   \pgfplotsset{xticklabel=\empty}%
   \pgfplotsset{yticklabel=\empty}%
+  \pgfplotsset{scaled ticks=false}%
 }%
 \@ifundefined{histogramcsv}{%
   \setlength{\plotwidth}{\textwidth}%
@@ -28,7 +29,6 @@
     xtick distance=500,
     grid=major,
     grid style={dashed},
-    %scaled ticks=false,
     ticklabel style={font=\small},
     legend style={nodes={scale=0.6, transform shape}},
   ]
@@ -39,7 +39,7 @@
       mark size=0.7pt,
       mark options={line width=0},
       fill opacity=0.8,
-      draw opacity=0.2,
+      draw opacity=0.0,
     ] table [
       col sep=comma,
       x=frames,

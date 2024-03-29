@@ -20,8 +20,13 @@
   \node[annotation,below of=x] (x_dist) {$\sim\mathcal{N}(\photons\camgain + \camoffset, \camvar)$};
   \draw (x) -- (x_dist);
   \draw[arrow] (camera.east|-c) -- (x);
+  \node[below=1mm of z] {\z{}};
 
   % parameter collections
-  \node[parameters,anchor=south west] at (z.north east) {\strut$\parameterse = (\re, \rb)$};
-  \node[parameters,anchor=south east] at (z.north-|x_dist.east) {\strut$\parametersc = (\camgain, \camoffset, \camvar)$};
+  %\node[parameters,anchor=south west] at (z.north east) {\strut$\parameterse = (\re, \rb)$};
+  %\node[parameters,anchor=south east] at (z.north-|x_dist.east) {\strut$\parametersc = (\camgain, \camoffset, \camvar)$};
+
+  % annotations
+  \node[above=2mm of c,gray] {\strut emission model};
+  \node[above=2mm of x,gray] {\strut camera model};
 \end{tikzpicture}

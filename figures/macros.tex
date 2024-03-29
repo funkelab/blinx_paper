@@ -2,17 +2,17 @@
 
 \newenvironment{panel}[2]{%
   \begin{minipage}[t][][t]{#2}%
-    %\tikzset{external/export next=false}%
-    %\begin{tikzpicture}[remember picture, overlay]%
-      %\node {#1};%
-      %\pgfresetboundingbox%
-    %\end{tikzpicture}%
-    #1
+    \strut#1%
 
     \vspace{-\baselineskip}%
 }{%
   \end{minipage}%
-}
+}%
+\newenvironment{panelcolumn}[1]{%
+  \begin{minipage}[t][][t]{#1}%
+}{%
+  \end{minipage}%
+}%
 
 % useful for setting/computing the width of plots
 \newlength{\plotwidth}
