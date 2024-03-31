@@ -100,8 +100,13 @@ An advantage of using DNA-PAINT, is that the blinking rates are dependant on DNA
 	Imaging DNA-origami, with a known count of $n$=1, at room temperature, with imager concentration of 10 nM, 
 	resulted in traces with average kinetic parameters of \pon=0.028 and \poff=0.072 \figref{X}. 
 	%
-	In order to move to the favorable regime the temperature was decreased (decrease \poff) 
+	In order to move to the better counting regime the temperature was decreased (decrease \poff) 
 	and the concentration of imager increased (increase \pon).
+	%
+	As concentration increased SNR decreased, primarily due to an increased background photon rate \rb.
+	%
+	Informed by simulation, imaging conditions of 20 nM imager at 13 C were chosen as optimal conditions,
+	balancing kinetic regime and maintaining high SNR.
 
 
 
@@ -122,6 +127,7 @@ qPAINT is based on an accurate measure of the average dark time between blinking
 % qPAINT undercounts but blinx does not
 Due to the stochastic nature of blinking, multiple binding sites can blink at the same time, 
 	which becomes increasingly more likely at higher counts.
+	%
 	This is not compatible with the qPAINT assumption of well separated, single binding-site blinking events, 
 	and as a result, qPAINT begins to underestimate molecular count, (especially noticeable above N=20, \figref{X}). 
 	% blinx avoids this problem
@@ -130,9 +136,5 @@ Due to the stochastic nature of blinking, multiple binding sites can blink at th
 	and as a result, blinx accurately estimated the count even at higher N.
 	
 
-
-% blinking kinetics can have a significant effect on blinx performance
-
-% looking at kinetic performance without any priors
 
 \subsection{Experimental Counting}
