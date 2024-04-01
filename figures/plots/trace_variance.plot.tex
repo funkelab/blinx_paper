@@ -1,0 +1,59 @@
+\def\intervalplot#1#2{
+  \addplot[
+    color=#2,
+    very thick,
+  ] table [
+    col sep=comma,
+    x=\xcol,
+    y=max_likelihoods_#1,
+  ] {\tracevarcsv};
+  \addplot[
+    name path=lower,
+    draw=none,
+    fill=none,
+    forget plot,
+  ] table [
+    col sep=comma,
+    x=\xcol,
+    y expr=\thisrow{max_likelihoods_#1} - \thisrow{variance_#1}
+  ] {\tracevarcsv};
+  \addplot[
+    name path=upper,
+    draw=none,
+    fill=none,
+    forget plot,
+  ] table [
+    col sep=comma,
+    x=\xcol,
+    y expr=\thisrow{max_likelihoods_#1} + \thisrow{variance_#1}
+  ] {\tracevarcsv};
+  \addplot [
+    color=#2,
+    opacity=0.4,
+    forget plot,
+  ] fill between[of=lower and upper];
+  \@ifundefined{nolegend}{
+    \addlegendentry{$n=#1$}
+  }{}
+}
+\begin{axis}[
+  width=\plotwidth,
+  height=\plotheight,
+  scale only axis,
+  xlabel=\xlabel,
+  enlarge x limits=false,
+  enlarge y limits=false,
+  xtick distance=4000,
+  ytick distance=5,
+  ymin=0,
+  grid=major,
+  grid style={dashed},
+  scaled ticks=false,
+  legend columns=4,
+  legend style={nodes={scale=0.6, transform shape}},
+]
+  \intervalplot{20}{funkey_color_1}
+  \intervalplot{15}{funkey_color_2}
+  \intervalplot{10}{funkey_color_3}
+  \intervalplot{5}{funkey_color_4}
+\end{axis}

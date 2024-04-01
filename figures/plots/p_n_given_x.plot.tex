@@ -1,0 +1,59 @@
+\def\eps{0.001}%  skip bars for values below eps
+\@ifundefined{noylabels}{}{
+  \pgfplotsset{yticklabel=\empty}
+  \pgfplotsset{ylabel=\empty}
+}
+\@ifundefined{noxlabel}{
+  \pgfplotsset{xlabel=$n$}
+}{
+  \pgfplotsset{xlabel=\empty}
+}
+\begin{axis}[
+  width=\plotwidth,
+  height=\plotheight,
+  scale only axis=true,
+  enlarge x limits={abs=1.5},
+  enlarge y limits=0,
+  ymin=0,
+  ymax=1,
+  scaled ticks=false,
+  ticklabel style={font=\tiny},
+  xtick distance=1,
+  axis background/.style={fill=white},
+]
+
+  \addplot+[
+    ybar,
+    bar width=1,
+    mark=none,
+    fill=posteriorcolor,
+    fill opacity=0.6,
+    draw=posteriorcolor,
+    y filter/.expression={
+      y < \eps ? nan : y
+    },
+  ] table [
+    col sep=comma,
+    y=\posteriorcol,
+    x=n,
+  ] {\posteriorcsv};
+
+  \ifdefined\posteriorcolextra
+    \addplot+[
+      ybar,
+      bar width=1,
+      mark=none,
+      fill=posteriorcolor!60!black,
+      fill opacity=0.6,
+      draw=posteriorcolor,
+      y filter/.expression={
+        y < \eps ? nan : y
+      },
+    ] table [
+      col sep=comma,
+      y=\posteriorcolextra,
+      x=n,
+    ] {\posteriorcsv};
+  \fi
+
+\end{axis}

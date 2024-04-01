@@ -1,0 +1,108 @@
+\@ifundefined{nolabels}{
+  \pgfplotsset{xlabel=frames}
+  \pgfplotsset{ylabel=intensity}
+}{
+  \pgfplotsset{xticklabel=\empty}
+  \pgfplotsset{yticklabel=\empty}
+  \pgfplotsset{scaled ticks=false}
+}
+\@ifundefined{histogramcsv}{}{
+  \setlength{\plotwidth}{0.73\plotwidth}
+}
+\begin{axis}[
+  name=trace,
+  width=\plotwidth,
+  height=\plotheight,
+  scale only axis=true,
+  enlarge x limits=false,
+  xtick distance=500,
+  grid=major,
+  grid style={dashed},
+  ticklabel style={font=\small},
+  legend style={nodes={scale=0.6, transform shape}},
+]
+
+  \addplot [
+    color=tracecolor,
+    mark=*,
+    mark size=0.7pt,
+    mark options={line width=0},
+    fill opacity=0.8,
+    draw opacity=0.0,
+  ] table [
+    col sep=comma,
+    x=frames,
+    y=\traceintensitycol
+  ] {\tracecsv};
+  \@ifundefined{nolabels}{\addlegendentry{intensity trace}}{}
+
+  \@ifundefined{zcol}{}{
+    \addplot [
+      color=ztracecolor,
+      thick
+    ] table [
+      col sep=comma,
+      x=frames,
+      y=\zcol
+    ] {\tracecsv};
+    \@ifundefined{nolabels}{\addlegendentry{inferred state}}{}
+  }
+
+  % remember min/max y-axis values for next plot
+  \pgfplotsextra{
+    \pgfmathparse{\pgfkeysvalueof{/pgfplots/ymin}}
+    \global\let\ymin\pgfmathresult
+    \pgfmathparse{\pgfkeysvalueof{/pgfplots/ymax}}
+    \global\let\ymax\pgfmathresult
+  }
+
+\end{axis}
+
+\@ifundefined{histogramcsv}{}{
+  \begin{axis}[
+    at={($(trace.east) + (4mm,0)$)},
+    name=histogram,
+    anchor=west,
+    width=0.25\plotwidth,
+    height=\plotheight,
+    scale only axis=true,
+    ylabel=\empty,
+    yticklabel=\empty,
+    xtick distance=0.01,
+    xlabel=probability,
+    grid=major,
+    grid style={dashed, very thin},
+    enlarge x limits={value=0.4,upper},
+    scaled ticks=false,
+    ymin=\ymin,
+    ymax=\ymax,
+    ticklabel style={font=\small},
+    legend style={nodes={scale=0.6, transform shape}},
+  ]
+
+    \addplot+[
+      xbar interval,
+      mark=none,
+      color=tracecolor,
+      fill=tracecolor,
+      fill opacity=0.6,
+      draw=none,
+    ] table [
+      col sep=comma,
+      y=\histbincol,
+      x=\histcountcol,
+    ] {\histogramcsv};
+    \addlegendentry{intensity histogram}
+
+    \addplot[
+      color=intensitymodelcolor!80!black,
+      thick
+    ] table [
+      col sep=comma,
+      y=\histbincol,
+      x=\modelfitcol
+    ] {\histogramcsv};
+    \addlegendentry{inferred model}
+
+  \end{axis}
+}

@@ -1,3 +1,4 @@
+\tikzsetnextfilename{intensity_model}%
 \begin{tikzpicture}
 
   \node (z) {\blinky{on}{off}{on}{on}{off}};
@@ -21,10 +22,6 @@
   \draw (x) -- (x_dist);
   \draw[arrow] (camera.east|-c) -- (x);
   \node[below=1mm of z] {\z{}};
-
-  % parameter collections
-  %\node[parameters,anchor=south west] at (z.north east) {\strut$\parameterse = (\re, \rb)$};
-  %\node[parameters,anchor=south east] at (z.north-|x_dist.east) {\strut$\parametersc = (\camgain, \camoffset, \camvar)$};
 
   % annotations
   \node[above=2mm of c,gray] {\strut emission model};

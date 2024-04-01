@@ -1,83 +1,41 @@
 \begin{figure*}
 
   \begin{panel}{(a)}{\textwidth}
-    \def\histogramcsv{figures/data/sim_counting/intensity_histogram.csv}
-    \def\tracecsv{figures/data/sim_counting/trace_and_fit_N10.csv}
-    \def\traceintensitycol{trace}
-    \def\zcol{fit}
-    \def\histbincol{N10_bins}
-    \def\histcountcol{N10_measured}
-    \def\modelfitcol{N10_model}
-    \def\posteriorcsv{figures/data/sim_counting/posteriors.csv}
-    \def\posteriorcol{posterior_10}
-    \hspace{-2mm}
-    \tikzsetnextfilename{figure_2_trace_N10}
-    \begin{tikzpicture}
-      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
-      \def\noylabels{}
-      \def\noxlabel{}
-      \node[anchor=south east,text width=12mm]
-        at ($(fancyplot.south east)+(-0.6,0.8)$)
-        {\input{figures/p_n_given_x.tikz}};
-    \end{tikzpicture}
-
+    \hspace{-2mm}%
+    \setlength\plotwidth{\textwidth}%
+    \setlength\plotheight{36mm}%
+    \input{figures/panels/sim_trace_n10.tikz}
     \vspace{-4mm}
   \end{panel}
 
   \begin{panel}{(b)}{\textwidth}
-    \def\histogramcsv{figures/data/sim_counting/intensity_histogram.csv}
-    \def\tracecsv{figures/data/sim_counting/trace_and_fit_N20.csv}
-    \def\traceintensitycol{trace}
-    \def\zcol{fit}
-    \def\histbincol{N20_bins}
-    \def\histcountcol{N20_measured}
-    \def\modelfitcol{N20_model}
-    \def\posteriorcsv{figures/data/sim_counting/posteriors.csv}
-    \def\posteriorcol{posterior_20}
-    \hspace{-2mm}%
-    \tikzsetnextfilename{figure_2_trace_N20}
-    \begin{tikzpicture}
-      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
-      \def\noylabels{}
-      \def\noxlabel{}
-      \node[anchor=south east,text width=12mm]
-        at ($(fancyplot.south east)+(-0.6,0.8)$)
-        {\input{figures/p_n_given_x.tikz}};
-    \end{tikzpicture}
+    \hspace{-2mm}
+    \setlength\plotwidth{\textwidth}%
+    \setlength\plotheight{36mm}%
+    \input{figures/panels/sim_trace_n20.tikz}
+    \vspace{-4mm}
   \end{panel}
 
   \begin{panel}{(c)}{0.45\textwidth}
-    \def\posteriormatrixcsv{figures/data/sim_counting/heatmap.csv}
-    \def\lbfcscsv{figures/data/sim_counting/heatmap_lbfcs.csv}
-    \tikzexternaldisable
-    \tikzsetnextfilename{figure_2_sim_counting_estimates}
+    \setlength\plotwidth{72mm}%
+    \setlength\plotheight{72mm}%
     \input{figures/panels/sim_counting_estimates.tikz}
-    \tikzexternalenable
   \end{panel}
   \hspace{1cm}
-  \begin{panel}{(d)}{0.5\textwidth}
+  \begin{panel}{(d)}{0.55\textwidth}
     \begin{panel}{}{\textwidth}
-      \vspace{2mm}
-      \hspace{2mm}
-      \small
-      \def\tracelengthcsv{figures/data/trace_length/trace_length_results.csv}
-      \def\mapcol{max_likelihoods_20}
-      \def\varcol{variance_20}
-      \tikzexternaldisable
-      \tikzsetnextfilename{figure_2_trace_length}
-      \input{figures/trace_length.tikz}
-      \tikzexternalenable
+      \hspace{5mm}%
+      \small%
+      \setlength\plotwidth{68mm}%
+      \setlength\plotheight{22mm}%
+      \input{figures/panels/trace_var_length.tikz}%
     \end{panel}
     \begin{panel}{(e)}{\textwidth}
-      \hspace{2mm}
-      \small
-      \def\tracelengthcsv{figures/data/trace_length/trace_length_results.csv}
-      \def\mapcol{max_likelihoods_20}
-      \def\varcol{variance_20}
-      \tikzexternaldisable
-      \tikzsetnextfilename{figure_2_trace_length}
-      \input{figures/trace_length.tikz}
-      \tikzexternalenable
+      \hspace{5mm}%
+      \small%
+      \setlength\plotwidth{68mm}%
+      \setlength\plotheight{22mm}%
+      \input{figures/panels/trace_var_snr.tikz}%
     \end{panel}
   \end{panel}
 

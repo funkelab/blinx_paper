@@ -1,0 +1,19 @@
+\def\tracecsv{figures/data/kinetics_grid/traces.csv}%
+\def\traceintensitycol{lbfcs_trace}%
+\def\zcol{lbfcs_fit}%
+\def\histogramcsv{figures/data/kinetics_grid/intensity_histogram.csv}%
+\def\histbincol{lbfcs_bins}%
+\def\histcountcol{lbfcs_measured}%
+\def\modelfitcol{lbfcs_model}%
+\def\posteriorcsv{figures/data/kinetics_grid/posteriors.csv}%
+\def\posteriorcol{lbfcs}%
+\tikzsetnextfilename{sim_trace_lbfcs}%
+\begin{tikzpicture}
+  \input{figures/plots/fancy_trace.plot}
+  \def\noylabels{}
+  \def\noxlabel{}
+  \setlength\plotwidth{0.1\plotwidth}
+  \setlength\plotheight{\plotwidth}
+  \pgfplotsset{every axis/.style={anchor=below south east,at={($(histogram.south east)-(2mm,0)$)}}}
+  \input{figures/plots/p_n_given_x.plot}
+\end{tikzpicture}

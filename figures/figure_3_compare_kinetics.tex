@@ -1,63 +1,30 @@
 \begin{figure*}
 
   \begin{panel}{(a)}{0.58\textwidth}
-    \small
-    \def\kineticsheatmapcsv{figures/data/kinetics_grid/heatmap.csv}
-    \setlength\plotwidth{42mm}
-    \setlength\plotheight{80mm}
-    \tikzsetnextfilename{figure_3_kinetics_sim_sweep}
+    \small%
+    \setlength\plotwidth{42mm}%
+    \setlength\plotheight{60mm}%
     \input{figures/panels/kinetics_sim_sweep.tikz}
   \end{panel}
   \begin{panel}{(b)}{0.42\textwidth}
-    \def\kineticscsv{figures/data/kinetics_grid/exp_kinetics.csv}
-    \tikzsetnextfilename{figure_3_kinetics_experiments}
-    \setlength\plotwidth{56mm}
-    \setlength\plotheight{80mm}
+    \setlength\plotwidth{56mm}%
+    \setlength\plotheight{60mm}%
     \input{figures/panels/kinetics_experiments.tikz}
   \end{panel}
 
   \begin{panel}{(c)}{\textwidth}
-    \small
-    \def\tracecsv{figures/data/kinetics_grid/traces.csv}%
-    \def\traceintensitycol{qpaint_trace}%
-    \def\zcol{qpaint_fit}
-    \def\histogramcsv{figures/data/kinetics_grid/intensity_histogram.csv}
-    \def\histbincol{qpaint_bins}
-    \def\histcountcol{qpaint_measured}
-    \def\modelfitcol{qpaint_model}
-    \def\posteriorcsv{figures/data/kinetics_grid/posteriors.csv}
-    \def\posteriorcol{qpaint}
-    \tikzsetnextfilename{figure_3_trace_qpaint}
-    \begin{tikzpicture}
-      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
-      \def\noylabels{}
-      \def\noxlabel{}
-      \node[anchor=south east,text width=12mm]
-        at ($(fancyplot.south east)+(-0.4,1.4)$)
-        {\input{figures/p_n_given_x.tikz}};
-    \end{tikzpicture}
+    \small%
+    \setlength\plotwidth{\textwidth}%
+    \setlength\plotheight{36mm}%
+    \input{figures/panels/sim_trace_qpaint.tikz}%
+    \vspace{-4mm}%
   \end{panel}
 
   \begin{panel}{(d)}{\textwidth}
-    \small
-    \def\tracecsv{figures/data/kinetics_grid/traces.csv}%
-    \def\traceintensitycol{lbfcs_trace}%
-    \def\zcol{lbfcs_fit}
-    \def\histogramcsv{figures/data/kinetics_grid/intensity_histogram.csv}
-    \def\histbincol{lbfcs_bins}
-    \def\histcountcol{lbfcs_measured}
-    \def\modelfitcol{lbfcs_model}
-    \def\posteriorcsv{figures/data/kinetics_grid/posteriors.csv}
-    \def\posteriorcol{lbfcs}
-    \tikzsetnextfilename{figure_3_trace_lbfcs}
-    \begin{tikzpicture}
-      \node (fancyplot) {\input{figures/fancy_trace.tikz}};
-      \def\noylabels{}
-      \def\noxlabel{}
-      \node[anchor=south east,text width=12mm]
-        at ($(fancyplot.south east)+(-0.4,1.4)$)
-        {\input{figures/p_n_given_x.tikz}};
-    \end{tikzpicture}
+    \small%
+    \setlength\plotwidth{\textwidth}%
+    \setlength\plotheight{36mm}%
+    \input{figures/panels/sim_trace_lbfcs.tikz}
   \end{panel}
 
   \caption{%

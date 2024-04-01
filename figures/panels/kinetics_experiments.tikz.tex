@@ -1,4 +1,5 @@
-\pgfplotsset{/pgf/number format/.cd,fixed,precision=3}%
+\def\kineticscsv{figures/data/kinetics_grid/exp_kinetics.csv}%
+\tikzsetnextfilename{kinetics_experiments}%
 \begin{tikzpicture}
   \begin{axis}[
     width=\plotwidth,
@@ -11,6 +12,7 @@
     scaled ticks=false,
     ticklabel style={font=\small},
   ]
+    \pgfplotsset{/pgf/number format/.cd,fixed,precision=3}
     \pgfplotsset{
       colormap={posteriorcolormap}{
         color(0.0)=(funkey_color_7)

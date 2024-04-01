@@ -1,31 +1,20 @@
 \begin{figure*}
-  \def\tracecsv{figures/data/exp_counting/traces_and_fits.csv}
-  \def\histogramcsv{figures/data/exp_counting/intensity_histograms.csv}
 
-  \centerline{
-    \def\traceintensitycol{N4_trace_good}
-    \def\histbincol{N4_good_bins}
-    \def\histcountcol{N4_good_measured}
-    \def\modelfitcol{N4_good_model}
-    \def\zcol{N4_fit_good}
-    \tikzsetnextfilename{figure_5_trace_N4_good}
-    \input{figures/fancy_trace.tikz}
-  }
+  \begin{panel}{(a)}{\textwidth}
+    \hspace{-2mm}%
+    \setlength\plotwidth{\textwidth}%
+    \setlength\plotheight{36mm}%
+    \input{figures/panels/exp_trace_n4.tikz}
+    \vspace{-4mm}
+  \end{panel}
 
-  \centerline{
-    \def\traceintensitycol{N1_trace_good}
-    \def\histbincol{N1_good_bins}
-    \def\histcountcol{N1_good_measured}
-    \def\modelfitcol{N1_good_model}
-    \def\zcol{N1_fit_good}
-    \tikzsetnextfilename{figure_5_trace_N1_good}
-    \input{figures/fancy_trace.tikz}
-  }
-\end{figure*}
+  \begin{panel}{(b)}{\textwidth}
+    \hspace{-2mm}%
+    \setlength\plotwidth{\textwidth}%
+    \setlength\plotheight{36mm}%
+    \input{figures/panels/exp_trace_n1.tikz}
+    \vspace{-4mm}
+  \end{panel}
 
-
-\begin{figure*}
-  \includegraphics[width=\linewidth]{figures/placeholders/figure_5_experimental_counting.png}
-  \caption{experimental counting}
-  \label{fig:method:overview}
+  \caption{TODO}
 \end{figure*}
