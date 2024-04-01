@@ -66,6 +66,7 @@ To investigate the effect of noise on counting ability, the variance of the read
 	For noisy traces, the variance in intensity values observed for a single $z$ state increases significantly. 
 	Models with a higher $n$ are better able to fit additional states the noise, making over-counting the most likely. 
 
+
 \subsection{Kinetic sweep}
 	% blinx lets us look at effects of changing experimental conditions
 To determine the effect of blinking kinetics on the counting ability of \ours, 
@@ -136,5 +137,26 @@ Due to the stochastic nature of blinking, multiple binding sites can blink at th
 	and as a result, blinx accurately estimated the count even at higher N.
 	
 
-
 \subsection{Experimental Counting}
+% briefly describe experimental setup
+To experimentally validate the counting performance of \ours, DNA-Origami, which allows fine control over the number of emitters, was used.
+	% Why DNA origami
+	DNA-Origamis were designed containing 1 and 4 DNA-PAINT docker strands, spaced in a grid 20 nm apart. 
+	%
+	This distance was specifically chosen, so that the true number of docker strands could be visually confirmed through super-resolution post-processing.
+	%
+	Incorporation efficiency is roughly 80 percent for each docker site, so only a fraction of the origamis were expected to contain all 4 dockers. 
+	% 
+	Origamis were first imaged at 13 C, low laser power, and 20 nM imager concentration to collect traces for counting with \ours \figref{X}.
+	%
+	Then the system was allowed to warm to 25C, a buffer exchange performed and new imager added at 10 nM, and the origamis were imaged again at high laser power.
+	%
+	Only origamis that had a visual count matching the planned count (1 or 4) were selected for analysis with \ours.
+
+Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%) and the maximum estimated count was 3 (1/131) \figref{}.
+	%
+	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, and 103/110 were identified as between 3 and 5.
+	%
+	% A more detailed analysis of wrongly counted traces is found in the SI.
+	%
+	Importantly, no filtering was done on the measured traces, and many of the incorrect counts were traces with low SNR. % quantify this??
