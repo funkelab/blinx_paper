@@ -3,8 +3,8 @@
     name=trace,
     width=\textwidth,
     height=\textwidth,
-    xlabel=Estimated \n,
-    ylabel=True \n,
+    xlabel=true \n,
+    ylabel=estimated \n,
     enlarge x limits=false,
     enlarge y limits=false,
     grid=major,
@@ -28,12 +28,12 @@
 
     \addplot[
       matrix plot*,
-      mesh/cols=35,
+      mesh/cols=30,
       point meta=explicit,
     ] table [
       col sep=comma,
-      x=n,
-      y=true_n,
+      x=true_n,
+      y=n,
       meta=posterior,
     ] {\posteriormatrixcsv};
 
@@ -44,15 +44,23 @@
     width=\textwidth,
     height=\textwidth,
     xmin=0.5,
-    xmax=35.5,
+    xmax=30.5,
     ymin=0.5,
-    ymax=30.5,
+    ymax=35.5,
     grid=major,
     grid style={dashed},
+    xticklabel=\empty,
+    yticklabel=\empty,
     scaled ticks=false,
-    domain=0:35,
+    domain=0:30,
     ticklabel style={font=\small},
+    legend pos=north west,
   ]
+
+    \addlegendimage{mark=square*,only marks,funkey_color_2}
+    \addlegendentry{\ours}
+    \addlegendimage{mark=*,only marks,funkey_color_1}
+    \addlegendentry{\lbfcs}
 
     \addplot[
       mark=*,
@@ -61,8 +69,8 @@
       mark options={draw=white,fill=funkey_color_1,draw opacity=0.6,fill opacity=0.7},
     ] table [
       col sep=comma,
-      x=lbfcs_count,
-      y=n,
+      x=n,
+      y=lbfcs_count,
     ] {\lbfcscsv};
 
     \addplot[no marks,thick,gray] {x};
