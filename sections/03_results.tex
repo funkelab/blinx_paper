@@ -3,51 +3,58 @@
 \subsection{Simulated Experiments}
 % Simulated traces based on experimentally relevant parameters
 Running \ours as a forward model, traces were generated for counts N=1 to 30
-	(\figref{X} A), with experimentally relevant blinking and noise characteristics.
+	(\figref{X} A), with experimentally relevant parameters. 
 	%
-	Camera parameters were determined from an empirical calibration of the
-	sCMOS camera, and kinetic and emission parameters were determined through an
-	initial experiment, further the kinetic parameters closely match those reported
-	in literature.
+	Camera parameters (\parametersc) were determined from an empirical calibration of the
+	sCMOS camera, and kinetic and emission parameters (\parameterst, \parameterse) were determined through an
+	initial experiment, and closely match those reported in literature \cite{stein_2021}.
 	%
-	Traces were generated for 4000 frames, corresponding to an imaging time of 
-	14 minutes.
+	Traces were generated for 4000 frames, corresponding to an imaging time of 14 minutes.
 
 % priors were placed on camera parameters, but all others were uniform
-While fitting, tight gaussian priors were placed on the camera parameters,
-	loose priors on the emission parameters, and flat/uniform priors on the
-	kinetic parameters. 
+While fitting, tight gaussian priors were placed on the camera parameters, because these were empirically determined.
+	%
+	Loose priors were placed on the emission parameters (\rb, \re) to prevent overcounting (discussed further in discussion). 
+	%
+	% do we need to explain how we got these priors
+	The prior on \rb can be experimentally determined by averaging the intensity of dark pixels surrounding the spot ROI.
+	The prior on \re was determined by first fitting a count of $n$=1 to the trace. 
+	Empirically, this provides a very accurate estimate of \re.
+	%
+	Flat uniform priors were place on the kinetic parameters, allowing the model to fit blinking rates without external bias.
 
 % blinx can count!
 \ours successfully fit simulated traces with counts up to N=30 (\figref{X}).
-	For N=10 and below, \ours fit the correct count, with a significantly higher
-	likelihood than all other possibilities. Above N=10 the likelihood of other 
-	possible counts increased, but the posterior distribution remained
-	centered on the correct count.
-
-	Importantly, as can be seen in the histograms of \figref{X} A, B, \ours is able to fit the correct count,
-	despite the fact that not every state is visited \ie the model is not just peak counting.
-
-% blinx outperforms lbFCS, counting up to 30 
-This is a tripling in performance compared to lbFCS, which counted accurately up
-	to N=7, but failed to estimate higher counts.
-	% main limitation of lbFCS is estimation of the "step size" corresponding to r_e
-	Upon further analysis, the main limitation of lbFCS is the estimation of the 
-	intensity of a single emitter, corresponding to $r_e$ in \ours. 
 	%
-	If this value is first estimated by \ours, then supplied to lbFCS, performance is significantly rescued (SI Figure).
+	For N=10 and below, \ours fit the correct count, with a significantly higher likelihood than all other possibilities. 
+	%
+	Above N=10 the likelihood of other possible counts increased, but the posterior distribution remained centered on the correct count.
+	%
+	Importantly, \ours is able to fit the correct count,
+	despite the fact that not every state is visited \ie the model is not just counting the number of peaks in the intensity histogram \figref{X} A, B,.
+	% blinx outperforms lbFCS, counting up to 30 
+	This is a tripling in performance compared to lbFCS, which counted accurately up to N=7, but failed to estimate higher counts.
+	% main limitation of lbFCS is estimation of the "step size" corresponding to r_e
+	Upon further analysis, the main limitation of lbFCS is the estimation of the intensity of a single emitter, corresponding to $r_e$ in \ours. 
+	%
+	lbFCS relies on a histogram based method to determine this value, while \ours is able to jointly optimize this parameter with the others.
+	%
+	%If this value is first estimated by \ours, then supplied to lbFCS, performance is significantly rescued (SI Figure).
+
 % Longer traces lead to better fits
 Next, we investigated the effect of trace length on counting accuracy (\figref{X} C).
 	%
-	As expected accuracy increased and the variance of the posterior distribution decreased, 
+	As expected accuracy increased and variance of the posterior distribution decreased, 
 	as the number of observations increased.
 	% Also notice a underestimation of count with low trace length
-	Interestingly, for short trace lengths, \ours underestimated the true count. Underestimating 
-	more severely as the true count increased.
+	Interestingly, for short trace lengths, \ours underestimated the true count. 
+	%
+	Underestimating more severely as the true count increased.
 	% This is most likely due to the system only occupying a subset of all possible zs in this short time
+	This is likely because only a subset of possible states were observed in this short time.
 
 % there is a lower bound to SNR, below a specific SNR, model maximally overcounts
-To investigate the effect of noise on counting ability, the variance of the readout noise $\sigma$ was tuned to produce a 
+To investigate the effect of noise on counting ability, the variance of the readout noise $\sigma^{2}$ was tuned to produce a 
 	series of traces with differing SNR values. 
 	%
 	Because noise in our model is proportional to intensity, quantifying the SNR of a trace 
@@ -58,31 +65,32 @@ To investigate the effect of noise on counting ability, the variance of the read
 	%
 	In effect this is the upper bound of SNR for a given trace. 
 	%
-	The base model, with experimentally measured $\sigma$ corresponds to an SNR of 9. 
+	The base model, with experimentally measured $\sigma^{2}$ corresponds to an SNR of 9. 
 	%
-	\ours shows similar performance down to an SNR as low as 4. Interestingly, at SNR's below 4, \ours
-	estimates the count as 25, the highest $n$ tested, no matter the true count. 
+	\ours shows similar performance down to an SNR as low as 4. 
 	%
-	For noisy traces, the variance in intensity values observed for a single $z$ state increases significantly. 
-	Models with a higher $n$ are better able to fit additional states the noise, making over-counting the most likely. 
+	Interestingly, at SNR's below 4, \ours estimates the count as 25, the highest $n$ tested, no matter the true count. 
+	%
+	This is due to the low probability of observing states far from the mean of our intensity model, and is further expanded on in the discussion. 
 
 
 \subsection{Kinetic sweep}
 	% blinx lets us look at effects of changing experimental conditions
 To determine the effect of blinking kinetics on the counting ability of \ours, 
 	%
-	A range of experimentally possible kinetic parameters was determined from literature including from 
-	qPAINT: (\pon, \poff) = (0.006, 0.2) and lbFCS (0.02, 0.02). 
+	a range of experimentally possible kinetic parameters was determined from literature including from 
+	qPAINT: (\pon, \poff) = (0.006, 0.2) \cite{jungmann_2016} and lbFCS (0.02, 0.02) \cite{stein_2021}. 
 	%
 	Traces were then simulated with counts ranging from 1 to 20 
-	for each possible combination of kinetic parameters, and all other parameters held constant. 
+	for each possible combination of kinetic parameters, holding all other parameters constant. 
 	%
 	Traces were fit, and the resulting posterior for all $n$s 1 to 20, 
 	reduced to the weighted mean square error from a perfect fit \figref{X}.
 	%
 	
-\ours preforms well in regimes of high \pon and low \poff, and sees a significant decrease in performance as \poff
-	increases. In the extreme of the qPAINT regime, \ours is unable to count, estimating a $n$ = 1 or 2 regardless of the true value.
+\ours preforms well in regimes of high \pon and low \poff, and sees a significant decrease in performance as \poff increases. 
+	%
+	In the extreme of the qPAINT regime, \ours is unable to count, estimating a $n$ = 1 or 2 regardless of the true value.
 	%
 	The clear difference between these two regimes can be visualized through representative traces, and intensity histograms \figref{X},
 	both of which have a true count of $n$=10.
@@ -114,11 +122,12 @@ An advantage of using DNA-PAINT, is that the blinking rates are dependant on DNA
 \subsection{qPAINT Kinetic Regime}
 % qPAINT operates in a different kinetic regime that lbFCS
 qPAINT is based on an accurate measure of the average dark time between blinking events. 
-	As a result, this method operates in an entirely different kinetic regime than lbFCS, where blinking 
-	"on" events are short and infrequent (\figref{X}).
+	%
+	As a result, this method operates in an entirely different kinetic regime than lbFCS, where blinking "on" events are short and infrequent (\figref{X}).
 	% this presents challenges to blinx
-	This regime presents a challenge to \ours. If the only states ever observed are z=0 or 1 (off or on),
-	there is not enough information in the system to estimate count without prior knowledge.
+	This regime presents a challenge to \ours. 
+	%
+	If the only states ever observed are z=0 or 1 (off or on), there is not enough information in the system to estimate count without prior knowledge.
 	% qPAINT relies on a calibration of kinetics
 	qPAINT, faces the same limitation, and relies on a calibration of the blinking kinetics of a single binding site.
 	% However, blinx is fully Bayesian and we can overcome these challenges by tightening priors
@@ -126,15 +135,14 @@ qPAINT is based on an accurate measure of the average dark time between blinking
 	and once again accurately count up to N=30 (\figref{X}).
 
 % qPAINT undercounts but blinx does not
-Due to the stochastic nature of blinking, multiple binding sites can blink at the same time, 
-	which becomes increasingly more likely at higher counts.
+Due to the stochastic nature of blinking, multiple binding sites can blink at the same time, which becomes increasingly more likely at higher counts.
 	%
 	This is not compatible with the qPAINT assumption of well separated, single binding-site blinking events, 
 	and as a result, qPAINT begins to underestimate molecular count, (especially noticeable above N=20, \figref{X}). 
 	% blinx avoids this problem
 	The blinking of multiple binding sites at the same time point, 
-	is entirely accounted for in the transition distribution of blinx 
-	and as a result, blinx accurately estimated the count even at higher N.
+	is compatible and accounted for in the transition model of blinx 
+	and as a result, blinx accurately estimates the count even at higher N.
 	
 
 \subsection{Experimental Counting}
