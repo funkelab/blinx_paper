@@ -1,2 +1,78 @@
 \section{Discussion}
+% Overview of highlights
+Here, we presented \ours a probabilistic model, to estimate the absolute number of subunits in an area to small to be spatially separated. 
+    %
+    In kinetic regimes where \pon $>$ \poff, \ours can operate as a calibration free counting method.
+    %
+    Compared to the state of the art in this space (lbFCS), \ours improved the counting ability by a factor of three,
+    accurately counting up to 30 individual subunits.
+    %
+    In the kinetic regime where \pon $<$ \poff, \ours requires a calibration, implemented in the form of a prior on \pon and \poff,
+    as well as on the emission parameters \re and \rb.
+    %
+    Compared to qPAINT (which also is heavily dependant on a calibration), \ours shows a a greater counting accuracy, especially for $n > 20$.
+    %
+    Another advantage of \ours is that the output is a posterior distribution over all possible counts, rather than only a single number. 
+    %
+    This provides a confidence metric on the reported count, as well as allowing for the comparison between different possible counts, 
+    both of which are useful for downstream processing applications. 
+
+% Assumptions
+% Could maybe be a bulleted list?
+There are a few assumptions that are essential to \ours.
+    %
+    Firstly, it is assumed that all subunits behave independently.
+    % 
+    In the intensity model, this means that observed intensity will scale linearly with the number of emitters active $z$.
+    %
+    In the transition model, this means that the blinking kinetics of one spot have no effect on the blinking kinetics of any other.
+    %
+    In practice, although not common, subunits in extremely close proximity could potentially 
+    have steric hinderance effects on neighboring subunits, violating this assumption.
+    %
+    Although other methods like qPAINT make this same assumption and have been shown to work well in experimental systems \cite{}. 
+    %
+    Secondly, it is assumed that all subunits within a spot have identical properties (\pon, \poff, \re).
+    %
+    Rather than model each subunit individually, \ours models the sum total behavior of all subunits combined, 
+    and as a result each subunit is assumed to be interchangeable with any other within the same spot.
+    %
+    In applications where non-uniform behavior among subunits is expected, \eg due to 3D conformation, 
+    1 subunit might be less accessible to diffusion of imager than the others \cite{civitci_2020}, a decrease in model performance is expected.
+    %
+    Finally, it is also assumed that all properties remain constant over time. 
+    %
+    Experimentally, drift in emission properties (\re, \rb) is commonly seen due to an unstable focus, and should be corrected before any processing with \ours.
+    % 
+    Change in kinetic properties over time is also sometimes observed and could be caused by damage to emitters, or changes in temperature. 
+    %
+    Unlike the other two, this assumption is not fundamental to the structure of \ours. 
+    %
+    Future versions of this model could account for these changing parameters.
+    % 
+    Intentional changes in parameters could even be used to gain more information from the system and further increase model performance. 
+    
+
+% Limitations
+While, \ours has been designed to be applicable to as many different systems as possible, there are a few limitations that should be considered.
+    % overestimation of count
+    The primary limitation of \ours is the tendency to overestimate the molecular count, especially in traces with low SNR. 
+    %
+    This is caused by the relatively tight normal distribution at the heart of the intensity model. 
+    %
+    When an intensity is observed far from the mean of this distribution, it is often "cheaper" to add a new state to the model, 
+    rather than account for the intensity with the given distribution. 
+    % 
+    This can happen even in traces with high SNR, but is especially common when SNR is low. 
+    %
+    In the extreme case, an infinite number of states could be used to perfectly explain any intensity trace.
+    %
+    One method of identifying over-counting is to compare the observed distribution of states, with the theoretical distribution given the kinetic parameters. % a figure would help explain this
+    %
+    % how does this comparison help?
+    %
+    This limitation can also be avoided by specifying prior on \re, the photon emission rate of a single fluorophore. 
+
+% model requires some prior knowledge, especially of r_e
+% Noise model does not capture all noise observed in system
 
