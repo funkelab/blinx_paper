@@ -1,0 +1,34 @@
+\@ifundefined{noylabels}{}{%
+  \pgfplotsset{yticklabel=\empty}%
+}%
+\@ifundefined{noxlabel}{%
+  \pgfplotsset{xlabel=\z{}}%
+}{%
+  \pgfplotsset{xlabel=\empty}%
+}%
+\begin{axis}[
+  width=\plotwidth,
+  height=\plotheight,
+  scale only axis=true,
+  grid=major,
+  grid style={dashed, very thin},
+  enlarge x limits=0.1,
+  enlarge y limits={value=0.2,upper},
+  ymin=0,
+  scaled ticks=false,
+]
+
+  \addplot+[
+    ybar,
+    bar width=1,
+    mark=none,
+    fill=ztracecolor,
+    fill opacity=0.6,
+    draw=ztracecolor,
+  ] table [
+    col sep=comma,
+    y=\zhistogramcol,
+    x=bin,
+  ] {\zhistogramcsv};
+
+\end{axis}

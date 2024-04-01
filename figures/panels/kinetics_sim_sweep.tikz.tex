@@ -1,7 +1,9 @@
 \begin{tikzpicture}
   \begin{axis}[
-    width=0.6\textwidth,
-    height=\textwidth,
+    width=\plotwidth,
+    height=\plotheight,
+    scale only axis=true,
+    name=sweep,
     xlabel=\pon,
     ylabel=\poff,
     enlarge x limits=false,
@@ -42,19 +44,23 @@
 
   \end{axis}
 
-  \node[anchor=140] (qpaint_zs) at ($(qpaint)+(5.1,0)$) {
+  \node[anchor=north] (qpaint_zs) at ($(sweep.north east)+(2.8,0)$) {
     \def\zhistogramcsv{figures/data/kinetics_grid/state_histogram.csv}%
     \def\zhistogramcol{qpaint}%
     \def\noylabels{}%
-    \input{figures/z_histogram.tikz}%
+    \setlength\plotwidth{14mm}%
+    \setlength\plotheight{16mm}%
+    \tikz{\input{figures/plots/z_histogram.plot}}%
   };
   \node[fit=(qpaint_zs),inner sep=0,rounded corners,draw=funkey_color_9,thick] (qpaint_box) {};
 
-  \node[anchor=200] (lbfcs_zs) at (lbfcs-|qpaint_zs.west) {
+  \node[anchor=south] (lbfcs_zs) at (sweep.south-|qpaint_zs.south) {
     \def\zhistogramcsv{figures/data/kinetics_grid/state_histogram.csv}%
     \def\zhistogramcol{lbfcs}%
     \def\noylabels{}%
-    \input{figures/z_histogram.tikz}%
+    \setlength\plotwidth{14mm}%
+    \setlength\plotheight{16mm}%
+    \tikz{\input{figures/plots/z_histogram.plot}}%
   };
   \node[fit=(lbfcs_zs),inner sep=0,rounded corners,draw=funkey_color_9,thick] (lbfcs_box) {};
 
@@ -62,4 +68,3 @@
   \draw[funkey_color_3,thick] (lbfcs) -- (lbfcs-|lbfcs_box.west);
 
 \end{tikzpicture}
-

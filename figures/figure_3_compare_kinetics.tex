@@ -1,17 +1,19 @@
 \begin{figure*}
 
-  \begin{panel}{(a)}{0.55\textwidth}
+  \begin{panel}{(a)}{0.58\textwidth}
     \small
     \def\kineticsheatmapcsv{figures/data/kinetics_grid/heatmap.csv}
-    \tikzsetnextfilename{figure_3_kinetics_heatmap}
-    \input{figures/kinetics_heatmap.tikz}
+    \setlength\plotwidth{42mm}
+    \setlength\plotheight{80mm}
+    \tikzsetnextfilename{figure_3_kinetics_sim_sweep}
+    \input{figures/panels/kinetics_sim_sweep.tikz}
   \end{panel}
-  \begin{panel}{(b)}{0.45\textwidth}
-    \vspace{2mm}
-
+  \begin{panel}{(b)}{0.42\textwidth}
     \def\kineticscsv{figures/data/kinetics_grid/exp_kinetics.csv}
-    \tikzsetnextfilename{figure_3_kinetics}
-    \input{figures/kinetics.tikz}
+    \tikzsetnextfilename{figure_3_kinetics_experiments}
+    \setlength\plotwidth{56mm}
+    \setlength\plotheight{80mm}
+    \input{figures/panels/kinetics_experiments.tikz}
   \end{panel}
 
   \begin{panel}{(c)}{\textwidth}
@@ -31,7 +33,7 @@
       \def\noylabels{}
       \def\noxlabel{}
       \node[anchor=south east,text width=12mm]
-        at ($(fancyplot.south east)+(-1.0,1.4)$)
+        at ($(fancyplot.south east)+(-0.4,1.4)$)
         {\input{figures/p_n_given_x.tikz}};
     \end{tikzpicture}
   \end{panel}
@@ -53,7 +55,7 @@
       \def\noylabels{}
       \def\noxlabel{}
       \node[anchor=south east,text width=12mm]
-        at ($(fancyplot.south east)+(-0.4,0.8)$)
+        at ($(fancyplot.south east)+(-0.4,1.4)$)
         {\input{figures/p_n_given_x.tikz}};
     \end{tikzpicture}
   \end{panel}

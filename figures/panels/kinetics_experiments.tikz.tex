@@ -1,8 +1,9 @@
 \pgfplotsset{/pgf/number format/.cd,fixed,precision=3}%
 \begin{tikzpicture}
   \begin{axis}[
-    width=\textwidth,
-    height=1.2\textwidth,
+    width=\plotwidth,
+    height=\plotheight,
+    scale only axis=true,
     xlabel=\pon,
     ylabel=\poff,
     grid=major,
