@@ -4,7 +4,7 @@
 Consider multiple fluorescent emitters, smaller than can be visually separated.
   %
   Each blinking stochastically and independently of the others, 
-  yielding a fluctuating intensity signal over time \figref{fig:method:overview}.
+  yielding a fluctuating intensity signal over time \figref{fig:method:overview}a.
   %
   The goal of this method is to determine the posterior distribution over 
   possible number of emitters \ndist given the observed intensity trace \trace.
@@ -33,7 +33,7 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
 \subsubsection{Intensity Model}
 
 To accurately model the observed intensity from a microscope system with an sCMOS camera, 
-  the readout noise from the detector, and the shot noise of photon count must both be accounted for~\cite{huang_video-rate_2013} \figref{fig:method:overview}.
+  the readout noise from the detector, and the shot noise of photon count must both be accounted for~\cite{huang_video-rate_2013} \figref{fig:method:overview}c.
   The probability of observing intensity \x{} can then be defined as the convolution of these two noise distributions.
 
   \begin{equation}
@@ -67,7 +67,7 @@ To accurately model the observed intensity from a microscope system with an sCMO
 
 \textbf{Emission shot noise}:
   Due to shot noise, the number of photons detected over a time interval $\deltat$ is Poisson
-  distributed~\cite{mehta_poisson_2016} \figref{fig:method:overview}. In this system, there are two sources of emitted photons, a number of emitters in the active state $\z{}\re$,
+  distributed~\cite{mehta_poisson_2016} \figref{fig:method:overview}c. In this system, there are two sources of emitted photons, a number of emitters in the active state $\z{}\re$,
   and other out of plane emitters producing a relatively constant amount of background photons $\rb$. Combined, 
   these sources produce the expected number of photons per exposure $\lambda$.
   \begin{align}
@@ -100,7 +100,7 @@ Next, to model the step-like temporal fluctuations in intensity, observed in the
   at time $t$ is only dependent on the number of active emitters at the previous time point \z{t-1}.
   %
   On the individual emitter level, we define \pon as the probability of an emitter inactive at time $t-1$ becoming active at time $t$. 
-  Conversely,  we define \poff as the probability of an emitter active at $t-1$ becoming inactive at time $t$ \figref{fig:method:overview}
+  Conversely,  we define \poff as the probability of an emitter active at $t-1$ becoming inactive at time $t$ \figref{fig:method:overview}b.
   %
   Finally, assuming that all emitters share the same \pon and \poff, and that both remain constant over time, 
   the transition distribution can be written as:
