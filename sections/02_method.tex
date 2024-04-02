@@ -6,10 +6,10 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
   Each blinking stochastically and independently of the others, 
   yielding a fluctuating intensity signal over time \figref{fig:method:overview}a.
   %
-  The goal of this method is to determine the posterior distribution over 
-  possible number of emitters \ndist given the observed intensity trace \trace.
+  The goal of this method is to determine the posterior distribution over all
+  possible number of emitters given the observed intensity trace \trace.
   %
-  Because \ndist is discrete, models must be fit independently for each possible value of $n$.
+  Because the number of emitters is discrete, models must be fit independently for each possible value of $n$.
   Beginning with Bayes law, the posterior distribution can be written as:
   % Bayes Law
   \begin{equation*}
@@ -34,7 +34,7 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
 
 To accurately model the observed intensity from a microscope system with an sCMOS camera, 
   the readout noise from the detector, and the shot noise of photon count must both be accounted for~\cite{huang_video-rate_2013} \figref{fig:method:overview}c.
-  Marginalizing of \photons, the probability of observing intensity \x{} can then be defined as:
+  Marginalizing over \photons, the probability of observing intensity \x{} can then be defined as:
 
   \begin{equation}
     p(\x{}|\z{},\parameters) = \sum_\photons p(\x{}|\photons,\parametersc)p(\photons|\z{},\parameterse)
