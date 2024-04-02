@@ -1,0 +1,10 @@
+\tikzsetnextfilename{exp_mean_probabilities_n4}%
+\begin{tikzpicture}
+
+  \pgfplotsset{every axis/.style={name=n4}}
+  \def\posteriorcsv{figures/data/exp_counting/mean_probabilities.csv}
+  \def\posteriorcol{n4_prob}
+  \input{figures/plots/p_n_given_x.plot}
+  \node[anchor=south] at (n4.outer north) {origami with $\n=4$};
+
+\end{tikzpicture}
