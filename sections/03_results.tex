@@ -10,21 +10,26 @@
 Running \ours as a forward model, traces were generated for counts N=1 to 30
 	(\figref{fig:results:sim_counting}a,b), with experimentally relevant parameters. 
 	%
-	Camera parameters (\parametersc) were determined from an empirical calibration of the
-	sCMOS camera, and kinetic and emission parameters (\parameterst, \parameterse) were determined through an
+	Camera parameters were determined from an empirical calibration of the
+	sCMOS camera (\parametersc: \camgain=2.17, \camoffset=4791, \camvar=774), 
+	and kinetic (\parameterst: \pon=0.036, \poff=0.028), and emission parameters ()\parameterse: \re=2.79, \rb=6.77) were determined through an
 	initial experiment, and closely match those reported in literature \cite{stein_2021}.
 	%
 	Traces were generated for 4000 frames, corresponding to an imaging time of 14 minutes.
 
 % priors were placed on camera parameters, but all others were uniform
-While fitting, tight gaussian priors were placed on the camera parameters, because these were empirically determined.
+While fitting, tight gaussian priors were placed on the camera parameters because these were empirically determined.
 	%
 	Loose priors were placed on the emission parameters (\rb, \re) to prevent overcounting (discussed further in discussion). 
 	%
 	% do we need to explain how we got these priors
 	The prior on \rb can be experimentally determined by averaging the intensity of dark pixels surrounding the spot ROI.
-	The prior on \re was determined by first fitting a count of $n$=1 to the trace. 
-	Empirically, this provides a very accurate estimate of \re.
+	The prior on \re was determined by first fitting a count of $n$=1 to the trace.
+	%
+	Given the definitions of \pon and \poff, the most common transition from state $z$ will be to state $z \pm 1$, a switch of a single emitter.
+	It follows that the distribution of all observed $z$-states will be unimodal, and that whichever $z$-state is the most common, 
+	the second most common will be $z \pm 1$. Therefore fitting $n=1$ will capture this transition 
+	and as a result accurately estimate \re (the photon emission rate of a single emitter).
 	%
 	Flat uniform priors were place on the kinetic parameters, allowing the model to fit blinking rates without external bias.
 
@@ -47,7 +52,7 @@ While fitting, tight gaussian priors were placed on the camera parameters, becau
 	%If this value is first estimated by \ours, then supplied to lbFCS, performance is significantly rescued (SI Figure).
 
 % Longer traces lead to better fits
-Next, we investigated the effect of trace length on counting accuracy (\figref{fig:results:sim_counting}d).
+Next, the effect of trace length on counting accuracy (\figref{fig:results:sim_counting}d) was investigated.
 	%
 	As expected accuracy increased and variance of the posterior distribution decreased, 
 	as the number of observations increased.
@@ -59,7 +64,7 @@ Next, we investigated the effect of trace length on counting accuracy (\figref{f
 	This is likely because only a subset of possible states were observed in this short time.
 
 % there is a lower bound to SNR, below a specific SNR, model maximally overcounts
-To investigate the effect of noise on counting ability, the variance of the readout noise $\sigma^{2}$ was tuned to produce a 
+To investigate the effect of noise on counting ability, the variance of the readout noise \camvar was tuned to produce a 
 	series of traces with differing SNR values. 
 	%
 	Because noise in our model is proportional to intensity, quantifying the SNR of a trace 
@@ -70,7 +75,7 @@ To investigate the effect of noise on counting ability, the variance of the read
 	%
 	In effect this is the upper bound of SNR for a given trace. 
 	%
-	The base model, with experimentally measured $\sigma^{2}$ corresponds to an SNR of 9. 
+	The base model, with experimentally measured \camvar corresponds to an SNR of 9. 
 	%
 	\ours shows similar performance down to an SNR as low as 4 \figref{fig:results:sim_counting}e. 
 	%
@@ -140,7 +145,7 @@ qPAINT is based on an accurate measure of the average dark time between blinking
 	and once again accurately count up to N=30 (\figref{fig:results:campare_kinetics}c).
 
 % qPAINT undercounts but blinx does not
-Due to the stochastic nature of blinking, multiple binding sites can blink at the same time, which becomes increasingly more likely at higher counts.
+Due to the stochastic nature of blinking, multiple binding sites can blink at the same time, which becomes increasingly likely at higher counts.
 	%
 	This is not compatible with the qPAINT assumption of well separated, single binding-site blinking events, 
 	and as a result, qPAINT begins to underestimate molecular count, (especially noticeable above N=20, \figref{fig:results:campare_kinetics}c). 
@@ -172,4 +177,4 @@ Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%) and th
 	%
 	% A more detailed analysis of wrongly counted traces is found in the SI.
 	%
-	Importantly, no filtering was done on the measured traces, and many of the incorrect counts were traces with low SNR. % quantify this??
+	Importantly, no filtering or preprocessing was done on the measured traces, and many of the incorrect counts were due to low trace SNR. % quantify this??
