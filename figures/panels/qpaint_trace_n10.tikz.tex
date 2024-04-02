@@ -1,0 +1,19 @@
+\def\histogramcsv{figures/data/qpaint_kinetics/intensity_histogram.csv}%
+\def\tracecsv{figures/data/qpaint_kinetics/trace_and_fit_N10.csv}%
+\def\traceintensitycol{trace}%
+\def\zcol{fit}%
+\def\histbincol{N10_bins}%
+\def\histcountcol{N10_measured}%
+\def\modelfitcol{N10_model}%
+\def\posteriorcsv{figures/data/qpaint_kinetics/posteriors.csv}%
+\def\posteriorcol{posterior_10}%
+\tikzsetnextfilename{qpaint_trace_n10}%
+\begin{tikzpicture}
+  \input{figures/plots/fancy_trace.plot}
+  \def\noylabels{}
+  \def\noxlabel{}
+  \setlength\plotwidth{0.1\plotwidth}
+  \setlength\plotheight{\plotwidth}
+  \pgfplotsset{every axis/.style={anchor=below south east,at={($(histogram.south east)-(2mm,0)$)}}}
+  \input{figures/plots/p_n_given_x.plot}
+\end{tikzpicture}
