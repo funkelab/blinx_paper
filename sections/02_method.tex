@@ -34,7 +34,7 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
 
 To accurately model the observed intensity from a microscope system with an sCMOS camera, 
   the readout noise from the detector, and the shot noise of photon count must both be accounted for~\cite{huang_video-rate_2013} \figref{fig:method:overview}c.
-  The probability of observing intensity \x{} can then be defined as the convolution of these two noise distributions.
+  Marginalizing of \photons, the probability of observing intensity \x{} can then be defined as:
 
   \begin{equation}
     p(\x{}|\z{},\parameters) = \sum_\photons p(\x{}|\photons,\parametersc)p(\photons|\z{},\parameterse)
@@ -79,7 +79,8 @@ To accurately model the observed intensity from a microscope system with an sCMO
   For large values of $\lambda$ the poisson distribution approaches a normal distribution with both mean and variance of $\lambda$.
 
 \textbf{Putting it back together:}
-This convolution can now be seen as the sum of two random variables.
+The intensity distribution can now be seen as a convolution of the readout and shot noise distributions.
+  %
   \begin{align}
     p(\xp{}|\z{},\parameters)
       &= \sum_\photons
@@ -88,7 +89,7 @@ This convolution can now be seen as the sum of two random variables.
       &= \mathcal{N}[\lambda, \lambda + \frac{\camvar}{\camgain^2}](\xp{})
   \end{align}
   %
-  In this case where both are normally distributed, the sum is also normally distributed with 
+  In this case where both are normally distributed, the convolution is also normally distributed with 
   a mean and variance that are the sum of the original random variables mean and variance respectively. 
   %
 
