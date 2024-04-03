@@ -12,7 +12,7 @@ Consider multiple fluorescent emitters, who's combined intensity contributions a
   %
   We are interested in inferring the number of emitters \n, given this trace of intensity \trace.
   % Because the number of emitters is discrete, models must be fit independently for each possible value of $n$.
-  % \todo{that is not generally true}\todo{\n was not introduced}\todo{also, use our macros :)}
+  % \todo{that is not generally true}\todo{\n was not introduced}
   %
   % \todo{before we dive in, I am missing a simple sentence like ``We are interested in inferring the number \n of [...], given a trace of intensity \trace''}
   
@@ -58,7 +58,7 @@ The distribution of observed intensity measurements can be derived directly from
   ~\cite{huang_video-rate_2013} (\figref{fig:method:overview}c).
 
   Marginalizing over \photons, the probability of observing intensity \x{} can then be defined as:
-  %:\todo{\photons is not introduced}\todo{Generally, we are moving too fast here. Take your time explaining how we measure intensity and use Fig 1 as a guide. Then dive into the math.}
+  %\todo{Generally, we are moving too fast here. Take your time explaining how we measure intensity and use Fig 1 as a guide. Then dive into the math.}
 
   \begin{equation}
     p(\x{}|\z{},\parameters) = \sum_\photons \underbrace{p(\x{}|\photons,\parametersc)}_{\text{readout}} 
@@ -100,7 +100,7 @@ The distribution of observed intensity measurements can be derived directly from
   %
   In this system, there are two sources of emitted photons, from emitters in the active state $\re$,
   and from out of plane emitters producing a relatively constant amount of background photons $\rb$. Combined, 
-  these sources produce the expected number of photons per frame $\lambda$. \todo{$\lambda$ is the exposure? ;)}
+  these sources produce the expected number of photons $\lambda$ per frame.
   %
   \begin{align}
     p(\photons|\z{},\parameterse)
@@ -108,10 +108,13 @@ The distribution of observed intensity measurements can be derived directly from
       &\approx \mathcal{N}[\lambda, \lambda](\photons)
   \end{align}
   % 
-  For large values of $\lambda$ the poisson distribution approaches a normal distribution with both mean and variance of $\lambda$.\todo{say that this is an approximation}
+  For large values of $\lambda$ the poisson distribution approaches a normal distribution with both mean and 
+  variance of $\lambda$ and can be approximated as such.
+  % \todo{say that this is an approximation}
 
-\textbf{Putting it back together:}\todo{I wouldn't literally say that in a paper}
-The intensity distribution can now be seen as a convolution of the readout and shot noise distributions.\todo{missing link to sum of independent random variables (and thus justification for our variable change)}
+\textbf{Combined intensity model}:
+The intensity distribution can now be seen as a convolution of the readout and shot noise distributions.
+\todo{missing link to sum of independent random variables (and thus justification for our variable change)}
   %
   \begin{align}
     p(\xp{}|\z{},\parametersc, \parameterse)
