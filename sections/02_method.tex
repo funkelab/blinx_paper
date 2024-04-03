@@ -1,15 +1,22 @@
 \section{Method}
 
+\todo{add summary of this section here}
+
 \subsection{Model}
 Consider multiple fluorescent emitters, smaller than can be visually separated.
+  \todo{the emitters could still be far from each other}
   %
   Each blinking stochastically and independently of the others, 
   yielding a fluctuating intensity signal over time \figref{fig:method:overview}a.
+  \todo{(see \figref{fig:method:overview}a)}
+  \todo{that doesn't sound like a complete sentence to my ears}
   %
-  The goal of this method is to determine the posterior distribution over all
+  The goal of this method\todo{our method?} is to determine the posterior distribution over all
   possible number of emitters given the observed intensity trace \trace.
   %
-  Because the number of emitters is discrete, models must be fit independently for each possible value of $n$.
+  Because the number of emitters is discrete, models must be fit independently for each possible value of $n$.\todo{that is not generally true}\todo{\n was not introduced}\todo{also, use our macros :)}
+  %
+  \todo{before we dive in, I am missing a simple sentence like ``We are interested in inferring the number \n of [...], given a trace of intensity \trace''}
   Beginning with Bayes law, the posterior distribution can be written as:
   % Bayes Law
   \begin{equation*}
@@ -19,8 +26,8 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
   Assuming a uniform prior on the number of emitters, $p(n)$ can be dropped.
   % choose to model as HMM
   Because \trace is a series of sequential intensity measurements, 
-    we choose to model this distribution as a Hidden Markov Model, parameterized by $\theta$,
-     with hidden state $z$, which represents the number of emitters active and emitting photons at time $t$.
+    we choose to model\todo{just ``we model''} this distribution as a \hmm, parameterized by $\theta$,
+     with hidden state $z$, which represents the number of emitters active and emitting photons at time $t$.\todo{this sentence is too long, break it up and introduce the parts one by one}\todo{also: macros :)}
     
   \begin{equation}
     p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | z_{t}, \theta) p(z_{t} | z_{t-1}, \parameters, n)
@@ -28,13 +35,13 @@ Consider multiple fluorescent emitters, smaller than can be visually separated.
   \end{equation}
 
   Following this framework, the likelihood is the product of two probability distributions,
-  an intensity distribution and a transition distribution. 
+  an intensity distribution and a transition distribution.\todo{I'd say ``model'', that is also the title of the next sections}
 
 \subsubsection{Intensity Model}
 
 To accurately model the observed intensity from a microscope system with an sCMOS camera, 
-  the readout noise from the detector, and the shot noise of photon count must both be accounted for~\cite{huang_video-rate_2013} \figref{fig:method:overview}c.
-  Marginalizing over \photons, the probability of observing intensity \x{} can then be defined as:
+  the readout noise from the detector, and the shot noise of photon count must both be accounted for~\cite{huang_video-rate_2013} \figref{fig:method:overview}c.\todo{figure refs go in parentheses}
+  Marginalizing over \photons, the probability of observing intensity \x{} can then be defined as:\todo{\photons is not introduced}\todo{Generally, we are moving too fast here. Take your time explaining how we measure intensity and use Fig 1 as a guide. Then dive into the math.}
 
   \begin{equation}
     p(\x{}|\z{},\parameters) = \sum_\photons p(\x{}|\photons,\parametersc)p(\photons|\z{},\parameterse)
@@ -48,7 +55,7 @@ To accurately model the observed intensity from a microscope system with an sCMO
     p(\x{}|\photons,\parametersc) = \mathcal{N}[\photons\camgain + \camoffset, \camvar](\x{})
   \end{equation}
   %
-  Next, a change of variables is introduced, moving the distribution into photon space
+  Next, a change of variables is introduced\todo{avoid passive}, moving the distribution into photon space\todo{why do we do that?}
   %
   \begin{equation}
     \xp{} = \frac{\x{} - \camoffset}{\camgain}
@@ -63,23 +70,23 @@ To accurately model the observed intensity from a microscope system with an sCMO
   \end{align}
   %
   Shifting our distribution by the number of photons \photons, the readout noise of the detector can be expressed as a 0 mean 
-  normal distribution, that is independent of the number of photons detected.
+  normal distribution, that is independent of the number of photons detected.\todo{Aha! That should be said before we do the change of variable.}
 
 \textbf{Emission shot noise}:
   Due to shot noise, the number of photons detected over a time interval $\deltat$ is Poisson
   distributed~\cite{mehta_poisson_2016} \figref{fig:method:overview}c. In this system, there are two sources of emitted photons, a number of emitters in the active state $\z{}\re$,
   and other out of plane emitters producing a relatively constant amount of background photons $\rb$. Combined, 
-  these sources produce the expected number of photons per exposure $\lambda$.
+  these sources produce the expected number of photons per exposure $\lambda$.\todo{$\lambda$ is the exposure? ;)}
   \begin{align}
     p(\photons|\z{},\parameterse)
       &= \poisson[\underbrace{(\z{}\re + \rb)\deltat}_{\lambda}](\photons) \\
       &\approx \mathcal{N}[\lambda, \lambda](\photons)
   \end{align}
   % 
-  For large values of $\lambda$ the poisson distribution approaches a normal distribution with both mean and variance of $\lambda$.
+  For large values of $\lambda$ the poisson distribution approaches a normal distribution with both mean and variance of $\lambda$.\todo{say that this is an approximation}
 
-\textbf{Putting it back together:}
-The intensity distribution can now be seen as a convolution of the readout and shot noise distributions.
+\textbf{Putting it back together:}\todo{I wouldn't literally say that in a paper}
+The intensity distribution can now be seen as a convolution of the readout and shot noise distributions.\todo{missing link to sum of independent random variables (and thus justification for our variable change)}
   %
   \begin{align}
     p(\xp{}|\z{},\parameters)
