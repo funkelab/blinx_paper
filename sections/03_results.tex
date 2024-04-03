@@ -12,7 +12,7 @@ Running \ours as a forward model, traces were generated for counts N=1 to 30
 	%
 	Camera parameters were determined from an empirical calibration of the
 	sCMOS camera (\parametersc: \camgain=2.17, \camoffset=4791, \camvar=774), 
-	and kinetic (\parameterst: \pon=0.036, \poff=0.028), and emission parameters ()\parameterse: \re=2.79, \rb=6.77) were determined through an
+	and kinetic (\parameterst: \pon=0.036, \poff=0.028), and emission parameters (\parameterse: \re=2.79, \rb=6.77) were determined through an
 	initial experiment, and closely match those reported in literature \cite{stein_2021}.
 	%
 	Traces were generated for 4000 frames, corresponding to an imaging time of 14 minutes.
@@ -20,18 +20,19 @@ Running \ours as a forward model, traces were generated for counts N=1 to 30
 % priors were placed on camera parameters, but all others were uniform
 While fitting, tight gaussian priors were placed on the camera parameters because these were empirically determined.
 	%
+	Flat uniform priors were place on the kinetic parameters, allowing the model to fit blinking rates without external bias.
+	%
 	Loose priors were placed on the emission parameters (\rb, \re) to prevent overcounting (discussed further in discussion). 
+	% how we got these priors
+	The prior on \rb can be experimentally determined by averaging the intensity of pixels immediately outside the spot ROI.
+	The prior on \re was determined by first fitting a count of \n=1 to the trace.
 	%
-	% do we need to explain how we got these priors
-	The prior on \rb can be experimentally determined by averaging the intensity of dark pixels surrounding the spot ROI.
-	The prior on \re was determined by first fitting a count of $n$=1 to the trace.
-	%
-	Given the definitions of \pon and \poff, the most common transition from state $z$ will be to state $z \pm 1$, a switch of a single emitter.
-	It follows that the distribution of all observed $z$-states will be unimodal, and that whichever $z$-state is the most common, 
-	the second most common will be $z \pm 1$. Therefore fitting $n=1$ will capture this transition 
+	Given the definitions of \pon and \poff, the most common transition from state $z$ will be to state $\z{} \pm 1$, a switch of a single emitter.
+	It follows that the distribution of all observed $z$-states will be unimodal, and that whichever \z{}-state is the most common, 
+	the second most common will be $\z{} \pm 1$. Therefore fitting $n=1$ will capture this transition 
 	and as a result accurately estimate \re (the photon emission rate of a single emitter).
 	%
-	Flat uniform priors were place on the kinetic parameters, allowing the model to fit blinking rates without external bias.
+	
 
 % blinx can count!
 \ours successfully fit simulated traces with counts up to N=30 (\figref{fig:results:sim_counting}c).
@@ -41,7 +42,7 @@ While fitting, tight gaussian priors were placed on the camera parameters becaus
 	Above N=10 the likelihood of other possible counts increased, but the posterior distribution remained centered on the correct count.
 	%
 	Importantly, \ours is able to fit the correct count,
-	despite the fact that not every state is visited \ie the model is not just counting the number of peaks in the intensity histogram \figref{fig:results:sim_counting}a,b.
+	despite the fact that not every state is visited \ie the model is not just counting the number of peaks in the intensity histogram (\figref{fig:results:sim_counting}a,b).
 	% blinx outperforms lbFCS, counting up to 30 
 	This is a tripling in performance compared to lbFCS, which counted accurately up to N=7, but failed to estimate higher counts.
 	% main limitation of lbFCS is estimation of the "step size" corresponding to r_e
@@ -77,9 +78,9 @@ To investigate the effect of noise on counting ability, the variance of the read
 	%
 	The base model, with experimentally measured \camvar corresponds to an SNR of 9. 
 	%
-	\ours shows similar performance down to an SNR as low as 4 \figref{fig:results:sim_counting}e. 
+	\ours shows similar performance down to an SNR as low as 4 (\figref{fig:results:sim_counting}e). 
 	%
-	Interestingly, at SNR's below 4, \ours estimates the count as 25, the highest $n$ tested, no matter the true count. 
+	Interestingly, at SNR's below 4, \ours estimates the count as 25, the highest \n tested, no matter the true count. 
 	%
 	This is due to the low probability of observing states far from the mean of our intensity model, and is further expanded on in the discussion. 
 
@@ -95,15 +96,15 @@ To determine the effect of blinking kinetics on the counting ability of \ours, t
 	%
 	Traces with true counts from 1 to 20 were simulated and fit.
 	%
-	The resulting posterior for all $n$s 1 to 20, was then reduced to the weighted mean square error from a perfect fit for comparison \figref{fig:results:campare_kinetics}a.
+	The resulting posterior for all $n$s 1 to 20, was then reduced to the weighted mean square error from a perfect fit for comparison (\figref{fig:results:campare_kinetics}a).
 	%
 	
 \ours preforms well in regimes of high \pon and low \poff, and sees a significant decrease in performance as \poff increases. 
 	%
-	In the extreme of the qPAINT regime, \ours is unable to count, estimating a $n$ = 1 or 2 regardless of the true value.
+	In the extreme of the qPAINT regime, \ours is unable to count, estimating a \n = 1 or 2 regardless of the true value.
 	%
-	The clear difference between these two regimes can be visualized through representative traces, and intensity histograms \figref{fig:results:campare_kinetics}c,d,
-	both of which have a true count of $n$=10.
+	The clear difference between these two regimes can be visualized through representative traces, and intensity histograms (\figref{fig:results:campare_kinetics}c,d),
+	both of which have a true count of \n=10.
 	%
 	In the low \pon / high \poff regime, a majority of time is spent only in the lowest two states and without 
 	any prior knowledge the count of these trace becomes indistinguishable.
@@ -117,7 +118,7 @@ An advantage of using DNA-PAINT, is that the blinking rates are dependant on DNA
 	and therefore are highly tunable \cite{wade_2019, strauss_2020}. % add references 
 	%
 	Imaging DNA-origami, with a known count of $n$=1, at room temperature, with imager concentration of 10 nM, 
-	resulted in traces with average kinetic parameters of \pon=0.028 and \poff=0.072 \figref{fig:results:campare_kinetics}b. 
+	resulted in traces with average kinetic parameters of \pon=0.028 and \poff=0.072 (\figref{fig:results:campare_kinetics}b). 
 	%
 	In order to move to the better counting regime the temperature was decreased (decrease \poff) 
 	and the concentration of imager increased (increase \pon).
@@ -133,7 +134,8 @@ An advantage of using DNA-PAINT, is that the blinking rates are dependant on DNA
 % qPAINT operates in a different kinetic regime that lbFCS
 qPAINT is based on an accurate measure of the average dark time between blinking events. 
 	%
-	As a result, this method operates in an entirely different kinetic regime than lbFCS, where blinking "on" events are short and infrequent (\figref{fig:results:qpaint_counting}a,b).
+	As a result, this method operates in an entirely different kinetic regime than lbFCS, where blinking 
+	events are short and infrequent (\figref{fig:results:qpaint_counting}a,b).
 	% this presents challenges to blinx
 	This regime presents a challenge to \ours. 
 	%
@@ -142,13 +144,13 @@ qPAINT is based on an accurate measure of the average dark time between blinking
 	qPAINT, faces the same limitation, and relies on a calibration of the blinking kinetics of a single binding site.
 	% However, blinx is fully Bayesian and we can overcome these challenges by tightening priors
 	\ours, as a fully Bayesian model can easily incorporate the same calibration as priors of the kinetic parameters
-	and once again accurately count up to N=30 (\figref{fig:results:campare_kinetics}c).
+	and once again accurately count up to N=30 (\figref{fig:results:qpaint_counting}c).
 
 % qPAINT undercounts but blinx does not
 Due to the stochastic nature of blinking, multiple binding sites can blink at the same time, which becomes increasingly likely at higher counts.
 	%
 	This is not compatible with the qPAINT assumption of well separated, single binding-site blinking events, 
-	and as a result, qPAINT begins to underestimate molecular count, (especially noticeable above N=20, \figref{fig:results:campare_kinetics}c). 
+	and as a result, qPAINT begins to underestimate molecular count, (especially noticeable above N=20, (\figref{fig:results:qpaint_counting}c)). 
 	% blinx avoids this problem
 	The blinking of multiple binding sites at the same time point, 
 	is compatible and accounted for in the transition model of blinx 
@@ -165,13 +167,13 @@ To experimentally validate the counting performance of \ours, DNA-Origami, which
 	%
 	Incorporation efficiency is roughly 80 percent for each docker site \cite{strauss_2018}, so only a fraction of the origamis were expected to contain all 4 dockers. 
 	% 
-	Origamis were first imaged at 13 C, low laser power, and 20 nM imager concentration to collect traces for counting with \ours \figref{fig:results:experimental}.
+	Origamis were first imaged at 13 C, low laser power, and 20 nM imager concentration to collect traces for counting with \ours (\figref{fig:results:experimental}).
 	%
 	Then the system was allowed to warm to 25C, a buffer exchange performed and new imager added at 10 nM, and the origamis were imaged again at high laser power.
 	%
-	Only origamis that had a visual count matching the planned count (1 or 4) were selected for analysis with \ours.
+	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
 
-Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%) and the maximum estimated count was 3 (1/131) \figref{fig:results:experimental}.
+Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%) and the maximum estimated count was 3 (1/131) (\figref{fig:results:experimental}).
 	%
 	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, and 103/110 were identified as between 3 and 5.
 	%

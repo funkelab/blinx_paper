@@ -1,6 +1,12 @@
 \section{Method}
-
-\todo{add summary of this section here}
+Here we describe \ours the model.
+  %
+  Starting from the photo-physics of the system, we derive a probabilistic model, 
+  accounting for both the observed intensity, and the temporal fluctuation kinetics.
+  %
+  Given an intensity trace, the output is the posterior distribution over molecular counts, 
+  providing not only the most likely count, but also a comparison to all other possible counts. 
+  %\todo{add summary of this section here}
 
 \subsection{Model}
 Consider multiple fluorescent emitters, who's combined intensity contributions are measured over time.
@@ -8,9 +14,9 @@ Consider multiple fluorescent emitters, who's combined intensity contributions a
   %\todo{the emitters could still be far from each other}
   %
   Each emitter blinks stochastically and independently of the others, 
-  yielding a fluctuating sequence of total intensity measurements (see \figref{fig:method:overview}a).
+  yielding a fluctuating trace of total intensity measurements (\figref{fig:method:overview}a).
   %
-  We are interested in inferring the number of emitters \n, given this trace of intensity \trace.
+  Our goal is to infer the number of emitters \n, given this trace of intensity \trace.
   % Because the number of emitters is discrete, models must be fit independently for each possible value of $n$.
   % \todo{that is not generally true}\todo{\n was not introduced}
   %
@@ -24,7 +30,7 @@ Consider multiple fluorescent emitters, who's combined intensity contributions a
   % Can ignore p(n)
   Assuming a uniform prior on the number of emitters, $p(\n)$ can be dropped.
   % choose to model as HMM
-  We model this distribution as a \hmm, parameterized by \parameters.
+  We then model this distribution as a \hmm, parameterized by \parameters.
     %
     The hidden state \z, represents the number of emitters active and emitting photons at time $t$
     % old version: with hidden state \z, which represents the number of emitters active and emitting photons at time $t$.
@@ -35,7 +41,7 @@ Consider multiple fluorescent emitters, who's combined intensity contributions a
     \label{eq:method:HMM}
   \end{equation}
 
-  Following this framework, the likelihood is the product of two probability distributions,
+  Following this framework, the likelihood is the product of two probability distributions:
   an intensity model and a transition model.
   %\todo{I'd say ``model'', that is also the title of the next sections}
 
@@ -46,16 +52,17 @@ The distribution of observed intensity measurements can be derived directly from
   % and the shot noise of photon counts must both be accounted for
   % ~\cite{huang_video-rate_2013} (\figref{fig:method:overview}c).
   %
-  Working backwards through the light path, the measured intensity value \x{} is a function of the number of photons \photons detected.
+  Working backwards through the light path, the measured intensity value \x{} is a function of the number of photons \photons detected
+  (\figref{fig:method:overview}c).
   %
-  The detector itself contributed noise to the system, known as the readout noise. 
+  The detector itself contributes noise to the system, known as the readout noise. 
   %
   The number of photons hitting the detector, is dependant on the number of emitters \z, and is distributed following the shot noise.
   %
   The readout noise from the detector is often assumed to be negligible (\ie when using an EMCCD camera).
   %
   However, because the detector of our system is an sCMOS camera, both noise distributions must be accounted for
-  ~\cite{huang_video-rate_2013} (\figref{fig:method:overview}c).
+  ~\cite{huang_video-rate_2013}.
 
   Marginalizing over \photons, the probability of observing intensity \x{} can then be defined as:
   %\todo{Generally, we are moving too fast here. Take your time explaining how we measure intensity and use Fig 1 as a guide. Then dive into the math.}
@@ -70,7 +77,7 @@ The distribution of observed intensity measurements can be derived directly from
 
 \textbf{Readout noise (camera)}:
   %
-  Given \photons photons, the readout intensity of the camera is normally distributed
+  Given \photons photons, the readout intensity of the camera is normally distributed~\citep{huang_video-rate_2013}
   %
   \begin{equation}
     p(\x{}|\photons,\parametersc) = \mathcal{N}[\photons\camgain + \camoffset, \camvar](\x{})
@@ -157,7 +164,8 @@ Next, to model the step-like temporal fluctuations in intensity, observed in the
 
 \subsubsection{Inference}
 
-\eqref{eq:method:HMM} describes the likelihood of observing \trace given seven fittable parameters.
+\eqref{eq:method:HMM} describes the likelihood of observing \trace given seven fittable parameters and \n.
+  %
   However, because the complexity of this expression is dependant on \n, the likelihoods for each \n are not directly comparable to one another.
   Rather, the model evidence, also known as the marginal likelihood, must be used to compare different values of \n and build the posterior. 
 
@@ -168,29 +176,31 @@ Next, to model the step-like temporal fluctuations in intensity, observed in the
   This integral over all possible parameters \parameters = (\parametersc, \parameterse, \parameterst) can be approximated using the 
   Laplace approximation also called an Occam factor \cite{bishop_pattern_2006}
   %
-  \begin{align*}
-    \ln p(\trace | n) \approx \ln p(\trace | \parameters_{MAP}) + \ln p(\parameters_{MAP}) &\\
-    + \frac{M}{2} \ln(2\pi) - \frac{1}{2} \ln |A|
-    \label{eq:method:evidence_with_m}
-  \end{align*}
+  \begin{equation}
+    \begin{aligned}
+      \ln p(\trace | n) \approx \ln p(\trace | \parameters_{MAP}, \n) + \ln p(\parameters_{MAP}) \\
+      + \frac{M}{2} \ln(2\pi) - \frac{1}{2} \ln |A|
+      \label{eq:method:evidence_with_m}
+    \end{aligned}
+  \end{equation}
 
   \begin{equation*}
     A = -\nabla \nabla \ln p(\parameters_{MAP} | \trace)
   \end{equation*}
 
-  $M$ is the dimensionality of $\theta$, which in \ours is constant for all $n$ (only the size of the transition matrix changes).
+  $M$ is the dimensionality of \parameters, which in \ours is constant for all \n (only the size of the transition matrix changes).
   %
   Therefore this term becomes a constant and can be dropped from \eqref{eq:method:evidence_with_m}, resulting in:
   \begin{equation}
-    \ln p(\trace | n) \approx \ln p(\trace | \parameters_{MAP}, n) + \ln p(\parameters_{MAP}) - \frac{1}{2} \ln |A|
+    \ln p(\trace | \n) \approx \ln p(\trace | \parameters_{MAP}, \n) + \ln p(\parameters_{MAP}) - \frac{1}{2} \ln |A|
     \label{eq:method:evidence}
   \end{equation}
   %
-  Therefore, to estimate the posterior distribution over $n$ we first need to 
-  find the maximum a posteriori (MAP) parameters for each value of $n$. 
+  Therefore, to estimate the posterior distribution over \n we first need to 
+  find the maximum a posteriori (MAP) parameters for each value of \n. 
 
   % blinx if fully differentiable
-  \ours is fully differentiable, so $p(\trace | \parameters_{MAP}, n)$ can be efficiently 
+  \ours is implemented fully differentiably in JAX , so $p(\trace | \parameters_{MAP}, \n)$ can be efficiently 
   fit through gradient ascent.
   %
   Finally, the molecular count can be obtained:
