@@ -19,12 +19,13 @@
   \begin{panel}{(c)}{\textwidth}
     \setlength\plotwidth{72mm}%
     \setlength\plotheight{72mm}%
+    \centering%
     \input{figures/panels/qpaint_counting_estimates.tikz}
   \end{panel}
 
   \caption{
-    \panelref{a, b} trace simulated with 10/20 emitters, \pon=0.006, \poff=0.2, 
-    and the posterior distribution estimated by \ours
+    \panelref{a, b} simulated traces and \ours fits, \pon=0.006, \poff=0.2,  and  $n$ = 10/20 emitters. 
+    \ours was fit with strong priors on all parameters.
     %
     \panelref{c} At higher molecular counts ($n > 15$) \qpaint begins to underestimate the count, while 
     the posterior of \ours remains accurate.

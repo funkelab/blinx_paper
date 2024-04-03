@@ -40,18 +40,19 @@
   \end{panel}
 
   \caption{
-    \panelref{a, b} Trace simulated from 10/20 emitters, and the posterior
-    distribution estimated by \ours.
+    \panelref{a, b} Traces simulated from $n$=10/20 emitters, 
+    The inferred state and infered model demonstrate accurate fitting of both the intensity and transition distributions.
+    Posterior distribution estimated by \ours.
     %
     \panelref{c} The \ours posterior is able to accurately estimate
     significantly higher molecular counts than the current state of the art,
-    lbFCS
+    lbFCS.
     %
     \panelref{d} As trace length increases, the variance of the \ours posterior
-    decreases.
+    decreases, with limited improvement above 4000 frames.
     %
-    \panelref{e} As the signal to noise ratio increases the variance of the
-    \ours posterior decreases.
+    \panelref{e} At low signal-to-noise, \ours severely overcounts, estimating the maximum count tested 
+    as the most likely.
   }
   \label{fig:results:sim_counting}
 
