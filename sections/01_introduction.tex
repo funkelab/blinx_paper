@@ -2,108 +2,168 @@
 
 \input{figures/figure_1_overview}
 
-% FLIP this first paragraph
-Fluorescence microscopy has advanced understanding of biological systems by providing precise localization information 
-  of molecular species, but its ability to determine quantitative information, such as molecular counts remains limited.
+% molecular counting: what is it and why do we care?
+%
+Molecular counting aims to determine the absolute number of \smallobjects
+associated in an \object, a quantity that is often essential to understanding
+the underlying biology of a system.
   %
-  For large structures, such as whole cells or organelles, individual objects can be spatially separated, 
-  and counting becomes trivial.
+  The activation of T cells, for example, is sensitive to single ligands, and
+  quantifying the molecular count of ligand-receptor interactions informs
+  understanding of downstream signalling pathways and
+  sensitivity~\citep{irvine_2002}.
   %
-  However, due to the diffraction limit, standard fluorescent imaging methods are limited to a resolution of 200 nm and 
-  individual objects smaller than this threshold can no longer be separated.
+  Furthermore, molecular counting allows identifying oligomeric states by
+  counting XXX\todo{insert the right word here} to tell monomers, dimers,
+  trimers\todo{right word?}, and higher order oligomers apart.
   %
-  The development of super-resolution techniques \cite{betzig_2006, rust_2006}, has surpassed the diffraction limit, and allows
-  for the spatial separation of objects as close as 10 nm apart \cite{valli_seeing_2021}.
+  Several biological processes depend on this quantity: TGF-$\beta$ signaling,
+  for example, depends on the oligomeric state of Smad~\citep{inman_2002,
+  moustakas_2002}.
   %
-  However, many objects of interest are smaller still, or physically positioned closer 
-  together and cannot be spatially separated even with super-resolution techniques.
+  Similarly, the oligomeric state of G-protein coupled receptors influences
+  downstream GPCR signaling~\citep{felce_2018, breitwieser_2004}.
 
-% Examples of importance to biology
-Molecular counting aims to determine the absolute number of subunits
-  associated in a complex, a quantity that is often essential to understanding the
-  underlying biology of a system. 
+% fluorescence microscopy alone is not enough
+%
+Often, as in those examples, the \smallobjects of interest are only a few
+nanometers apart and as such can not be quantified in standard fluorescence
+microscopy.
   %
-  Here are three examples:
-  \begin{itemize}
-  
-    \item Immune response: the activation of T cells is sensitive to single ligands, and quantifying 
-      the molecular count of ligand - receptor interactions informs understanding of downstream signalling pathways and sensitivity~\cite{irvine_2002}.
+  %Fluorescence microscopy can provide precise localization information of
+  %molecular species, but its ability to determine quantitative information, such
+  %as counts of nearby molecules, remains limited.
+  %
+  In contrast to larger structures (whole cells or organelles), which can
+  easily be discerned in fluorescence microscopy, individual molecules in
+  diffraction limited spots below a resolution of 200\nanometer can no longer
+  be separated.
+  %
+  Even super-resolution techniques~\citep{betzig_2006,rust_2006} that surpass
+  the diffraction limit are not suitable to discern \smallobjects that are
+  closer than 10\nanometer apart~\citep{valli_seeing_2021}.
+  %
+  However, many \objects of interest are smaller still, or physically
+  positioned closer together and cannot be spatially separated even with
+  super-resolution techniques.\todo{other reasons why super resolution is not
+  always possible/desirable? imaging speed?}
 
-    \item TGF-$\beta$ signaling: the function of Smad is dependant on its oligomeric state \cite{inman_2002, moustakas_2002}. Determining the relative 
-      amounts of monomeric, and trimeric states, though molecular counting, informs understanding of pathway activity.
+% summary of what the problem is and how we approach it
+%
+We present a Bayesian solution to estimate the number of fluorescently labelled
+\smallobjects in a single diffraction limited spot.
+  %
+  Our solution is based on a probabilistic model that incorporates the
+  photo-physics of blinking fluorescent emitters and models their dynamics over
+  time as a Markov chain.
+  %
+  Given a trace of the combined intensity of all \smallobjects contained in a
+  spot over time, this model can be used to obtain a posterior distribution
+  over the number of emitters contained in that spot.
 
-    \item GPCRs signaling: G-protein coupled receptors exist as monomers, dimers, or higher order oligomers, 
-      and again downstream signalling is dependant on oligomeric state~\cite{felce_2018, breitwieser_2004}.
-      Quantifying molecular count of these oligomers would inform understanding of the signalling state of the cell.
+% Motivate fluorescence based methods (doesn't say a lot IMO -Jan)
+%
+%
+%Although other methods exist to quantify molecular count at this scale, a
+%robust, accurate, \todo{needs citations} fluorescence based method would make
+%quantification much more accessible, while maintaining the benefits of
+%fluorescence imaging, such as spatial localization.
 
-    \end{itemize}
-    % Motivate fluorescence based methods
-    Although other methods exist to quantify molecular count at this scale, a robust, accurate, % needs citations
-    fluorescence based method would make quantification much more accessible, while maintaining the benefits
-    of fluorescence imaging, such as spatial localization.
+%%%%%%%%%%%%%%%%
+% Related Work %
+%%%%%%%%%%%%%%%%
 
-% Related work
 % fluorescence intensity based counting
-Perhaps the simplest method of molecular counting is correlating fluorescent
-  intensity with the number of \smallobjects \cite{schmied_2012, tolar_2005}, \ie the brighter the spot is, the more there are.
+%
+Perhaps the simplest method of molecular counting is to correlate the combined
+fluorescent intensity of a spot with the number of \smallobjects, \ie, the
+brighter the spot is, the more \smallobjects are contained~\citep{schmied_2012,
+tolar_2005}.
   %
-  This method works well for qualitative measures, but due to the noise in intensities 
-  measured from any single fluorophore, lacks the precision needed to report exact counts.
-  % Other methods work by separating things out in time
-  In order to extract more information from the system for a more reliable count, other methods, 
-  in addition to intensity values, utilize temporal information.
-  % FCS and bSOFI
-  Methods such as fluorescence correlation spectroscopy (FCS) \cite{otsuka_2023, wachsmuth_2015, politi_2018} and 
-  balanced super-resolution optical fluctuation imaging (bSOFI) \cite{geissbuehler_2012}
-  fit higher order statistics to fluctuations in fluorescent intensity over time to estimate the molecular count.
-  % Bleaching based
-  In other methods, temporal variation in intensity can be induced, rather than just random, \ie
-  counting, by measuring the number of distinct bleaching steps observed \cite{ulbrich_2007, jain_2011, hummert_2021}.
-  % PALM and STORM based
-  Methods have also been developed based on the blinking fluorophores \cite{rollins_stochastic_2015, nino_2017} 
-  such as those used in PALM \cite{sengupta_pcPALM_2011, lee_counting_2012} and STORM~\cite{patel_blinking_2021}. 
-  % Some of these methods are also based on HMMs, should we mention that here?
-  The known blinking behavior allows for more precise models than the random fluctuations measured in FCS and bSOFI, while the 
-  repeated transitions in intensity provide more information than the irreversible switch in bleaching based counting.
-  % Limitations
-  A major limitation of these methods is the effect of photo-bleaching, as this limits the amount of time
-  a single fluorophore can be observed, and makes it difficult to differentiate blinking from photo-bleaching.
+  This method works well for qualitative measures, but, due to the noise in
+  intensities measured from any single fluorophore, lacks the precision needed
+  to report exact counts.
 
+% Other methods work by separating things out in time
+%
+Molecular counting can be more reliable if temporal fluctuations of intensity
+are observed.
+  %
+  % FCS and bSOFI
+  Methods such as fluorescence correlation spectroscopy
+  (FCS)~\citep{otsuka_2023,wachsmuth_2015,politi_2018} and balanced
+  super-resolution optical fluctuation imaging
+  (bSOFI)~\citep{geissbuehler_2012} fit higher order statistics to fluctuations
+  in fluorescent intensity over time to estimate the molecular count.
+  % Bleaching based
+  In other methods, temporal variations in intensity are induced rather than
+  just observed, \eg, by measuring the number of distinct bleaching
+  steps that provide cues about the number of fluorescent
+  emitters~\citep{ulbrich_2007,jain_2011,hummert_2021}.
+
+% Some of those use blinking fluorophores
+%
+Blinking fluorophores, such as those used in
+PALM~\citep{sengupta_pcPALM_2011,lee_counting_2012} and
+STORM~\citep{patel_blinking_2021}, can be used to facilitate the counting
+problem~\citep{rollins_stochastic_2015,nino_2017}.
+  %
+  % Some of these methods are also based on HMMs, should we mention that here?
+  The known blinking behavior allows for more precise models than the random
+  fluctuations measured in FCS and bSOFI, while the repeated transitions in
+  intensity provide more information than the irreversible switch in bleaching
+  based counting.
+  %
+  % Limitations
+  A major limitation of these methods is the effect of photo-bleaching, as this
+  limits the amount of time a single fluorophore can be observed, and makes it
+  difficult to differentiate blinking from photo-bleaching.
 
 % DNA-PAINT is extra useful because its emitters dont bleach either
-In contrast, DNA-PAINT \cite{schnitzbauer_2017} is a method of producing blinking fluorescence that is functionally
-    immune to photo-bleaching due to the continuous replenishment of fluorophores from solution \cite{stehr_2021}.
-    % lbFCS
-    Localization based FCS (lbFCS) \cite{stein_2019, stein_2021}, combines the structured blinking of DNA-PAINT, with the 
-    principles of FCS, fitting the autocorrelation function of intensity over time to produce a count,
-    and is able to count up to 6 molecules in a single diffraction limited spot.
-    % qPAINT
-    Quantitative DNA-PAINT (qPAINT \cite{jungmann_2016}) estimates the molecular count based on the frequency of blinking events, \ie, 
-    a blinking rate of 1 event per second is calibrated to 1 molecule, therefore an observation of 10 events per second
-    produces a count of 10 molecules.
-    % Limitations
-    However, both of these methods are limited in that they fit summary statistics,
-    rather than the data directly. 
-    %
-    Further, all of the methods mentioned provide a single estimate of molecular count.
-    A well calibrated probabilistic estimate would provide 
-    
+%
+In contrast, DNA-PAINT~\citep{schnitzbauer_2017} is a method of producing
+blinking fluorescence that is functionally immune to photo-bleaching due to the
+continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
+  %
+  % lbFCS
+  Localization based FCS (\lbfcs)~\citep{stein_2019,stein_2021} combines the
+  structured blinking of DNA-PAINT with the principles of FCS, fitting the
+  autocorrelation function of intensity over time to produce a count. As such,
+  it is able to accurately count up to six molecules in a single diffraction
+  limited spot.
+  %
+  % qPAINT
+  Quantitative DNA-PAINT (qPAINT~\citep{jungmann_2016}) estimates the molecular
+  count based on the frequency of blinking events, \ie, a blinking rate of one
+  event per second is calibrated to one molecule, therefore an observation of
+  ten events per second produces a count of ten molecules.
+  % Limitations
+  However, both of these methods are limited in that they fit summary
+  statistics, rather than the data directly.\todo{find a positive spin, \eg,
+  ``In contrast to those methods, our solution...''}
+  %
+  Further, all of the methods mentioned provide a single estimate of molecular
+  count. A well calibrated probabilistic estimate would provide.
+
 % Our Model
 % ----------
 % fully Bayesian
-We propose \ours, a fully Bayesian model to estimate the molecular 
-  count directly from a fluctuating sequence of fluorescent intensity measurements over time.
-  % Based on a fully differentiable markov chain
-  Based on a fully differentiable Hidden Markov Model, \ours fits 7 parameters
-  directly to the sequence of measurements, estimating a likelihood for each possible count. 
-  % probabilistic
-  These likelihoods can be directly compared, producing a posterior distribution of counts 
-  given the observation sequence. 
-  % more accurate than existing methods 
-  \ours is validated on a series of simulated experiments, and shows a significant improvement in performance 
-  over both lbFCS and qPAINT.
+We propose \ours, a fully Bayesian model to estimate the molecular count
+directly from a fluctuating sequence of fluorescent intensity measurements over
+time.
   %
-  Finally the counting ability of \ours is proven experimentally, by validating the estimated count
-  with ground truth measured by super-resolution DNA-PAINT.
-
-
+  % Based on a fully differentiable markov chain
+  Based on a fully differentiable Hidden Markov Model, \ours fits
+  seven\todo{better: say what parameters (emission, camera, kinetics)}
+  parameters directly to the sequence of measurements, estimating a likelihood
+  for each possible count.
+  % probabilistic
+  These likelihoods can be directly compared, producing a posterior
+  distribution of counts given the observation sequence.
+  % more accurate than existing methods 
+  We validated \ours on a series of simulated experiments, and shows a
+  significant improvement in performance over both lbFCS and qPAINT.
+  %
+  Finally the counting ability of \ours is proven experimentally, by validating
+  the estimated count with ground truth measured by super-resolution DNA-PAINT.
+  \todo{avoid passive voice, say ``we proved the counting...''}
