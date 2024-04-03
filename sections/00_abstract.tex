@@ -1,24 +1,30 @@
 \begin{abstract}
 
-Here, we aim to increase the quantitative precision of fluorescent microscopy 
-  by accurately counting the number of single-molecules within a spatially limited area.
+  We address the problem of inferring the number of independently blinking
+  fluorescent light emitters, when only their combined intensity contributions
+  can be observed at each timepoint.
   %
-  Focusing on a resolution limited spot, \ours models the temporal fluctuations of combined intensity over time
-  to uncover the number of individual subunits within the spot. 
+  This problem occurs regularly in light microscopy of \objects that are
+  smaller than the diffraction limit, where one wishes to count the number of
+  fluorescently labelled \smallobjects.
   %
-  \ours directly models the photo-physics of the system, as well as the blinking kinetics of the fluctuations
-  as a fully differentiable Markov Chain.
+  Our proposed solution directly models the photo-physics of the system, as
+  well as the blinking kinetics of the fluorescent emitters as a fully
+  differentiable \hmm.
   %
-  The result is a probabilistic model, that not only reports an accurate molecular count, but 
-  also the likelihood of other possible counts, which can provide important information for downstream processing. 
+  Given a trace of intensity over time, our model jointly estimates the
+  parameters of the intensity distribution per emitter, their blinking rates,
+  as well as a posterior distribution of the total number of fluorescent
+  emitters.
   %
-  \ours is then used to investigate the effect of blinking kinetics on counting ability, and to inform 
-  experimental conditions that will maximize counting potential.
+  Compared to current state-of-the-art methods, which count based on
+  autocorrelation and blinking frequency, we show that our model is
+  consistently more accurate and increases the range of countable subunits by a
+  factor of two.
   %
-  Compared to the current state of the art, which count based on autocorrelation and blinking frequency,
-  \ours is consistently more accurate and increases the range of countable subunits by a factor of two.
-  %
-
+  Furthermore, we demonstrate that our model can be used to investigate the
+  effect of blinking kinetics on counting ability, and therefore inform
+  experimental conditions that will maximize counting accuracy.
 
 
   % We address the problem of inferring the number of independently blinking
