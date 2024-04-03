@@ -14,8 +14,8 @@ the underlying biology of a system.
   sensitivity~\citep{irvine_2002}.
   %
   Furthermore, molecular counting allows identifying oligomeric states by
-  counting XXX\todo{insert the right word here} to tell monomers, dimers,
-  trimers\todo{right word?}, and higher order oligomers apart.
+  counting the subunits in a cluster, to tell monomers, dimers,
+  trimers, and higher order oligomers apart.
   %
   Several biological processes depend on this quantity: TGF-$\beta$ signaling,
   for example, depends on the oligomeric state of Smad~\citep{inman_2002,
@@ -45,8 +45,9 @@ microscopy.
   %
   However, many \objects of interest are smaller still, or physically
   positioned closer together and cannot be spatially separated even with
-  super-resolution techniques.\todo{other reasons why super resolution is not
-  always possible/desirable? imaging speed?}
+  super-resolution techniques.
+  %\todo{other reasons why super resolution is not always possible/desirable? imaging speed?}
+  % ^^ any limitations to super-res will also effect our method
 
 % summary of what the problem is and how we approach it
 %
@@ -139,11 +140,16 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   ten events per second produces a count of ten molecules.
   % Limitations
   However, both of these methods are limited in that they fit summary
-  statistics, rather than the data directly.\todo{find a positive spin, \eg,
-  ``In contrast to those methods, our solution...''}
+  statistics, rather than the data directly.
   %
-  Further, all of the methods mentioned provide a single estimate of molecular
-  count. A well calibrated probabilistic estimate would provide.
+  In contrast, our solution fits the model to each frame of the measurement 
+  in sequence, fully utilizing both the temporal and intensity information available.
+  %
+  Further, all of the methods mentioned provide a single estimate of molecular count. 
+  %
+  A probabilistic estimate would identify cases where different possible counts are all likely,
+  as well as provide a measure of certainty in the count. Providing a more detailed quantitative 
+  understanding of the system. 
 
 % Our Model
 % ----------
@@ -154,16 +160,16 @@ time.
   %
   % Based on a fully differentiable markov chain
   Based on a fully differentiable Hidden Markov Model, \ours fits
-  seven\todo{better: say what parameters (emission, camera, kinetics)}
-  parameters directly to the sequence of measurements, estimating a likelihood
-  for each possible count.
+  seven parameters (blinking on/off rates, emitter and background photon emission rates, 
+  and camera gain/offset/variance) directly to the sequence of measurements, 
+  estimating a likelihood for each possible count.
   % probabilistic
   These likelihoods can be directly compared, producing a posterior
   distribution of counts given the observation sequence.
   % more accurate than existing methods 
   We validated \ours on a series of simulated experiments, and shows a
-  significant improvement in performance over both lbFCS and qPAINT.
+  significant improvement in performance over both \lbfcs and \qpaint.
   %
-  Finally the counting ability of \ours is proven experimentally, by validating
-  the estimated count with ground truth measured by super-resolution DNA-PAINT.
-  \todo{avoid passive voice, say ``we proved the counting...''}
+  Finally, we proved the counting ability of \ours experimentally, by validating 
+  the estimated count with ground truth measured by super-resolution DNA-PAINT imaging.
+
