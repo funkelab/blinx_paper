@@ -5,6 +5,7 @@
     width=\plotwidth,
     height=\plotheight,
     scale only axis=true,
+    name=kinetics,
     xlabel=\pon,
     ylabel=\poff,
     grid=major,
@@ -89,5 +90,7 @@
       \draw (n_25_10) -- node[pos=0.5,above,sloped] {\tiny$T=25$} (n_25_20) -- (n_25_30);
     \end{pgfonlayer}
   \end{axis}
+
+  \node[anchor=south] at (kinetics.north) {\strut Concentration and Temperature};
 
 \end{tikzpicture}%
