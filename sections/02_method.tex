@@ -1,140 +1,197 @@
 \section{Method}
-Here we describe \ours the model.
+
+Starting from the photo-physics of the system, we derive a probabilistic model,
+accounting for both the observed intensity, and the temporal fluctuation
+kinetics.
   %
-  Starting from the photo-physics of the system, we derive a probabilistic model, 
-  accounting for both the observed intensity, and the temporal fluctuation kinetics.
-  %
-  Given an intensity trace, the output is the posterior distribution over molecular counts, 
-  providing not only the most likely count, but also a comparison to all other possible counts. 
-  %\todo{add summary of this section here}
+  Given an intensity trace, the output of our method \ours is the posterior
+  distribution over molecular counts, providing not only the most likely count,
+  but also a comparison to all other possible counts. 
 
 \subsection{Model}
-Consider multiple fluorescent emitters, who's combined intensity contributions are measured over time.
-  % old version: smaller than can be visually separated,
-  %\todo{the emitters could still be far from each other}
+
+We consider the case of multiple fluorescent emitters within a single
+diffraction limited spot.
+%
+  As such, we can only measure their combined intensity contributions
+  $\x{t}$ at a timepoint $t$.
   %
-  Each emitter blinks stochastically and independently of the others, 
-  yielding a fluctuating trace of total intensity measurements (\figref{fig:method:overview}a).
+  We assume that each emitter blinks stochastically and independently of the
+  others, yielding a fluctuating trace $\trace = (\x{1},\ldots,\x{T})$ of total
+  intensity measurements over $T$ frames (see an example in
+  \figref{fig:method:overview}a).
   %
-  Our goal is to infer the number of emitters \n, given this trace of intensity \trace.
-  % Because the number of emitters is discrete, models must be fit independently for each possible value of $n$.
-  % \todo{that is not generally true}\todo{\n was not introduced}
+  Our goal now is to infer the number of emitters \n, given \trace.
+
+More formally, we are interested in modelling a posterior distribution of the
+number of emitters given the intensity trace, \ie:
   %
-  % \todo{before we dive in, I am missing a simple sentence like ``We are interested in inferring the number \n of [...], given a trace of intensity \trace''}
-  
-  Beginning with Bayes law, the posterior distribution can be written as:
-  % Bayes Law
   \begin{equation*}
     p(\n | \trace) \propto p(n) p(\trace | \n)
   \end{equation*}
+  %
   % Can ignore p(n)
-  Assuming a uniform prior on the number of emitters, $p(\n)$ can be dropped.
+  Assuming a uniform prior on the number of emitters, $p(\n)$ can be ignored
+  and it remains to model the likelihood $p(\trace|\n)$.
+  %
   % choose to model as HMM
-  We then model this distribution as a \hmm, parameterized by \parameters.
-    %
-    The hidden state \z, represents the number of emitters active and emitting photons at time $t$
-    % old version: with hidden state \z, which represents the number of emitters active and emitting photons at time $t$.
-    % \todo{this sentence is too long, break it up and introduce the parts one by one}
-    
+  %
+  We model this likelihood as a \hmm where the hidden state, denoted by \z{t},
+  represents the number of emitters that are active and emitting photons at
+  time $t$ (see \figref{fig:method:overview}d).
+  %
+  The whole \hmm is conditioned on several parameters \parameters, \eg, the
+  photon emission rates and the transition rates between different states and
+  factorizes as usual over frames:\todo{list \parameterse, \parametersc, and
+  \parameterst instead of examples}
+  %
   \begin{equation}
-    p(\trace| n) = \prod_{t=0}^{T} p(x_{t} | z_{t}, \theta) p(z_{t} | z_{t-1}, \parameters, n)
+    p(\trace| \n, \parameters) =
+      \prod_{t=1}^{T}
+        p(\x{t} | \z{t}, \parameters)
+        p(\z{t} | \z{t-1}, \parameters, \n)
+    \text{,}
     \label{eq:method:HMM}
   \end{equation}
+  %
+  where we define $p(\z{1}|\z{0},\parameters,\n)=p(\z{}|\parameters,\n)$, \ie,
+  the initial distribution of the hidden state $\z{}$ is the stationary
+  distribution.
 
-  Following this framework, the likelihood is the product of two probability distributions:
-  an intensity model and a transition model.
-  %\todo{I'd say ``model'', that is also the title of the next sections}
+  Following this framework, the likelihood is the product of two probability
+  distributions: an intensity model $p(\x{t}|\z{t},\parameters)$ and a
+  transition model $p(\z{t}|\z{t-1},\parameters,\n)$.
 
 \subsubsection{Intensity Model}
-The distribution of observed intensity measurements can be derived directly from the photo-physics of our microscope system.
+
+The distribution of observed intensity measurements \x{t} given the number of
+currently active emitters \z{t} can be directly derived from the photo-physics
+of our microscope system.
   %
-  % Because the detector of our system is an sCMOS camera, both the readout noise from the camera, 
-  % and the shot noise of photon counts must both be accounted for
-  % ~\cite{huang_video-rate_2013} (\figref{fig:method:overview}c).
+  (Note that in the following we omit the subscript $t$ in this section for
+  clarity.)
   %
-  Working backwards through the light path, the measured intensity value \x{} is a function of the number of photons \photons detected
+  Working backwards through the light path, the measured intensity value \x{}
+  is a function of the number of photons \photons detected
   (\figref{fig:method:overview}c).
   %
-  The detector itself contributes noise to the system, known as the readout noise. 
+  The detector itself contributes noise to the system, known as the readout
+  noise, which we model as $p(\x{}|\photons,\parametersc)$.
   %
-  The number of photons hitting the detector, is dependant on the number of emitters \z, and is distributed following the shot noise.
-  %
-  The readout noise from the detector is often assumed to be negligible (\ie when using an EMCCD camera).
-  %
-  However, because the detector of our system is an sCMOS camera, both noise distributions must be accounted for
-  ~\cite{huang_video-rate_2013}.
+  The number of photons hitting the detector, in turn, depend on the number of
+  active emitters \z{} and are distributed following a shot noise model
+  $p(\photons|\z{},\parameterse)$.
 
-  Marginalizing over \photons, the probability of observing intensity \x{} can then be defined as:
-  %\todo{Generally, we are moving too fast here. Take your time explaining how we measure intensity and use Fig 1 as a guide. Then dive into the math.}
-
+The probability of observing an intensity \x{} given \z{} can then be obtained
+by marginalizing over \photons, \ie:
+  %
   \begin{equation}
-    p(\x{}|\z{},\parameters) = \sum_\photons \underbrace{p(\x{}|\photons,\parametersc)}_{\text{readout}} 
-    \underbrace{p(\photons|\z{},\parameterse)}_{\text{shot}}
+    p(\x{}|\z{},\parameters) =
+      \sum_\photons
+        \underbrace{p(\x{}|\photons,\parametersc)}_{\text{readout}}
+        \underbrace{p(\photons|\z{},\parameterse)}_{\text{shot}}
+    \text{.}
     \label{eq:method:marginalized_intensity}
   \end{equation}
 
-  For brevity, the subscript $t$ has been dropped from \eqref{eq:method:marginalized_intensity} through \eqref{eq:method:approx_nomral}.
+\paragraph{Readout Noise}
 
-\textbf{Readout noise (camera)}:
+The readout noise from the detector is often assumed to be negligible (\ie when
+using an EMCCD camera).
   %
-  Given \photons photons, the readout intensity of the camera is normally distributed~\citep{huang_video-rate_2013}
+  However, because the detector of our system is an sCMOS camera, both noise
+  distributions must be accounted for~\citep{huang_video-rate_2013}.
+  \todo{reword: support readout noise, move to its section}
+
+  Given \photons photons, the readout intensity of the camera is normally
+  distributed~\citep{huang_video-rate_2013}
   %
   \begin{equation}
     p(\x{}|\photons,\parametersc) = \mathcal{N}[\photons\camgain + \camoffset, \camvar](\x{})
+    \text{,}
   \end{equation}
   %
-  Next, we introduce a change of variables, moving the distribution into photon space\todo{why do we do that?}
+  where $\parametersc = (\camgain, \camoffset, \camvar)$ are the camera's gain,
+  offset, and variance, respectively.
+
+  In the following, it will be beneficial to express the readout noise as a
+  zero mean normal distribution that is independent of the number of photons
+  detected. To that end, we transform our measurements \x{} into photon space
+  by accounting for the camera gain and offset:
   %
   \begin{equation}
     \xp{} = \frac{\x{} - \camoffset}{\camgain}
     \;\;\;\;
     \x{} = \xp{}\camgain + \camoffset
+    \text{.}
   \end{equation}
+  %
+  We can now express our readout noise distribution in terms of the transformed
+  measurements \xp{}, which we further shift by $-\photons$ to obtain a
+  zero-mean distribution:
   %
   \begin{align}
     p(\xp{}|\photons,\parametersc)
       &= \mathcal{N}[\photons, \frac{\camvar}{\camgain^2}](\xp{}) \\
       &= \mathcal{N}[0, \frac{\camvar}{\camgain^2}](\xp{} - \photons)
+    \text{.}
   \end{align}
-  %
-  Shifting our distribution by the number of photons \photons, the readout noise of the detector can be expressed as a zero mean 
-  normal distribution, that is independent of the number of photons detected.\todo{Aha! That should be said before we do the change of variable.}
 
+\paragraph{Shot Noise}
 
-\textbf{Shot noise (emission)}:
-  Due to shot noise, the number of photons detected over a time interval $\deltat$ is Poisson
-  distributed~\cite{mehta_poisson_2016} (\figref{fig:method:overview}c). 
+Due to shot noise, the number of photons detected over a time interval
+$\deltat$ is Poisson distributed~\cite{mehta_poisson_2016}
+(\figref{fig:method:overview}c).
   %
-  In this system, there are two sources of emitted photons, from emitters in the active state $\re$,
-  and from out of plane emitters producing a relatively constant amount of background photons $\rb$. Combined, 
-  these sources produce the expected number of photons $\lambda$ per frame.
+  Our model accounts for two sources of emitted photons: first, the \z{} active
+  emitters produce photons at a rate $\z{}\re$, and second, out of plane
+  emitters produce a relatively constant amount of background photons \rb.
   %
-  \begin{align}
+  Combined, these sources produce the expected number of photons
+  $\lambda=(\z{}\re + \rb)\deltat$ per frame.
+  %
+  \begin{equation}
     p(\photons|\z{},\parameterse)
-      &= \poisson[\underbrace{(\z{}\re + \rb)\deltat}_{\lambda}](\photons) \\
-      &\approx \mathcal{N}[\lambda, \lambda](\photons)
-  \end{align}
-  % 
-  For large values of $\lambda$ the poisson distribution approaches a normal distribution with both mean and 
-  variance of $\lambda$ and can be approximated as such.
-  % \todo{say that this is an approximation}
+      = \poisson[\underbrace{(\z{}\re + \rb)\deltat}_{\lambda}](\photons)
+    \text{.}
+  \end{equation}
+  %
+  For large values of $\lambda$ the Poisson distribution approaches a normal
+  distribution with both mean and variance of $\lambda$ and therefore we
+  approximate our shot noise distribution as:
+  %
+  \begin{equation}
+    p(\photons|\z{},\parameterse)
+      \approx \mathcal{N}[\lambda, \lambda](\photons)
+    \text{.}
+  \end{equation}
 
-\textbf{Combined intensity model}:
-The intensity distribution can now be seen as a convolution of the readout and shot noise distributions.
-\todo{missing link to sum of independent random variables (and thus justification for our variable change)}
-  %
-  \begin{align}
+\paragraph{Combined Intensity Model}
+
+Taking together the measurement transform
+\eqref{eq:method:measurement_transform} and approximation \eqref{8}, the
+intensity distribution \eqref{eq:method:marginalized_intensity} can now be
+rewritten as
+%
+  \begin{equation}
     p(\xp{}|\z{},\parametersc, \parameterse)
-      &= \sum_\photons
+      = \sum_\photons
         \mathcal{N}[0, \frac{\camvar}{\camgain^2}](\xp{} - \photons)
-        \mathcal{N}[\lambda, \lambda](\photons) \\
-      &= \mathcal{N}[\lambda, \lambda + \frac{\camvar}{\camgain^2}](\xp{})
-      \label{eq:method:approx_nomral}
-  \end{align}
+        \mathcal{N}[\lambda, \lambda](\photons)
+    \text{.}
+  \end{equation}
   %
-  In this case where both are normally distributed, the convolution is also normally distributed with 
-  a mean and variance that are the sum of the original random variables mean and variance respectively. 
+  Similar to~\cite{huang_video-rate_2013}, we note that this expression
+  resembles a convolution, \ie, the sum of two independent random variables
+  (the photon count \photons and a zero-mean, photon-independent camera readout
+  noise, see~\eqref{6}). Since the two distributions are normal, we can rewrite
+  the above as a single normal distribution with summed means and variances:
   %
+  \begin{equation}
+    p(\xp{}|\z{},\parametersc, \parameterse)
+      = \mathcal{N}[\lambda, \lambda + \frac{\camvar}{\camgain^2}](\xp{})
+    \text{.}
+  \end{equation}
 
 \subsubsection{Transition Model}
 Next, to model the step-like temporal fluctuations in intensity, observed in the trace \trace, 
