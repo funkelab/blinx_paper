@@ -57,6 +57,9 @@
   }
 
 \end{axis}
+\@ifundefined{plotlabel}{}{
+  \node[anchor=north west,rectangle,draw,fill=white] at (trace.north west) {\plotlabel};
+}
 
 \@ifundefined{histogramcsv}{}{
   \begin{axis}[

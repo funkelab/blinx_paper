@@ -9,11 +9,16 @@
 \def\posteriorcol{posterior_10}%
 \tikzsetnextfilename{sim_trace_n10}%
 \begin{tikzpicture}
+  \def\plotlabel{$\n = 10$}
   \input{figures/plots/fancy_trace.plot}
   \def\noylabels{}
   \def\noxlabel{}
   \setlength\plotwidth{0.1\plotwidth}
   \setlength\plotheight{\plotwidth}
-  \pgfplotsset{every axis/.style={anchor=below south east,at={($(histogram.south east)-(2mm,0)$)}}}
+  \pgfplotsset{every axis/.style={
+    anchor=below south east,
+    at={($(histogram.south east)-(2mm,0)$)},
+    xtick distance=2
+  }}
   \input{figures/plots/p_n_given_x.plot}
 \end{tikzpicture}
