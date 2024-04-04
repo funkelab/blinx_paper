@@ -40,10 +40,9 @@ number of emitters given the intensity trace, \ie:
   represents the number of emitters that are active and emitting photons at
   time $t$ (see \figref{fig:method:overview}d).
   %
-  The whole \hmm is conditioned on several parameters \parameters, \eg, the
-  photon emission rates and the transition rates between different states and
-  factorizes as usual over frames:\todo{list \parameterse, \parametersc, and
-  \parameterst instead of examples}
+  The whole \hmm is conditioned on several parameters \parameters, (
+    \parametersc: camera parameters, \parameterse: emission parameters, 
+    and \parameterst: transition parameters).
   %
   \begin{equation}
     p(\trace| \n, \parameters) =
@@ -68,8 +67,7 @@ The distribution of observed intensity measurements \x{t} given the number of
 currently active emitters \z{t} can be directly derived from the photo-physics
 of our microscope system.
   %
-  (Note that in the following we omit the subscript $t$ in this section for
-  clarity.)
+  (Note that in the following section we omit the subscript $t$ for clarity.)
   %
   Working backwards through the light path, the measured intensity value \x{}
   is a function of the number of photons \photons detected
@@ -99,10 +97,11 @@ by marginalizing over \photons, \ie:
 The readout noise from the detector is often assumed to be negligible (\ie when
 using an EMCCD camera).
   %
-  However, because the detector of our system is an sCMOS camera, both noise
-  distributions must be accounted for~\citep{huang_video-rate_2013}.
-  \todo{reword: support readout noise, move to its section}
-
+  However, when using an sCMOS camera, it's contribution is significant and 
+  must be accounted for~\citep{huang_video-rate_2013}.
+  %
+  To accommodate both systems, here we include the readout noise in our model.
+  %
   Given \photons photons, the readout intensity of the camera is normally
   distributed~\citep{huang_video-rate_2013}
   %
@@ -132,8 +131,9 @@ using an EMCCD camera).
   %
   \begin{align}
     p(\xp{}|\photons,\parametersc)
-      &= \mathcal{N}[\photons, \frac{\camvar}{\camgain^2}](\xp{}) \\
+      &= \mathcal{N}[\photons, \frac{\camvar}{\camgain^2}](\xp{})  \\
       &= \mathcal{N}[0, \frac{\camvar}{\camgain^2}](\xp{} - \photons)
+      \label{eq:method:transformed_readout_noise}
     \text{.}
   \end{align}
 
@@ -164,12 +164,13 @@ $\deltat$ is Poisson distributed~\cite{mehta_poisson_2016}
     p(\photons|\z{},\parameterse)
       \approx \mathcal{N}[\lambda, \lambda](\photons)
     \text{.}
+    \label{eq:method:normal_approx_shot_noise}
   \end{equation}
 
 \paragraph{Combined Intensity Model}
 
 Taking together the measurement transform
-\eqref{eq:method:measurement_transform} and approximation \eqref{8}, the
+\eqref{eq:method:transformed_readout_noise} and approximation ~\eqref{eq:method:normal_approx_shot_noise}, the
 intensity distribution \eqref{eq:method:marginalized_intensity} can now be
 rewritten as
 %
@@ -184,13 +185,14 @@ rewritten as
   Similar to~\cite{huang_video-rate_2013}, we note that this expression
   resembles a convolution, \ie, the sum of two independent random variables
   (the photon count \photons and a zero-mean, photon-independent camera readout
-  noise, see~\eqref{6}). Since the two distributions are normal, we can rewrite
+  noise, see~\eqref{eq:method:transformed_readout_noise}). Since the two distributions are normal, we can rewrite
   the above as a single normal distribution with summed means and variances:
   %
   \begin{equation}
     p(\xp{}|\z{},\parametersc, \parameterse)
       = \mathcal{N}[\lambda, \lambda + \frac{\camvar}{\camgain^2}](\xp{})
     \text{.}
+    \label{eq:method:combined_intensity}
   \end{equation}
 
 \subsubsection{Transition Model}
