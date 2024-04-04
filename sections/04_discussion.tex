@@ -18,7 +18,6 @@ Here, we presented \ours a probabilistic model, to estimate the absolute number 
     both of which are useful for downstream processing applications. 
 
 % Assumptions
-% Could maybe be a bulleted list?
 There are a few assumptions that are essential to \ours.
     %
     Firstly, it is assumed that all subunits behave independently.
@@ -54,27 +53,58 @@ There are a few assumptions that are essential to \ours.
     
 
 % Limitations
-While, \ours has been designed to be applicable to as many different systems as possible, there are a few limitations that should be considered.
+While, \ours has been designed to be applicable to as many different systems as possible, 
+there are a few limitations that should be considered.
     % overestimation of count
-    The primary limitation of \ours is the tendency to overestimate the molecular count, especially in traces with low SNR. 
+    The primary limitation of \ours is the tendency to overestimate the molecular count, 
+    especially in traces with low SNR. 
     %
-    This is caused by the relatively tight normal distribution at the heart of the intensity model. 
+    This is caused by the distribution at the heart of the intensity model. 
     %
-    When an intensity is observed far from the mean of this distribution, it is often "cheaper" to add a new state to the model, 
-    rather than account for the intensity with the given distribution. 
-    % 
-    This can happen even in traces with high SNR, but is especially common when SNR is low. 
+    The model expects intensities to be observed in evenly spaced, normally distributed 
+    peaks (see histograms in \figref{fig:results:experimental}a,b).
     %
-    In the extreme case, an infinite number of states could be used to perfectly explain any intensity trace.
+    When an intensity is observed between two of these peaks, it can sometimes be cheaper, 
+    in terms of likelihood, to add a new \z{}-state to the model,
+    rather than account for that intensity with the given distribution.
     %
-    One method of identifying over-counting is to compare the observed distribution of states, with the theoretical distribution given the kinetic parameters. % a figure would help explain this
+    In the extreme limit, an infinite number of states could be used to perfectly explain any intensity trace.
     %
-    % how does this comparison help?
+    % mention histogram comparison to identify over-counting?
     %
-    This limitation can also be avoided by specifying prior on \re, the photon emission rate of a single fluorophore. 
+    This limitation can be avoided by specifying a prior on \re, the photon emission rate of a single fluorophore. 
     %
-    A prior on \re effectively increases the cost of adding additional states, and is often enough to prevent over counting. 
+    A prior on \re effectively increases the cost of adding additional states.
 
-% model requires some prior knowledge, especially of r_e
-% Noise model does not capture all noise observed in system
+Another limitation is that the intensity model does not capture all the noise in the system.
+    %
+    As seen in \figref{fig:results:experimental}a, there are a significant amount of frames where the 
+    measured intensity is greater than $1*10^4$ and out of our model's distribution.
+    % 
+    The frequency of this effect was dependant on the imaging temperature (data not shown).
+    %
+    As a result, we hypothesize that this effect is associated with the DNA-PAINT imaging system.
+    % 
+    To compensate for this behavior a baseline probability was incorporated into the intensity model 
+    \ie there is a fixed minimum likelihood for observing any intensity.
+    %
+    Further, to reduce the influence of this effect on counting accuracy, the highest 0.5\% of 
+    intensities values were excluded when calculating likelihood (the specific percent is adjustable as a hyperparameter).
+
+% Outlook
+% blinx will work in current pipelines
+Finally, we expect \ours to easily fit into DNA-PAINT based molecular counting pipelines, 
+where methods such as \lbfcs and \qpaint are currently used. % less aggressive
+    % not limited to DNA-PAINT
+    However, \ours is not limited to DNA-PAINT based methods. 
+    % extend to include PALM and STORM
+    With minor modifications to the transition distribution (\ie add a photobleaching probability) 
+    this method could be extended to use other stochastically blinking emitters such as those used in PALM or STORM.
+    %
+    Further, by setting \pon = 0, this model could also support counting of photobleaching events.
+    %
+    The Bayesian framework of \ours opens this method to many opportunities for future expansion.
+    %
+    % Need a good ending sentence 
+
 
