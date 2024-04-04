@@ -55,6 +55,7 @@
     \tikz{\input{figures/plots/z_histogram.plot}}%
   };
   \node[fit=(qpaint_zs),inner sep=0,rounded corners,draw=funkey_color_9,thick] (qpaint_box) {};
+  \node[rounded corners,fill=funkey_color_9,thick] at (qpaint_box.south) {\tiny \color{white}$\rightarrow$(c)};
 
   \node[anchor=south] (lbfcs_zs) at (sweep.south-|qpaint_zs.south) {
     \def\zhistogramcsv{figures/data/kinetics_grid/state_histogram.csv}%
@@ -65,6 +66,7 @@
     \tikz{\input{figures/plots/z_histogram.plot}}%
   };
   \node[fit=(lbfcs_zs),inner sep=0,rounded corners,draw=funkey_color_9,thick] (lbfcs_box) {};
+  \node[rounded corners,fill=funkey_color_9,thick] at (lbfcs_box.south) {\tiny \color{white}$\rightarrow$(d)};
 
   \draw[funkey_color_3,thick] (qpaint) -- (qpaint-|qpaint_box.west);
   \draw[funkey_color_3,thick] (lbfcs) -- (lbfcs-|lbfcs_box.west);
