@@ -245,8 +245,9 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
 \eqref{eq:method:HMM}, depends on a total of seven fittable parameters
 \parameters and the total number of emitters \n.
   %
-  However, we are interested in the posterior distribution $p(\trace|\n)$, also
-  known as the model evidence, which is defined as:
+  However, we are interested in the posterior distribution $p(\trace|\n)$.
+  Which accounting for the priors on \parameters in addition to the likelihood, 
+  is known as the model evidence, and defined as:
   %
   \begin{equation*}
     p(\trace | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
@@ -285,26 +286,42 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   \eqref{eq:method:evidence_with_m}, resulting in:
   \begin{equation}
     \ln p(\trace | \n) \approx \ln p(\trace | \parametersmap, \n) + \ln p(\parametersmap) - \frac{1}{2} \ln |A|
+    \text{.}
     \label{eq:method:evidence}
   \end{equation}
   %
   Therefore, to estimate the posterior distribution over \n we first need to 
-  find the maximum a posteriori (MAP) parameters for each value of \n. 
+  find the maximum likelihood parameters $\parametersmap$ for each value of \n. 
 
-  % blinx if fully differentiable
-  \ours is implemented fully differentiably in JAX , so $p(\trace | \parametersmap, \n)$ can be efficiently 
-  fit through gradient ascent.
+  This model is implemented fully differentiably, allowing us to estimate 
+  the maximum likelihood parameters through gradient ascent. Accounting for 
+  both the likelihood function and the priors, the gradients with respect to 
+  \parameters are calculated as:
   %
-  Finally, the molecular count can be obtained:
+  \begin{align}
+    \text{grad} = \nabla f(\pon, \poff, \re, \rb, \camoffset, \camvar, \camgain) \\
+    f(\parameters, \n) = \ln p(\trace | \parameters, \n) + \ln p(\parameters) \notag
+    \text{,}
+  \end{align}
+  %
+  and thus: 
   %
   \begin{equation}
-      \estimatedn =
-      \text{arg}\max_{n}(
-      \max_\parameters
-      p(\trace|\n,\parameters))
+    \ln p(\trace | \n) = \max_\parameters
+    f(\parameters, \n) - \frac{1}{2} \ln |A|
+    \text{.}
+  \end{equation}
+  %
+  Finally, the molecular count can be obtained though the maximum evidence over all possible counts \n:
+  %
+  \begin{equation}
+      \text{count} =
+      \text{arg}\max_{n}
+        \ln p(\trace | \n)
     \text{.}
     \label{eq:method:optimization}
   \end{equation}
+
 
 \subsection{Experimental}
 \subsubsection{DNA Origami}
