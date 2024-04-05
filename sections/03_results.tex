@@ -113,22 +113,42 @@ To determine the effect of blinking kinetics on the counting ability of \ours, t
 	In contrast, in the high \pon / low \poff regime a majority of the states are visited, and \ours 
 	is able to accurately recover the correct count.
 
-% Experimental 
-An advantage of using DNA-PAINT, is that the blinking rates are dependant on DNA-biding kinetics,
-	and therefore are highly tunable \cite{wade_2019, strauss_2020}. % add references 
+% Experimental
+% Do we need to explain how DNA-PAINT works
+In DNA-PAINT, the blinking rate is determined by the kinetics of single-stranded DNA binding,
+which in turn are dependant on experimental conditions such as temperature and concentration, and sequence.
 	%
-	Imaging DNA-origami, with a known count of $n$=1, at room temperature, with imager concentration of 10 nM, 
-	resulted in traces with average kinetic parameters of \pon=0.028 and \poff=0.072 (\figref{fig:results:campare_kinetics}b). 
+	As a result, the kinetic parameters \pon and \poff of our model, are can be 
+	tuned by adjusting the temperature and imager concentration.
 	%
-	In order to move to the better counting regime the temperature was decreased (decrease \poff) 
-	and the concentration of imager increased (increase \pon).
+	Imaging DNA-origami with a known count of $\n=1$ at 25 C and an 
+	imager concentration of 10 nM, we measured $\pon=0.028$ and $\poff=0.072$ 
+	(\figref{fig:results:campare_kinetics}b).
 	%
-	As concentration increased SNR decreased, primarily due to an increased background photon rate \rb.
+	Which places these conditions firmly in the poor counting 
+	accuracy regime of $\pon < \poff$ (\figref{fig:results:campare_kinetics}a). % fix
+	
+In order to move to a more favorable kinetic regime, 
+we increased the imager concentration and decreased the temperature.
 	%
-	Informed by simulation, imaging conditions of 20 nM imager at 13 C were chosen as optimal conditions,
-	balancing kinetic regime and maintaining high SNR.
-
-
+	Increasing imger concentration to 30 nM raised \pon to 0.071 and 
+	decreasing temperature to 13 C decreased \poff to 0.037 
+	(\figref{fig:results:campare_kinetics}b).
+	%
+	The effects of temperature and concentration were largely independent 
+	of one another providing precise control over the kinetic parameters. % cite jungmann paper
+	%
+	We also observed a significant decrease in SNR with decreasing temperature, 
+	and with increasing concentration. 
+	%
+	This was an expected side effect of increasing concentration, as more imager would increase \rb.
+	%
+	But the effect of temperature on SNR was surprising. 
+	We hypothesize that this is due to the stabilization partial 
+	binding between imager and docker strands at low temperatures.
+	%
+	Accounting for both the increase in counting accuracy and the decrease 
+	in SNR, imaging conditions of 20 nM and 13 C were chosen as optimal.
 
 \subsection{qPAINT Kinetic Regime}
 % qPAINT operates in a different kinetic regime that lbFCS
