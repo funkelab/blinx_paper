@@ -1,18 +1,22 @@
 \section{Discussion}
 % Overview of highlights
-Here, we presented \ours a probabilistic model, to estimate the absolute number of subunits in an area to small to be spatially separated. 
+Here, we presented \ours a probabilistic model, to estimate the absolute 
+number of subunits in an area to small to be spatially separated. 
     %
-    In kinetic regimes where \pon $>$ \poff, \ours can operate as a calibration free counting method.
+    In kinetic regimes where \pon $>$ \poff, \ours can operate 
+    as a calibration free counting method.
     %
-    Compared to the state of the art in this space (lbFCS), \ours improved the counting ability by a factor of three,
-    accurately counting up to 30 individual subunits.
+    Compared to the state of the art in this space (lbFCS), \ours improved 
+    the counting ability by a factor of three, accurately counting 
+    up to 30 individual subunits.
     %
-    In the kinetic regime where \pon $<$ \poff, \ours requires a calibration, implemented in the form of a prior on \pon and \poff,
-    as well as on the emission parameters \re and \rb.
+    In the kinetic regime where \pon $<$ \poff, \ours requires a calibration, 
+    implemented in the form of priors on \pon, \poff, \re, and \rb.
     %
-    Compared to qPAINT (which also is heavily dependant on a calibration), \ours shows a a greater counting accuracy, especially for $n > 20$.
+    With these priors, \ours again accurately counts up to 30, compared to qPAINT, 
+    which also is heavily dependant on a calibration, and under estimates the count at higher \n.
     %
-    Another advantage of \ours is that the output is a posterior distribution over all possible counts, rather than only a single number. 
+    Our model is also probabilistic, producing a posterior over all possible counts, rather than only a single estimate.
     %
     This provides a confidence metric on the reported count, as well as allowing for the comparison between different possible counts, 
     both of which are useful for downstream processing applications. 

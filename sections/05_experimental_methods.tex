@@ -2,45 +2,37 @@
 
 
 \paragraph{DNA Origami}
-DNA origami with 20 nm spaced docking strands, were designed with the Picasso-design module \cite{schnitzbauer_2017}, 
-  and a list of all single-strand DNA used as well as a detailed folding procedure can be found in \cite{schnitzbauer_2017}.
+DNA origami with 20 nm spaced docking strands, were designed with the Picasso-design module \cite{schnitzbauer_2017}
+and assembled following the procedure in \cite{schnitzbauer_2017}, with single-strand DNA oligos purchased from IDT.
   %
-  A repetitive 11 nt docker sequence (CTCCTCCTCCT) was conjugated to the 5' end of select staple strands to form the grid.
+  A repetitive 11 nt docker sequence (CTCCTCCTCCT) was added to the 3' end of select staples as the docker sequence.
   %
-  Such repetitive sequences have been shown to increase \pon, while being short enough to prevent double binding events \cite{civitci_2020}.
+  Such repetitive sequences have been shown to increase \pon~\citep{civitci_2020}.
   %
-  DNA origamis samples were prepared for imaging following the procedure described in \cite{schnitzbauer_2017}. 
-  %
-  Briefly, a chamber (ibidi $\mu$-Slide 8-well glass bottom) was pacified with BSA, coated in streptavidin, and biotinylated origamis conjugated. 
-
+  DNA origamis samples were prepared for imaging in ibidi $\mu$-Slide 8-well glass bottom slides, 
+  again following the procedure described in \cite{schnitzbauer_2017}. 
+  
 \paragraph{DNA-PAINT}
 DNA-PAINT imaging was performed following the standard procedure detailed in \cite{schnitzbauer_2017}. 
   %
   Imaging solution contained buffer B (5 mM Tris-HCl, 10 mM MgCl$_2$ 1 mM EDTA, pH 8) and an oxygen scavenging system consisting of PCA, PCD, and Trolox.
   %
-  For super-resolution experiments, 10nM of a 7 nt imager (GAGGAGG) was used, while for \ours counting analysis 
-  20 nM of an 8 nt imager (GAGGAGGA) was used.
+  Super-resolution images were acquired at an with a 7 nt imager (GAGGAGG-Cy3B, Biosyn) at a concentration of 10 nM,
+  while counting analysis images were acquired with a 8nt imager (GAGGAGGA-Cy3B, Biosyn) at a concentration of 20 nM.
   %
-  Both imagers were conjugated to at the 3' end to a Cy3B fluorophore, and a 200 ms exposure time was used for all experiments.
-  %
-  Images were post-processed in the Picasso-localize module to detect spots and correct drift over the time course. 
-  %
-  Super-resolution images were visualized in Picasso-render.
+  All images were post-processed in the Picasso-localize module to detect spots and correct drift over the time course. 
 
 \paragraph{Microscopy}
 
 % Microscopy system
-TIRF imaging was performed on a Zeiss Elyra 7 microscope, equipped with a pco.edge 4.2 sCMOS camera (pixel size 6.5 $\mu$m)
-  %
-  An $\alpha$ Plan-Apochromat 63x/1.46 TIRF oil immersion objective was used.
+TIRF imaging was performed on a Zeiss Elyra 7 microscope, equipped with 
+a pco.edge 4.2 sCMOS camera (pixel size 6.5 $\mu$m), and an $\alpha$ 
+Plan-Apochromat 63x/1.46 TIRF oil immersion objective.
   % Chiller system
-  For temperature control, an okolab H101-Cryo-BL system was used. Temperature readings were taken using a thermocouple from a water filled well neighboring 
-  that of the sample in the 8 well chamber slide 
+  An okolab H101-Cryo-BL system provided temperature control. 
   % 
   It was found that this temperature control system was not compatible with super-resolution experiments, 
   due to vibrations caused by the pump, and transferred to the objective through the cooling jacket.
   % 
   Therefore for super-resolution experiments, the temperature control system was turned off, 
   and the sample temperature allowed to increase to room temp (25 C) before imaging.
-  %
-  % Further complications of DNA-PAINT at cool temperatures are discussed in the SI
