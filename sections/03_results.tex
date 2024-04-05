@@ -5,7 +5,9 @@
 \input{figures/figure_4_qpaint_kinetics}
 \input{figures/figure_5_experimental_counting}
 
+%-------------
 \subsection{Simulated Experiments}
+%-------------
 % Simulated traces based on experimentally relevant parameters
 Running \ours as a forward model, traces were generated for counts $\n=1$ to 30
 	(\figref{fig:results:sim_counting}a,b).
@@ -106,8 +108,9 @@ Next, we aimed to determine the robustness of our model and the minimum signal-t
 	This is due to model adding states to compensate for out of distribution intensities, 
 	and is further elaborated on in the discussion. 
 
-
+%-------------
 \subsection{Effect of kinetic parameters}
+%-------------
 Next, we hypothesized that the performance of our model would depend on the true kinetic parameters of the system, 
 and that a regime exists that maximizes our models counting ability, 
 
@@ -181,54 +184,76 @@ we increased the imager concentration and decreased the temperature.
 	Accounting for both the increase in counting accuracy and the decrease 
 	in SNR, imaging conditions of 20 nM and 13 C were chosen as optimal.
 
+%-------------
 \subsection{qPAINT Kinetic Regime}
+%-------------
 % qPAINT operates in a different kinetic regime that lbFCS
 qPAINT is based on an accurate measure of the average dark time between blinking events. 
 	%
 	As a result, this method operates in an entirely different kinetic regime than lbFCS, where blinking 
 	events are short and infrequent (\figref{fig:results:qpaint_counting}a,b).
-	% this presents challenges to blinx
-	This regime presents a challenge to \ours. 
+	% 
+	This regime presents a challenge to \ours (\figref{fig:results:campare_kinetics}a $\poff >> \pon$). 
 	%
-	If the only states ever observed are z=0 or 1 (off or on), there is not enough information in the system to estimate count without prior knowledge.
-	% qPAINT relies on a calibration of kinetics
-	qPAINT, faces the same limitation, and relies on a calibration of the blinking kinetics of a single binding site.
-	% However, blinx is fully Bayesian and we can overcome these challenges by tightening priors
-	\ours, as a fully Bayesian model can easily incorporate the same calibration as priors of the kinetic parameters
-	and once again accurately count up to \n=30 (\figref{fig:results:qpaint_counting}c).
+	If the only states ever observed are $\z{}=0$ or 1, there is insufficient 
+	information to estimate count without prior knowledge.
+	% 
+	qPAINT, faces the same limitation, and relies on a calibration 
+	of the blinking kinetics of a single binding site.
+	% 
+	\ours, as a Bayesian model can easily incorporate the same calibration 
+	as priors of the kinetic parameters.
+	%
+	With this addition, the counting ability of our model is restored 
+	(\figref{fig:results:qpaint_counting}c) to a level comparable to the 
+	favorable kinetic regime (\figref{fig:results:sim_counting}a).
 
 % qPAINT undercounts but blinx does not
-Due to the stochastic nature of blinking, multiple binding sites can blink at the same time, which becomes increasingly likely at higher counts.
+Due to the stochastic nature of blinking, multiple emitters can 
+be active at the same time, which becomes increasingly likely at higher counts.
 	%
-	This is not compatible with the qPAINT assumption of well separated, single binding-site blinking events, 
-	and as a result, qPAINT begins to underestimate molecular count, (especially noticeable above \n=20, (\figref{fig:results:qpaint_counting}c)). 
-	% blinx avoids this problem
-	The blinking of multiple binding sites at the same time point, 
-	is compatible and accounted for in the transition model of blinx 
-	and as a result, blinx accurately estimates the count even at higher \n.
+	This is not compatible with the qPAINT assumption of well separated, 
+	single emitter blinking events.
+	%
+	As a result, qPAINT begins to underestimate molecular count, 
+	(especially noticeable above $\n=20$, (\figref{fig:results:qpaint_counting}c)). 
+	%
+	The blinking of multiple emitters at the same time point, 
+	is compatible with and accounted for in the transition model of \ours 
+	and as a result, \ours accurately estimates the count even at higher \n.
 	
-
+%-------------
 \subsection{Experimental Counting}
+%-------------
 % briefly describe experimental setup
-To experimentally validate the counting performance of \ours, DNA-Origami, which allows fine control over the number of emitters, was used.
+To experimentally validate the counting performance of \ours, DNA-Origami, 
+which allows fine control over the number of emitters, was used.
 	% Why DNA origami
-	DNA-Origamis were designed containing 1 and 4 DNA-PAINT docker strands, spaced in a grid 20 \nanometer apart. 
+	DNA-Origamis were designed containing 1 and 4 DNA-PAINT docker strands, 
+	spaced in a grid 20 \nanometer apart. 
 	%
-	This distance was specifically chosen, so that the true number of docker strands could be visually confirmed through super-resolution post-processing.
+	This distance was specifically chosen, so that the true number of docker strands 
+	could be visually confirmed through super-resolution post-processing.
 	%
-	Incorporation efficiency is roughly 80 percent for each docker site \cite{strauss_2018}, so only a fraction of the origamis were expected to contain all 4 dockers. 
+	Incorporation efficiency is roughly 80 percent for each docker site \cite{strauss_2018}, 
+	so only a fraction of the origamis were expected to contain all 4 dockers. 
 	% 
-	Origamis were first imaged at 13 C, low laser power, and 20 nM imager concentration to collect traces for counting with \ours (\figref{fig:results:experimental}a,b).
+	Origamis were first imaged at 13 C, low laser power, and 20 nM imager concentration to 
+	collect traces for counting with \ours (\figref{fig:results:experimental}a,b).
 	%
-	Then the system was allowed to warm to 25C, a buffer exchange performed and new imager added at 10 nM, and the origamis were imaged again at high laser power,
+	Then the system was allowed to warm to 25 C, a buffer exchange performed and new imager 
+	added at 10 nM, and the origamis were imaged again at high laser power,
 	and post-processed to obtain super-resolution ground truth (\figref{fig:results:experimental}c).
 	%
 	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
 
-Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%) and the maximum estimated count was 3 (1/131) (\figref{fig:results:experimental}e).
+Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%) and the maximum 
+estimated count was 3 (1/131) (\figref{fig:results:experimental}e).
 	%
-	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, and 103/110 were identified as between 3 and 5.
+	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, 
+	and 103/110 were identified as between 3 and 5.
 	%
 	% A more detailed analysis of wrongly counted traces is found in the SI.
 	%
-	Importantly, no filtering or preprocessing was done on the measured traces, and many of the incorrect counts were due to low trace SNR. % quantify this??
+	Importantly, no filtering or preprocessing was done on the measured traces, and many of 
+	the incorrect counts were due to low trace SNR. % quantify this??
