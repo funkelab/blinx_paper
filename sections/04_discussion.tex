@@ -3,23 +3,14 @@
 Here, we presented \ours a probabilistic model, to estimate the absolute 
 number of subunits in an area to small to be spatially separated. 
     %
-    In kinetic regimes where \pon $>$ \poff, \ours can operate 
-    as a calibration free counting method.
+    Our model was validated on both synthetic and experimental intensity traces,
+    and benchmarked against the current state of the art methods \lbfcs and \qpaint.
     %
-    Compared to the state of the art in this space (lbFCS), \ours improved 
-    the counting ability by a factor of three, accurately counting 
-    up to 30 individual subunits.
+    Although experimentally DNA-PAINT was used, our model is not 
+    limited to DNA-PAINT, and is compatible with any system that generates repeated fluorescent blinking.
     %
-    In the kinetic regime where \pon $<$ \poff, \ours requires a calibration, 
-    implemented in the form of priors on \pon, \poff, \re, and \rb.
-    %
-    With these priors, \ours again accurately counts up to 30, compared to qPAINT, 
-    which also is heavily dependant on a calibration, and under estimates the count at higher \n.
-    %
-    Our model is also probabilistic, producing a posterior over all possible counts, rather than only a single estimate.
-    %
-    This provides a confidence metric on the reported count, as well as allowing for the comparison between different possible counts, 
-    both of which are useful for downstream processing applications. 
+    We anticipate that \ours will be adaptable to any experimental molecular counting pipeline,
+    and provide an increase in accuracy was well as probabilistic results, benefiting downstream analysis.
 
 % Assumptions
 There are a few assumptions that are essential to \ours.
@@ -96,19 +87,14 @@ Another limitation is that the intensity model does not capture all the noise in
     intensities values were excluded when calculating likelihood (the specific percent is adjustable as a hyperparameter).
 
 % Outlook
-% blinx will work in current pipelines
-Finally, we expect \ours to easily fit into DNA-PAINT based molecular counting pipelines, 
-where methods such as \lbfcs and \qpaint are currently used. % less aggressive
-    % not limited to DNA-PAINT
-    However, \ours is not limited to DNA-PAINT based methods. 
-    % extend to include PALM and STORM
-    With minor modifications to the transition distribution (\ie add a photobleaching probability) 
-    this method could be extended to use other stochastically blinking emitters such as those used in PALM or STORM.
+Finally, the bayesian framework of \ours, opens this method to many opportunities of future expansion.
+    % 
+    For example with the simple modification of setting $\pon=0$, this 
+    model could support the counting of photobleaching events. 
     %
-    Further, by setting \pon = 0, this model could also support counting of photobleaching events.
-    %
-    The Bayesian framework of \ours opens this method to many opportunities for future expansion.
-    %
-    % Need a good ending sentence 
-
-
+    Additionally, by incorporating dynamic priors, our model could 
+    also capture changing conditions over time, potentially even increasing the counting ability.
+    %extend to include PALM and STORM
+    Further, with minor modifications to the transition distribution to account for photobleaching,
+    this method could be extended to other stochastically blinking emitters, 
+    such as those used in PALM or STORM, opening the door for molecular counting in living samples.
