@@ -18,8 +18,7 @@ diffraction limited spot.
   %
   We assume that each emitter blinks stochastically and independently of the
   others, yielding a fluctuating trace $\trace = (\x{1},\ldots,\x{T})$ of total
-  intensity measurements over $T$ frames (see an example in
-  \figref{fig:method:overview}a).
+  intensity measurements over $T$ frames (\figref{fig:method:overview}a).
   %
   Our goal now is to infer the number of emitters \n, given \trace.
 
@@ -63,7 +62,7 @@ number of emitters given the intensity trace, \ie:
 
 \subsubsection{Intensity Model}
 
-The distribution of observed intensity measurements \x{t} given the number of
+The distribution of observed intensity \x{t} given the number of
 currently active emitters \z{t} can be directly derived from the photo-physics
 of our microscope system.
   %
@@ -76,8 +75,8 @@ of our microscope system.
   The detector itself contributes noise to the system, known as the readout
   noise, which we model as $p(\x{}|\photons,\parametersc)$.
   %
-  The number of photons hitting the detector, in turn, depend on the number of
-  active emitters \z{} and are distributed following a shot noise model
+  The number of photons hitting the detector, in turn, depends on the number of
+  active emitters \z{} and is distributed following a shot noise model
   $p(\photons|\z{},\parameterse)$.
 
 The probability of observing an intensity \x{} given \z{} can then be obtained
@@ -115,7 +114,7 @@ using an EMCCD camera).
 
   In the following, it will be beneficial to express the readout noise as a
   zero mean normal distribution that is independent of the number of photons
-  detected. To that end, we transform our measurements \x{} into photon space
+  detected. To that end, we transform our measurement \x{} into photon space
   by accounting for the camera gain and offset:
   %
   \begin{equation}
@@ -126,7 +125,7 @@ using an EMCCD camera).
   \end{equation}
   %
   We can now express our readout noise distribution in terms of the transformed
-  measurements \xp{}, which we further shift by $-\photons$ to obtain a
+  measurement \xp{}, which we further shift by $-\photons$ to obtain a
   zero-mean distribution:
   %
   \begin{align}
@@ -170,8 +169,8 @@ $\deltat$ is Poisson distributed~\cite{mehta_poisson_2016}
 
 \paragraph{Combined Intensity Model}
 
-Taking together the measurement transform
-\eqref{eq:method:transformed_readout_noise} and approximation ~\eqref{eq:method:normal_approx_shot_noise}, the
+Taking together the readout noise transform
+\eqref{eq:method:transformed_readout_noise} and shot noise approximation ~\eqref{eq:method:normal_approx_shot_noise}, the
 intensity distribution \eqref{eq:method:marginalized_intensity} can now be
 rewritten as
 %
@@ -186,7 +185,7 @@ rewritten as
   Similar to~\cite{huang_video-rate_2013}, we note that this expression
   resembles a convolution, \ie, the sum of two independent random variables
   (the photon count \photons and a zero-mean, photon-independent camera readout
-  noise, see~\eqref{eq:method:transformed_readout_noise}). Since the two distributions are normal, we can rewrite
+  noise, ~\eqref{eq:method:transformed_readout_noise}). Since the two distributions are normal, we can rewrite
   the above as a single normal distribution with summed means and variances:
   %
   \begin{equation}
@@ -212,9 +211,10 @@ number of active emitters \z{} over time.
   to become inactive at time $t$ (\figref{fig:method:overview}b).
 
 For the case of a single emitter (\ie, $\n=1$), the probability of observing
-this emitter as active (\ie, $\z{t}=1$) is therefore \pon if the emitter was
-inactive in the previous frame, or $(1-\poff)$ if it was previously active
-(and similarly for the probability of observing the emitter as inactive).
+this emitter as active (\ie, $\z{t}=1$) if the emitter was
+inactive in the previous frame, is \pon , or $(1-\poff)$ if 
+it was previously active (and similarly for the probability of observing 
+the emitter as inactive).
   %
   For multiple emitters, however, a transition from \z{t-1} to \z{t} can be
   caused by multiple events. Consider, for example the case of two emitters
@@ -313,7 +313,7 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
     \text{.}
   \end{equation}
   %
-  Finally, the molecular count can be obtained though the maximum evidence over all possible counts \n:
+  Finally, the molecular count can be obtained as the count with the maximum evidence:
   %
   \begin{equation}
       \text{count} =

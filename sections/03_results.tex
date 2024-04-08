@@ -12,7 +12,7 @@
 Running \ours as a forward model, traces were generated for counts $\n=1$ to 30
 	(\figref{fig:results:sim_counting}a,b).
 	%
-	Experimentally relevant camera parameters were determined from an empirical calibration of the
+	Experimentally relevant camera parameters were determined from a calibration of the
 	sCMOS camera (\parametersc: $\camgain=2.17$, $\camoffset=4791$, $\camvar=774$). 
 	%
 	Kinetic (\parameterst: $\pon=0.036$, $\poff=0.028$), and emission parameters 
@@ -24,7 +24,7 @@ Running \ours as a forward model, traces were generated for counts $\n=1$ to 30
 % priors were placed on camera parameters, but all others were uniform
 For fitting, tight gaussian priors were placed on the camera parameters because these were empirically determined,
 	%
-	flat uniform priors were place on the kinetic parameters, allowing the model 
+	flat uniform priors were placed on the kinetic parameters, allowing the model 
 	to fit blinking rates without external bias,
 	%
 	and loose priors were placed on the emission parameters (\rb, \re) to prevent 
@@ -230,7 +230,7 @@ be active at any given time-point, which becomes increasingly likely at higher c
 %-------------
 % briefly describe experimental setup
 To experimentally validate the counting performance of \ours, DNA-Origami, 
-which allows fine control over the number of emitters, was used.
+which allows fine control over the number and location of emitters, was used.
 	% Why DNA origami
 	DNA-Origamis were designed containing 1 and 4 DNA-PAINT docker strands, 
 	spaced in a grid 20 \nanometer apart. 
@@ -241,22 +241,23 @@ which allows fine control over the number of emitters, was used.
 	Incorporation efficiency is roughly 80 percent for each docker site \cite{strauss_2018}, 
 	so only a fraction of the origamis were expected to contain all 4 dockers. 
 	% 
-	Origamis were first imaged at 13 C, low laser power, and 20 nM imager concentration to 
-	collect traces for counting with \ours (\figref{fig:results:experimental}a,b).
+	Origamis were first imaged at 13 C, low laser power (1.5\%), and 20 nM imager concentration to 
+	collect traces (4,000 frames at 200 ms exposure time) for counting with \ours (\figref{fig:results:experimental}a,b).
 	%
-	Then the system was allowed to warm to 25 C, a buffer exchange performed and new imager 
-	added at 10 nM, and the origamis were imaged again at high laser power,
-	and post-processed to obtain super-resolution ground truth (\figref{fig:results:experimental}c).
+	The system was then allowed to warm to 25 C, a buffer exchange performed, and new imager 
+	added at 10 nM.
+	%
+	The origamis were imaged again at high laser power (40\%),
+	and post-processed with Picasso to obtain super-resolution ground truth (\figref{fig:results:experimental}c).
 	%
 	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
 
-Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%) and the maximum 
-estimated count was 3 (1/131) (\figref{fig:results:experimental}e).
+Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%)
+and after averaging the posterior distributions, 1 is the most likely molecular count (\figref{fig:results:experimental}e).
 	%
 	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, 
-	and 103/110 were identified as between 3 and 5.
+	and 103/110 were identified as between 3 and 5. 
 	%
-	% A more detailed analysis of wrongly counted traces is found in the SI.
+	Averaging the posterior distributions, 4 is estimated as the most likely molecular count. 
 	%
-	Importantly, no filtering or preprocessing was done on the measured traces, and many of 
-	the incorrect counts were due to low trace SNR. % quantify this??
+	Importantly, these traces were not preprocessed or filtered before undergoing \ours counting analysis.

@@ -13,9 +13,9 @@ the underlying biology of a system.
   understanding of downstream signalling pathways and
   sensitivity~\citep{irvine_2002}.
   %
-  Furthermore, molecular counting allows identifying oligomeric states by
-  counting the subunits in a cluster, to tell monomers, dimers,
-  trimers, and higher order oligomers apart.
+  Furthermore, molecular counting enables identifying oligomeric states by
+  counting the subunits in a cluster, differentiating monomers, dimers,
+  trimers, and higher order oligomers.
   %
   Several biological processes depend on this quantity: TGF-$\beta$ signaling,
   for example, depends on the oligomeric state of Smad~\citep{inman_2002,
@@ -27,8 +27,8 @@ the underlying biology of a system.
 % fluorescence microscopy alone is not enough
 %
 Often, as in those examples, the \smallobjects of interest are only a few
-nanometers apart and as such can not be quantified in standard fluorescence
-microscopy.
+nanometers apart and as such can not be quantified through standard fluorescence
+microscopy techniques.
   %
   %Fluorescence microscopy can provide precise localization information of
   %molecular species, but its ability to determine quantitative information, such
@@ -36,12 +36,12 @@ microscopy.
   %
   In contrast to larger structures (whole cells or organelles), which can
   easily be discerned in fluorescence microscopy, individual molecules in
-  diffraction limited spots below a resolution of 200\nanometer can no longer
+  diffraction limited spots below a resolution of 200 \nanometer can no longer
   be separated.
   %
   Even super-resolution techniques~\citep{betzig_2006,rust_2006} that surpass
   the diffraction limit are not suitable to discern \smallobjects that are
-  closer than 10\nanometer apart~\citep{valli_seeing_2021}.
+  closer than 10 \nanometer apart~\citep{valli_seeing_2021}.
   %
   However, many \objects of interest are smaller still, or physically
   positioned closer together and cannot be spatially separated even with
@@ -134,7 +134,7 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   limited spot.
   %
   % qPAINT
-  Quantitative DNA-PAINT (qPAINT~\citep{jungmann_2016}) estimates the molecular
+  Quantitative DNA-PAINT (qPAINT)~\citep{jungmann_2016} estimates the molecular
   count based on the frequency of blinking events, \ie, a blinking rate of one
   event per second is calibrated to one molecule, therefore an observation of
   ten events per second produces a count of ten molecules.
@@ -148,18 +148,17 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   Further, all of the methods mentioned provide a single estimate of molecular count. 
   %
   A probabilistic estimate would identify cases where different possible counts are all likely,
-  as well as provide a measure of certainty in the count. Providing a more detailed quantitative 
-  understanding of the system. 
+  providing a more detailed quantitative understanding of the system. 
 
 % Our Model
 % ----------
 % fully Bayesian
-We propose \ours, a fully Bayesian model to estimate the molecular count
+We propose \ours, a Bayesian model to estimate the molecular count
 directly from a fluctuating sequence of fluorescent intensity measurements over
 time.
   %
   % Based on a fully differentiable markov chain
-  Based on a fully differentiable Hidden Markov Model, \ours fits
+  Based on a fully differentiable \hmm, \ours fits
   seven parameters (blinking on/off rates, emitter and background photon emission rates, 
   and camera gain/offset/variance) directly to the sequence of measurements, 
   estimating a likelihood for each possible count.
