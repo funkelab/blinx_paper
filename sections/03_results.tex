@@ -188,12 +188,12 @@ we increased the imager concentration and decreased the temperature.
 \subsection{qPAINT Kinetic Regime}
 %-------------
 % qPAINT operates in a different kinetic regime that lbFCS
-qPAINT is based on an accurate measure of the average dark time between blinking events. 
+qPAINT relies on the accurate measure of the average dark time between blinking events. 
 	%
-	As a result, this method operates in an entirely different kinetic regime than lbFCS, where blinking 
+	As a result, this method is optimized for an entirely different kinetic regime, where blinking 
 	events are short and infrequent (\figref{fig:results:qpaint_counting}a,b).
 	% 
-	This regime presents a challenge to \ours (\figref{fig:results:campare_kinetics}a $\poff >> \pon$). 
+	This regime presents a challenge to \ours (\figref{fig:results:campare_kinetics}a top inset). 
 	%
 	If the only states ever observed are $\z{}=0$ or 1, there is insufficient 
 	information to estimate count without prior knowledge.
@@ -201,26 +201,29 @@ qPAINT is based on an accurate measure of the average dark time between blinking
 	qPAINT, faces the same limitation, and relies on a calibration 
 	of the blinking kinetics of a single binding site.
 	% 
-	\ours, as a Bayesian model can easily incorporate the same calibration 
+	\ours, as a Bayesian model can incorporate a similar calibration 
 	as priors of the kinetic parameters.
 	%
-	With this addition, the counting ability of our model is restored 
-	(\figref{fig:results:qpaint_counting}c) to a level comparable to the 
-	favorable kinetic regime (\figref{fig:results:sim_counting}a).
+	With this addition, and the tightening of the priors on \re and \rb, the counting 
+	ability of our model is restored (\figref{fig:results:qpaint_counting}c) to 
+	a level comparable to the favorable kinetic regime (\figref{fig:results:sim_counting}a).
 
 % qPAINT undercounts but blinx does not
 Due to the stochastic nature of blinking, multiple emitters can 
-be active at the same time, which becomes increasingly likely at higher counts.
+be active at any given time-point, which becomes increasingly likely at higher counts.
 	%
-	This is not compatible with the qPAINT assumption of well separated, 
+	This is not compatible with the qPAINT requirement of well separated, 
 	single emitter blinking events.
 	%
-	As a result, qPAINT begins to underestimate molecular count, 
+	As a result the measured average dark time is longer than the true average dark time
+	and  qPAINT begins to underestimate molecular count, 
 	(especially noticeable above $\n=20$, (\figref{fig:results:qpaint_counting}c)). 
 	%
-	The blinking of multiple emitters at the same time point, 
-	is compatible with and accounted for in the transition model of \ours 
-	and as a result, \ours accurately estimates the count even at higher \n.
+	The activity of multiple emitters at a single timepoint is explicitly modeled in both the 
+	intensity and transition models previously derived (\eqref{eq:methods:p_c_given_z} and \eqref{eq:method:transition}). 
+	%
+	As a result, our model avoids under estimating, and provides an accurate measurement 
+	of the molecular count up to $\n=30$.
 	
 %-------------
 \subsection{Experimental Counting}
