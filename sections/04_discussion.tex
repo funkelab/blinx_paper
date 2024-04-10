@@ -4,7 +4,7 @@ Here, we presented \ours a probabilistic model, to estimate the absolute
 number of subunits in an area to small to be spatially separated. 
     %
     Our model was validated on both synthetic and experimental intensity traces,
-    and benchmarked against the current state of the art methods \lbfcs and \qpaint.
+    and benchmarked against the current state of the art methods \lbfcs \cite{stein_2021} and \qpaint \cite{jungmann_2016}.
     %
     Although experimentally DNA-PAINT was used, our model is not 
     limited to DNA-PAINT, and is compatible with any system that generates repeated fluorescent blinking.
@@ -24,9 +24,10 @@ There are a few assumptions that are essential to \ours.
     In practice, although not common, subunits in extremely close proximity could potentially 
     have steric hinderance effects on neighboring subunits, violating this assumption.
     %
-    Although other methods like qPAINT make this same assumption and have been shown to work well in experimental systems \cite{}. 
-    %
-    Secondly, it is assumed that all subunits within a spot have identical properties (\pon, \poff, \re).
+    Although other methods like qPAINT make this same assumption and have been shown to work well in experimental 
+    systems \cite{fischer_quantitative_2021, jayasinghe_true_2018}. 
+    
+Secondly, it is assumed that all subunits within a spot have identical properties (\pon, \poff, \re).
     %
     Rather than model each subunit individually, \ours models the sum total behavior of all subunits combined, 
     and as a result each subunit is assumed to be interchangeable with any other within the same spot.
@@ -74,7 +75,7 @@ there are a few limitations that should be considered.
 Another limitation is that the intensity model does not capture all the noise in the system.
     %
     As seen in \figref{fig:results:experimental}a, there are a significant amount of frames where the 
-    measured intensity is greater than $1*10^4$ and out of our model's distribution.
+    measured intensity is greater than $10^4$ and out of our model's distribution.
     % 
     The frequency of this effect was dependant on the imaging temperature (data not shown).
     %

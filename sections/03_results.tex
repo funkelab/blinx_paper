@@ -9,7 +9,7 @@
 \subsection{Simulated Experiments}
 %-------------
 % Simulated traces based on experimentally relevant parameters
-Running \ours as a forward model, traces were generated for counts $\n=1$ to 30
+Simulating experiment from our \hmm, traces were generated for counts $\n=1$ to 30
 	(\figref{fig:results:sim_counting}a,b).
 	%
 	Experimentally relevant camera parameters were determined from a calibration of the
@@ -31,7 +31,7 @@ For fitting, tight gaussian priors were placed on the camera parameters because 
 	over-estimation of count (see discussion). 
 	% how we got these priors
 	The prior on \rb was experimentally determined by averaging the 
-	intensity of the region immediately outside the ROI.
+	intensity of the region immediately outside the region of interest.
 	%
 	The prior on \re was determined by first fitting a count of $\n=1$ to the trace.
 	%
@@ -85,7 +85,7 @@ information to the model and increase the counting accuracy.
 	This is likely because only a subset of possible states were observed in this short time. % maybe more explanation?
 
 % there is a lower bound to SNR, below a specific SNR, model maximally overcounts
-Next, we aimed to determine the robustness of our model and the minimum signal-to-noise ratio 
+We then aimed to determine the robustness of our model and the minimum signal-to-noise ratio 
 (SNR) needed to achieve an accurate count.
 	%
 	The variance of the readout noise \camvar was artificially increased, 
@@ -111,7 +111,7 @@ Next, we aimed to determine the robustness of our model and the minimum signal-t
 %-------------
 \subsection{Effect of kinetic parameters}
 %-------------
-Next, we hypothesized that the performance of our model would depend on the true kinetic parameters of the system, 
+We hypothesized that the performance of our model would depend on the true kinetic parameters of the system, 
 and that a regime exists that maximizes our models counting ability.
 
 To sample this state space, traces were simulated from $\n=1$ to 20, with a range of kinetic parameters, 
@@ -129,10 +129,10 @@ The resulting heatmap can be divided into two clear regimes: $\pon < \poff$ and 
 	%
 	In the first regime, where $\pon < \poff$ we see significant limitations to our models counting ability.
 	%
-	Further when \pon is significantly lower than \poff, our model looses almost 
+	Furthermore when \pon is significantly lower than \poff, our model looses almost 
 	all ability to count and estimates $n=1$ or 2, regardless of the true $n$.
 	%
-	In contrast, in the second regime, where $\pon \geq \poff$ we see a heightened ability of or model, 
+	In contrast, in the second regime, where $\pon \geq \poff$ we see a heightened ability of our model, 
 	and accurate counting up to $n=20$.
 	%
 	A clear difference between these two regimes can be seen in the distribution 
@@ -150,12 +150,13 @@ The resulting heatmap can be divided into two clear regimes: $\pon < \poff$ and 
 % Experimental
 % Do we need to explain how DNA-PAINT works
 In DNA-PAINT, the blinking rate is determined by the kinetics of single-stranded DNA binding,
-which in turn are dependant on experimental conditions such as temperature and concentration, and sequence.
+which in turn are dependant on experimental conditions such as temperature and concentration, 
+and sequence~\citep{jungmann_single-molecule_2010}.
 	%
 	As a result, the kinetic parameters \pon and \poff of our model, are can be 
 	tuned by adjusting the temperature and imager concentration (\figref{fig:results:campare_kinetics}b).
 	%
-	Imaging DNA-origami with a known count of $\n=1$ at 25 C and an 
+	Imaging DNA-origami with a known count of $\n=1$ at 25\textdegree C and an 
 	imager concentration of 10 nM, we measured $\pon=0.028$ and $\poff=0.072$ 
 	(\figref{fig:results:campare_kinetics}b).
 	%
@@ -166,7 +167,7 @@ In order to move to a more favorable kinetic regime,
 we increased the imager concentration and decreased the temperature.
 	%
 	Increasing imger concentration to 30 nM raised \pon to 0.071 and 
-	decreasing temperature to 13 C decreased \poff to 0.037 
+	decreasing temperature to 13\textdegree C decreased \poff to 0.037 
 	(\figref{fig:results:campare_kinetics}b).
 	%
 	The effects of temperature and concentration were largely independent 
@@ -182,13 +183,13 @@ we increased the imager concentration and decreased the temperature.
 	binding between imager and docker strands at low temperatures.
 	%
 	Accounting for both the increase in counting accuracy and the decrease 
-	in SNR, imaging conditions of 20 nM and 13 C were chosen as optimal.
+	in SNR, imaging conditions of 20 nM and 13\textdegree C were chosen as optimal.
 
 %-------------
 \subsection{qPAINT Kinetic Regime}
 %-------------
 % qPAINT operates in a different kinetic regime that lbFCS
-qPAINT relies on the accurate measure of the average dark time between blinking events. 
+qPAINT relies on the accurate measure of the average dark time between blinking events~\citep{jungmann_2016}. 
 	%
 	As a result, this method is optimized for an entirely different kinetic regime, where blinking 
 	events are short and infrequent (\figref{fig:results:qpaint_counting}a,b).
@@ -229,8 +230,8 @@ be active at any given time-point, which becomes increasingly likely at higher c
 \subsection{Experimental Counting}
 %-------------
 % briefly describe experimental setup
-To experimentally validate the counting performance of \ours, DNA-Origami, 
-which allows fine control over the number and location of emitters, was used.
+To experimentally validate the counting performance of \ours, we used DNA-Origami, 
+which provides nano-scale control over the number and location of emitters~\citep{rothemund_folding_2006}.
 	% Why DNA origami
 	DNA-Origamis were designed containing 1 and 4 DNA-PAINT docker strands, 
 	spaced in a grid 20 \nanometer apart. 
@@ -241,18 +242,18 @@ which allows fine control over the number and location of emitters, was used.
 	Incorporation efficiency is roughly 80 percent for each docker site \cite{strauss_2018}, 
 	so only a fraction of the origamis were expected to contain all 4 dockers. 
 	% 
-	Origamis were first imaged at 13 C, low laser power (1.5\%), and 20 nM imager concentration to 
+	Origamis were first imaged at 13\textdegree C, low laser power (1.5\%), and 20 nM imager concentration to 
 	collect traces (4,000 frames at 200 ms exposure time) for counting with \ours (\figref{fig:results:experimental}a,b).
 	%
-	The system was then allowed to warm to 25 C, a buffer exchange performed, and new imager 
+	The system was then allowed to warm to 25\textdegree C, a buffer exchange performed, and new imager 
 	added at 10 nM.
 	%
 	The origamis were imaged again at high laser power (40\%),
-	and post-processed with Picasso to obtain super-resolution ground truth (\figref{fig:results:experimental}c).
+	and post-processed with Picasso \citep{schnitzbauer_2017} to obtain super-resolution ground truth (\figref{fig:results:experimental}c).
 	%
 	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
 
-Of 131 traces with a known count of 1, \ours correctly counted 112 (85\%)
+Of the 131 traces with a known count of 1, \ours correctly counted 112 (85\%)
 and after averaging the posterior distributions, 1 is the most likely molecular count (\figref{fig:results:experimental}e).
 	%
 	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, 

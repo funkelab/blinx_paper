@@ -26,7 +26,7 @@ the underlying biology of a system.
 
 % fluorescence microscopy alone is not enough
 %
-Often, as in those examples, the \smallobjects of interest are only a few
+Often, as in the aforementioned examples, the \smallobjects of interest are only a few
 nanometers apart and as such can not be quantified through standard fluorescence
 microscopy techniques.
   %
@@ -59,7 +59,7 @@ We present a Bayesian solution to estimate the number of fluorescently labelled
   time as a Markov chain.
   %
   Given a trace of the combined intensity of all \smallobjects contained in a
-  spot over time, this model can be used to obtain a posterior distribution
+  spot over time (\figref{fig:method:overview}), this model can be used to obtain a posterior distribution
   over the number of emitters contained in that spot.
 
 % Motivate fluorescence based methods (doesn't say a lot IMO -Jan)
@@ -144,8 +144,8 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   %
   In contrast, our solution fits the model to each frame of the measurement 
   in sequence, fully utilizing both the temporal and intensity information available.
-  %
-  Further, all of the methods mentioned provide a single estimate of molecular count. 
+  
+Further, all of the methods mentioned provide a single estimate of molecular count. 
   %
   A probabilistic estimate would identify cases where different possible counts are all likely,
   providing a more detailed quantitative understanding of the system. 

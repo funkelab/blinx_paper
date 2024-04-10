@@ -27,6 +27,7 @@ number of emitters given the intensity trace, \ie:
   %
   \begin{equation*}
     p(\n | \trace) \propto p(n) p(\trace | \n)
+    \text{.}
   \end{equation*}
   %
   % Can ignore p(n)
@@ -39,7 +40,7 @@ number of emitters given the intensity trace, \ie:
   represents the number of emitters that are active and emitting photons at
   time $t$ (see \figref{fig:method:overview}d).
   %
-  The whole \hmm is conditioned on several parameters \parameters, (
+  The whole \hmm is conditioned on several parameters \parameters (
     \parametersc: camera parameters, \parameterse: emission parameters, 
     and \parameterst: transition parameters).
   %
@@ -66,7 +67,7 @@ The distribution of observed intensity \x{t} given the number of
 currently active emitters \z{t} can be directly derived from the photo-physics
 of our microscope system.
   %
-  (Note that in the following section we omit the subscript $t$ for clarity.)
+  Note that in the following section we omit the subscript $t$ for clarity.
   %
   Working backwards through the light path, the measured intensity value \x{}
   is a function of the number of photons \photons detected
@@ -96,7 +97,7 @@ by marginalizing over \photons, \ie:
 The readout noise from the detector is often assumed to be negligible (\ie when
 using an EMCCD camera).
   %
-  However, when using an sCMOS camera, it's contribution is significant and 
+  However, when using an sCMOS camera, its contribution is significant and 
   must be accounted for~\citep{huang_video-rate_2013}.
   %
   To accommodate both systems, here we include the readout noise in our model.
@@ -156,7 +157,7 @@ $\deltat$ is Poisson distributed~\cite{mehta_poisson_2016}
     \label{eq:methods:p_c_given_z}
   \end{equation}
   %
-  For large values of $\lambda$ the Poisson distribution approaches a normal
+  For large values of $\lambda$, the Poisson distribution approaches a normal
   distribution with both mean and variance of $\lambda$ and therefore we
   approximate our shot noise distribution as:
   %
@@ -247,8 +248,9 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
 \parameters and the total number of emitters \n.
   %
   However, we are interested in the posterior distribution $p(\trace|\n)$.
-  Which accounting for the priors on \parameters in addition to the likelihood, 
-  is known as the model evidence, and defined as:
+  %
+  Accounting for the priors on \parameters in addition to the likelihood,
+  this is known as the model evidence and defined as:
   %
   \begin{equation*}
     p(\trace | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
@@ -283,8 +285,9 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   %
   Here, $M$ is the dimensionality of \parameters, which is constant.
   %
-  Therefore this term becomes a constant and can be dropped from
-  \eqref{eq:method:evidence_with_m}, resulting in:
+  Because we are only interested in comparing likelihoods this whole term can 
+  safely be ignored, resulting in:
+  %
   \begin{equation}
     \ln p(\trace | \n) \approx \ln p(\trace | \parametersmap, \n) + \ln p(\parametersmap) - \frac{1}{2} \ln |A|
     \text{.}
