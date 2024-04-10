@@ -10,7 +10,7 @@ number of subunits in an area to small to be spatially separated.
     limited to DNA-PAINT, and is compatible with any system that generates repeated fluorescent blinking.
     %
     We anticipate that \ours will be adaptable to any experimental molecular counting pipeline,
-    and provide an increase in accuracy was well as probabilistic results, benefiting downstream analysis.
+    and provide an increase in accuracy as well as probabilistic results, benefiting downstream analysis.
 
 % Assumptions
 There are a few assumptions that are essential to \ours.
@@ -24,7 +24,7 @@ There are a few assumptions that are essential to \ours.
     In practice, although not common, subunits in extremely close proximity could potentially 
     have steric hinderance effects on neighboring subunits, violating this assumption.
     %
-    Although other methods like qPAINT make this same assumption and have been shown to work well in experimental 
+    Other methods like qPAINT make this same assumption and have been shown to work well in experimental 
     systems \cite{fischer_quantitative_2021, jayasinghe_true_2018}. 
     
 Secondly, it is assumed that all subunits within a spot have identical properties (\pon, \poff, \re).
@@ -88,7 +88,7 @@ Another limitation is that the intensity model does not capture all the noise in
     intensities values were excluded when calculating likelihood (the specific percent is adjustable as a hyperparameter).
 
 % Outlook
-Finally, the bayesian framework of \ours, opens this method to many opportunities of future expansion.
+Finally, the Bayesian framework of \ours, opens this method to many opportunities of future expansion.
     % 
     For example with the simple modification of setting $\pon=0$, this 
     model could support the counting of photobleaching events. 

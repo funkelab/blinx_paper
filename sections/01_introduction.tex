@@ -8,7 +8,7 @@ Molecular counting aims to determine the absolute number of \smallobjects
 associated in an \object, a quantity that is often essential to understanding
 the underlying biology of a system.
   %
-  The activation of T cells, for example, is sensitive to single ligands, and
+  The activation of T-cells, for example, is sensitive to single ligands, and
   quantifying the molecular count of ligand-receptor interactions informs
   understanding of downstream signalling pathways and
   sensitivity~\citep{irvine_2002}.
@@ -44,10 +44,7 @@ microscopy techniques.
   closer than 10 \nanometer apart~\citep{valli_seeing_2021}.
   %
   However, many \objects of interest are smaller still, or physically
-  positioned closer together and cannot be spatially separated even with
-  super-resolution techniques.
-  %\todo{other reasons why super resolution is not always possible/desirable? imaging speed?}
-  % ^^ any limitations to super-res will also effect our method
+  positioned closer together.
 
 % summary of what the problem is and how we approach it
 %
@@ -59,8 +56,8 @@ We present a Bayesian solution to estimate the number of fluorescently labelled
   time as a Markov chain.
   %
   Given a trace of the combined intensity of all \smallobjects contained in a
-  spot over time (\figref{fig:method:overview}), this model can be used to obtain a posterior distribution
-  over the number of emitters contained in that spot.
+  spot over time (\figref{fig:method:overview}a), this model can be used to obtain the 
+  most likely number of emitters contained in that spot: the molecular count.
 
 % Motivate fluorescence based methods (doesn't say a lot IMO -Jan)
 %
@@ -88,7 +85,7 @@ tolar_2005}.
 % Other methods work by separating things out in time
 %
 Molecular counting can be more reliable if temporal fluctuations of intensity
-are observed.
+are considered.
   %
   % FCS and bSOFI
   Methods such as fluorescence correlation spectroscopy
@@ -135,9 +132,9 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   %
   % qPAINT
   Quantitative DNA-PAINT (qPAINT)~\citep{jungmann_2016} estimates the molecular
-  count based on the frequency of blinking events, \ie, a blinking rate of one
-  event per second is calibrated to one molecule, therefore an observation of
-  ten events per second produces a count of ten molecules.
+  count based on the frequency of blinking events. For example, if a blinking rate of one
+  event per second is calibrated to one molecule, an observation of
+  ten events per second corresponds to a count of ten molecules.
   % Limitations
   However, both of these methods are limited in that they fit summary
   statistics, rather than the data directly.
@@ -147,7 +144,7 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   
 Further, all of the methods mentioned provide a single estimate of molecular count. 
   %
-  A probabilistic estimate would identify cases where different possible counts are all likely,
+  A probabilistic estimate would identify cases where several different counts are likely,
   providing a more detailed quantitative understanding of the system. 
 
 % Our Model
@@ -159,16 +156,20 @@ time.
   %
   % Based on a fully differentiable markov chain
   Based on a fully differentiable \hmm, \ours fits
-  seven parameters (blinking on/off rates, emitter and background photon emission rates, 
-  and camera gain/offset/variance) directly to the sequence of measurements, 
+  seven parameters, describing the photo-physics and kinetics of the system, 
+  directly to the sequence of measurements, 
   estimating a likelihood for each possible count.
+  %
   % probabilistic
   These likelihoods can be directly compared, producing a posterior
   distribution of counts given the observation sequence.
   % more accurate than existing methods 
-  We validated \ours on a series of simulated experiments, and show a
-  substantial improvement in accuracy over both \lbfcs and \qpaint.
+  We first run \ours as a forward model, to simulate
+  different experimental conditions and determine their effect on counting ability.
   %
-  Finally, we proved the counting ability of \ours experimentally by validating 
+  We demonstrate a substantial improvement in counting accuracy compared to both \lbfcs and \qpaint
+  and an ability to count across different kinetic regimes.
+  %
+  Finally, we prove the counting ability of \ours experimentally by validating 
   the estimated count with ground truth measured by super-resolution DNA-PAINT imaging.
 

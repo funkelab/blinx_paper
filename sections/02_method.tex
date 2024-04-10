@@ -1,10 +1,10 @@
 \section{Method}
 
 Starting from the photo-physics of the system, we derive a probabilistic model,
-accounting for both the observed intensity, and the temporal fluctuation
+that accounts for both the observed intensity, and the temporal fluctuation
 kinetics.
   %
-  Given an intensity trace, the output of our method \ours is the posterior
+  Given an intensity trace, the output of our method is the posterior
   distribution over molecular counts, providing not only the most likely count,
   but also a comparison to all other possible counts. 
 
@@ -23,7 +23,7 @@ diffraction limited spot.
   Our goal now is to infer the number of emitters \n, given \trace.
 
 More formally, we are interested in modelling a posterior distribution of the
-number of emitters given the intensity trace, \ie:
+number of emitters \n given the intensity trace \trace, \ie:
   %
   \begin{equation*}
     p(\n | \trace) \propto p(n) p(\trace | \n)
@@ -67,11 +67,11 @@ The distribution of observed intensity \x{t} given the number of
 currently active emitters \z{t} can be directly derived from the photo-physics
 of our microscope system.
   %
-  Note that in the following section we omit the subscript $t$ for clarity.
-  %
-  Working backwards through the light path, the measured intensity value \x{}
-  is a function of the number of photons \photons detected
-  (\figref{fig:method:overview}c).
+  In the following section we omit the subscript $t$ for clarity.
+  
+Working backwards through the light path, the measured intensity value \x{}
+is a function of the number of photons \photons detected
+(\figref{fig:method:overview}c).
   %
   The detector itself contributes noise to the system, known as the readout
   noise, which we model as $p(\x{}|\photons,\parametersc)$.
@@ -101,6 +101,9 @@ using an EMCCD camera).
   must be accounted for~\citep{huang_video-rate_2013}.
   %
   To accommodate both systems, here we include the readout noise in our model.
+  %
+  However, the readout noise contribution can be negated by setting $\camoffset=0$, 
+  and $\camvar << 1$.
   %
   Given \photons photons, the readout intensity of the camera is normally
   distributed~\citep{huang_video-rate_2013}
@@ -238,8 +241,9 @@ number $a$ of active emitters that deactivated from $t-1$ to $t$:
       \text{,} \notag
   \end{align}
   %
-  Note that we assume that all emitters share the same \pon and \poff, and that
+  We assume that all emitters share the same \pon and \poff, and that
   both remain constant over time.
+
 
 \subsubsection{Inference}
 
@@ -308,7 +312,7 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
     \text{,}
   \end{align}
   %
-  and thus: 
+  thus: 
   %
   \begin{equation}
     \ln p(\trace | \n) = \max_\parameters

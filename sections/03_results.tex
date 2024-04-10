@@ -9,8 +9,8 @@
 \subsection{Simulated Experiments}
 %-------------
 % Simulated traces based on experimentally relevant parameters
-Simulating experiment from our \hmm, traces were generated for counts $\n=1$ to 30
-	(\figref{fig:results:sim_counting}a,b).
+Running \ours as a forward model to simulate experiment, 
+traces were generated for counts $\n=1$ to 30 (\figref{fig:results:sim_counting}a,b).
 	%
 	Experimentally relevant camera parameters were determined from a calibration of the
 	sCMOS camera (\parametersc: $\camgain=2.17$, $\camoffset=4791$, $\camvar=774$). 
@@ -22,7 +22,8 @@ Simulating experiment from our \hmm, traces were generated for counts $\n=1$ to 
 	Traces were generated for 4000 frames, corresponding to an imaging time of 14 minutes.
 
 % priors were placed on camera parameters, but all others were uniform
-For fitting, tight gaussian priors were placed on the camera parameters because these were empirically determined,
+For fitting, tight empirically determined gaussian priors were placed on 
+the camera parameters,
 	%
 	flat uniform priors were placed on the kinetic parameters, allowing the model 
 	to fit blinking rates without external bias,
@@ -42,8 +43,8 @@ For fitting, tight gaussian priors were placed on the camera parameters because 
 	and that whichever \z{}-state is the most common, the second most common 
 	will be $\z{} \pm 1$. 
 	%
-	Therefore fitting $n=1$ will capture this transition and as a result 
-	accurately estimate \re.
+	Fitting $n=1$ captures this transition and as a result 
+	accurately estimates \re.
 	%
 	
 % blinx can count!
@@ -166,7 +167,7 @@ and sequence~\citep{jungmann_single-molecule_2010}.
 In order to move to a more favorable kinetic regime, 
 we increased the imager concentration and decreased the temperature.
 	%
-	Increasing imger concentration to 30 nM raised \pon to 0.071 and 
+	Increasing imager concentration to 30 nM raised \pon to 0.071 and 
 	decreasing temperature to 13\textdegree C decreased \poff to 0.037 
 	(\figref{fig:results:campare_kinetics}b).
 	%
@@ -255,6 +256,8 @@ which provides nano-scale control over the number and location of emitters~\cite
 
 Of the 131 traces with a known count of 1, \ours correctly counted 112 (85\%)
 and after averaging the posterior distributions, 1 is the most likely molecular count (\figref{fig:results:experimental}e).
+	%
+	Possible counts up to $\n=8$ were tested, but the likelihood for a count above $n=3$ was negligible for all traces.
 	%
 	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, 
 	and 103/110 were identified as between 3 and 5. 
