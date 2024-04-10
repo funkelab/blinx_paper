@@ -40,9 +40,9 @@ number of emitters given the intensity trace, \ie:
   represents the number of emitters that are active and emitting photons at
   time $t$ (see \figref{fig:method:overview}d).
   %
-  The whole \hmm is conditioned on several parameters \parameters (
-    \parametersc: camera parameters, \parameterse: emission parameters, 
-    and \parameterst: transition parameters).
+  The \hmm is conditioned on a set of parameters \parameters, including
+    \parametersc camera parameters, \parameterse emission parameters, 
+    and \parameterst transition parameters.
   %
   \begin{equation}
     p(\trace| \n, \parameters) =
@@ -198,7 +198,7 @@ rewritten as
 
 \subsubsection{Transition Model}
 
-Next, to model the step-like temporal fluctuations in intensity, observed in
+To model the step-like temporal fluctuations in intensity, observed in
 the trace \trace, a distribution is needed that describes the change in the
 number of active emitters \z{} over time.
   %
