@@ -22,25 +22,22 @@ traces were generated for counts $\n=1$ to 30 (\figref{fig:results:sim_counting}
 	Traces were generated for 4000 frames, corresponding to an imaging time of 14 minutes.
 
 % priors were placed on camera parameters, but all others were uniform
-For fitting, tight empirically determined gaussian priors were placed on 
+For inference, tight empirically determined Gaussian priors were placed on 
 the camera parameters,
 	%
 	flat uniform priors were placed on the kinetic parameters, allowing the model 
 	to fit blinking rates without external bias,
 	%
 	and loose priors were placed on the emission parameters (\rb, \re) to prevent 
-	over-estimation of count (see discussion). 
+	over-estimation of count (see \secref{discussion}). 
 	% how we got these priors
 	The prior on \rb was experimentally determined by averaging the 
 	intensity of the region immediately outside the region of interest.
 	%
 	The prior on \re was determined by first fitting a count of $\n=1$ to the trace.
 	%
-	Given the definitions of \pon and \poff, the most common transition 
-	from state $z$ will be to state $\z{} \pm 1$, a switch of a single emitter.
-	%
-	It follows that the distribution of all observed $z$-states will be unimodal, 
-	and that whichever \z{}-state is the most common, the second most common 
+	The distribution of all observed $z$-states is unimodal, 
+	therefore, whichever \z{}-state is the most common, the second most common 
 	will be $\z{} \pm 1$. 
 	%
 	Fitting $n=1$ captures this transition and as a result 
@@ -50,7 +47,7 @@ the camera parameters,
 % blinx can count!
 \ours accurately fit simulated traces with counts up to $\n=30$ (\figref{fig:results:sim_counting}c).
 	%
-	For $\n=10$ and below, \ours estimated the true count with a significantly 
+	For $\n=10$ and below, \ours estimated the true count with a substantially 
 	higher likelihood than all other possibilities. 
 	%
 	Above $\n=10$ the posterior broadened as other possibilities become more likely, 

@@ -302,25 +302,30 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   find the maximum likelihood parameters $\parametersmap$ for each value of \n. 
 
   This model is implemented fully differentiably, allowing us to estimate 
-  the maximum likelihood parameters through gradient ascent. Accounting for 
-  both the likelihood function and the priors, the gradients with respect to 
-  \parameters are calculated as:
+  the maximum likelihood parameters through gradient ascent:
   %
   \begin{align}
-    \text{grad} = \nabla f(\pon, \poff, \re, \rb, \camoffset, \camvar, \camgain) \\
-    f(\parameters, \n) = \ln p(\trace | \parameters, \n) + \ln p(\parameters) \notag
-    \text{,}
+    \parameters_{t+1} = \parameters_{t} + \nu \frac{\partial p(\trace | \parameters, \n)}{\partial \parameters}
+    \bigg\rvert_{\parameters_{t}}
+    \notag
+    \text{.}
   \end{align}
   %
-  thus: 
+  Where $\nu$ is the step size, dynamically calculated by the Adam optimizer, and 
+  the gradients of \parameters are taken with respect to the likelihood ($p(\trace | \n, \parameters))$
   %
+  The maximum a posteriori parameters $\parametersmap$ are then be obtained,
   \begin{equation}
-    \ln p(\trace | \n) = \max_\parameters
-    f(\parameters, \n) - \frac{1}{2} \ln |A|
-    \text{.}
+    \parametersmap = \text{arg}\max_{\parameters} p(\trace | \parameters, \n)
+    \text{,}
   \end{equation}
   %
-  Finally, the molecular count can be obtained as the count with the maximum evidence:
+ thus allowing us to estimate the posterior distribution $p(\trace|\n)$. 
+ %
+This posterior, provides additional information about the relative likelihoods 
+of different possible counts, often desired for downstream processing. 
+ %
+Additionally, we can obtain a single estimate of the the maximum likelihood molecular count:
   %
   \begin{equation}
       \text{count} =
