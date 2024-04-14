@@ -305,27 +305,24 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   the maximum likelihood parameters through gradient ascent:
   %
   \begin{align}
-    \parameters_{t+1} = \parameters_{t} + \nu \frac{\partial p(\trace | \parameters, \n)}{\partial \parameters}
-    \bigg\rvert_{\parameters_{t}}
+    \parameters_{k+1} = \parameters_{k} + \nu \frac{\partial p(\trace | \parameters, \n)}{\partial \parameters}
+    \bigg\rvert_{\parameters_{k}}
     \notag
     \text{.}
   \end{align}
   %
   Where $\nu$ is the step size, dynamically calculated by the Adam optimizer, and 
-  the gradients of \parameters are taken with respect to the likelihood ($p(\trace | \n, \parameters))$
+  the gradients of \parameters are taken with respect to the likelihood: $p(\trace | \n, \parameters)$.
   %
-  The maximum a posteriori parameters $\parametersmap$ are then be obtained,
+  The maximum likelihood parameters $\parametersmap$ are then obtained,
   \begin{equation}
     \parametersmap = \text{arg}\max_{\parameters} p(\trace | \parameters, \n)
     \text{,}
   \end{equation}
   %
- thus allowing us to estimate the posterior distribution $p(\trace|\n)$. 
- %
-This posterior, provides additional information about the relative likelihoods 
-of different possible counts, often desired for downstream processing. 
- %
-Additionally, we can obtain a single estimate of the the maximum likelihood molecular count:
+  thus allowing us to estimate the posterior distribution $p(\trace|\n)$. 
+  %
+  Additionally, we can obtain an estimate of the the maximum likelihood molecular count:
   %
   \begin{equation}
       \truen =

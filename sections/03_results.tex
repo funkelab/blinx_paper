@@ -17,22 +17,22 @@ we generated traces for counts $\n=1$ to 30 (\figref{fig:results:sim_counting}a,
 	%
 	We determined kinetic (\parameterst: $\pon=0.036$, $\poff=0.028$), and emission parameters 
 	(\parameterse: $\re=2.79$, $\rb=6.77$) from an initial experiment, 
-	and closely match those reported in literature \cite{stein_2021}.
+	which closely match those reported in literature \cite{stein_2021}.
 	%
 	We generated traces for 4000 frames, corresponding to an imaging time of 14 minutes.
 
 % priors were placed on camera parameters, but all others were uniform
-For inference, we placed tight empirically determined Gaussian priors on 
-the camera parameters,
+For inference, we placed tight empirically determined, Gaussian priors on 
+the camera parameters.
 	%
-	flat uniform priors on the kinetic parameters, allowing the model 
+	We also placed flat uniform priors on the kinetic parameters, allowing the model 
 	to fit blinking rates without external bias,
 	%
 	and loose priors on the emission parameters (\rb, \re) to prevent 
 	over-estimation of count (see \secref{discussion}). 
 	% how we got these priors
 	We experimentally determined the prior on \rb by averaging the 
-	intensity of the region immediately outside the region of interest.
+	intensity of the pixels immediately outside the region of interest.
 	%
 	We estimated the prior on \re  by first fitting a count of $\n=1$ to the trace.
 	%
@@ -40,7 +40,7 @@ the camera parameters,
 	therefore, whichever \z{}-state is the most common, the second most common 
 	will be $\z{} \pm 1$. 
 	%
-	Empirically, fitting $n=1$ captures this transition, and provides a good
+	We observed that fitting $n=1$ captures this specific transition, and provides a good
 	estimate of photon emission rate of a single emitter \re.
 	%
 	
@@ -52,15 +52,16 @@ the camera parameters,
 	%
 	Above $\n=10$ the posterior broadened as other possibilities become more likely. 
 	%
-	The true count was the most likely estimate in 177/300 (59\%) of traces, and 
-	within 1 of the true count in 267/300 (89\%) of all traces.
+	The most likely estimate was the true count in 177/300 (59\%) of traces, and 
+	was within 1 of the true count in 267/300 (89\%) of all traces.
 	%
-	Importantly, in many cases \ours is able to fit the correct count despite the fact that 
+	Importantly, in many cases \ours is able to fit the true count despite the fact that 
 	not every state is occupied \ie the model is not just counting the 
 	number of peaks in the intensity histogram (\figref{fig:results:sim_counting}a,b).
 	% blinx outperforms lbFCS, counting up to 30 
 	This is a tripling in performance compared to \lbfcs, which counted 
-	accurately up to $\n=6$, but failed to estimate higher counts.
+	accurately up to $\n=6$ and was within 1 of the true count for 64/300 (21\%) of traces, 
+	but failed to estimate higher counts.
 	%
 	Upon further analysis, the main limitation of lbFCS is the estimation of the 
 	intensity of a single emitter, corresponding to \re in \ours. 
@@ -68,15 +69,14 @@ the camera parameters,
 	\lbfcs relies on a histogram based method to determine this value, while 
 	\ours is able to jointly optimize this parameter with the others.
 	%
-	Providing this value to \lbfcs lead to a substantial recovery of performance.
-	%
-	Out of the box, the \lbfcs estimated count was within 1 of the correct count for 64/300 (21\%) of traces, 
-	but after providing \re, this accuracy increased to 200/300 (67\%).
+	Providing this value to \lbfcs led to a substantial recovery of performance.
+	% 
+	With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count.
 	%
 
 % Longer traces lead to better fits
-A longer trace would provide more 
-information to the model and increase the counting accuracy.
+A longer trace provides more
+information to the model and increases the counting accuracy.
 	%
 	We simulated and fit traces of lengths ranging from 100 to 10,000 frames, with the same parameters 
 	as the previous section (\figref{fig:results:sim_counting}d).
@@ -92,7 +92,7 @@ information to the model and increase the counting accuracy.
 We determined the robustness of our model and the minimum signal-to-noise ratio 
 (SNR) needed to achieve an accurate count.
 	%
-	We artificially increase the variance of the readout noise \camvar, 
+	We artificially increased the variance of the readout noise \camvar, 
 	to simulate traces with SNRs ranging from 9 to 1 (where 9 
 	corresponds to the parameters previously used)
 	%
@@ -109,7 +109,7 @@ We determined the robustness of our model and the minimum signal-to-noise ratio
 	Interestingly, for  SNR $\leq 4$, \ours estimates the count as 25, 
 	the highest \n tested, no matter the true count. 
 	%
-	This is due to model adding states to compensate for the wide distribution of intensities  
+	This is due to the model adding states to compensate for the wide distribution of intensities  
 	(see \secref{discussion}).
 
 %-------------
