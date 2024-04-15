@@ -1,101 +1,119 @@
 \section{Discussion} \label{discussion}
-% Overview of highlights
-Here, we presented \ours a probabilistic model, to estimate the absolute 
-number of subunits in an area to small to be spatially separated. 
-    %
-    Our model was validated on both synthetic and experimental intensity traces,
-    and benchmarked against the current state of the art methods \lbfcs \cite{stein_2021} and \qpaint \cite{jungmann_2016}.
-    %
-    Although experimentally DNA-PAINT was used, our model is not 
-    limited to DNA-PAINT, and is compatible with any system that generates repeated fluorescent blinking.
-    %
-    We anticipate that \ours will be adaptable to any experimental molecular counting pipeline,
-    and provide an increase in accuracy as well as probabilistic results, benefiting downstream analysis.
+
+Although we used DNA-PAINT for the experiments presented here, our model is not
+limited to DNA-PAINT, and is compatible with any system that generates repeated
+fluorescent blinking.
+  %
+  We anticipate that \ours will be adaptable to any experimental molecular
+  counting pipeline, and provide an increase in accuracy as well as
+  probabilistic results, benefiting downstream analysis.
 
 % Assumptions
-There are a few assumptions that are essential to \ours.
-    %
-    Firstly, it is assumed that all subunits behave independently.
-    % 
-    In the intensity model, this means that observed intensity will scale linearly with the number of emitters active $z$.
-    %
-    In the transition model, this means that the blinking kinetics of one spot have no effect on the blinking kinetics of any other.
-    %
-    In practice, although not common, subunits in extremely close proximity could potentially 
-    have steric hinderance effects on neighboring subunits, violating this assumption.
-    %
-    Other methods like qPAINT make this same assumption and have been shown to work well in experimental 
-    systems \cite{fischer_quantitative_2021, jayasinghe_true_2018}. 
-    
-Secondly, it is assumed that all subunits within a spot have identical properties (\pon, \poff, \re).
-    %
-    Rather than model each subunit individually, \ours models the sum total behavior of all subunits combined, 
-    and as a result each subunit is assumed to be interchangeable with any other within the same spot.
-    %
-    In applications where non-uniform behavior among subunits is expected, \eg due to 3D conformation, 
-    1 subunit might be less accessible to diffusion of imager than the others \cite{civitci_2020}, a decrease in model performance is expected.
-    %
-    Finally, it is also assumed that all properties remain constant over time. 
-    %
-    Experimentally, drift in emission properties (\re, \rb) is commonly seen due to an unstable focus, and should be corrected before any processing with \ours.
-    % 
-    Change in kinetic properties over time is also sometimes observed and could be caused by damage to emitters, or changes in temperature. 
-    %
-    Unlike the other two, this assumption is not fundamental to the structure of \ours. 
-    %
-    Future versions of this model could account for these changing parameters.
-    % 
-    Intentional changes in parameters could even be used to gain more information from the system and further increase model performance. 
-    
+Regardless of the emitter chosen, there are a few assumptions that are
+essential to \ours:
+  %
+  Firstly, we assume that all subunits behave independently.
+  % 
+  In the intensity model, this means that observed intensity will scale
+  linearly with the number of active emitters $z$.
+  %
+  In the transition model, this means that the blinking kinetics of one spot
+  have no effect on the blinking kinetics of any other.
+  %
+  In practice, although not common, subunits in extremely close proximity could
+  potentially have steric hinderance effects on neighboring subunits, violating
+  this assumption.
+  %
+  Other methods like qPAINT make this same assumption and have been shown to
+  work well in experimental systems \citep{fischer_quantitative_2021,
+  jayasinghe_true_2018}. 
+  %
+  Secondly, we assume that all subunits within a spot have identical properties
+  (\pon, \poff, \re).
+  %
+  Rather than model each subunit individually, we model the sum total behavior
+  of all subunits combined. In other words, we assume that each subunit is
+  interchangeable with any other within the same spot.
+  %
+  In applications where non-uniform behavior among subunits is expected, \eg,
+  due to 3D conformation, one subunit might be less accessible to diffusion of
+  imager than the others~\citep{civitci_2020}. In those cases, we would expect
+  a decrease in model performance.
+  %
+  Finally, we also assume that all properties remain constant over time. 
+  %
+  Experimentally, drift in emission properties (\re, \rb) is commonly seen due
+  to an unstable focus and should be corrected before any processing with
+  \ours.
+  % 
+  Changes in kinetic properties over time are also sometimes observed and could
+  be caused by damage to emitters or changes in temperature. 
+  %
+  Unlike the other two assumptions, this assumption is not fundamental to the
+  structure of \ours and slight extensions of our model could account for these
+  changing parameters.
+  %
+  In fact, intentional changes in parameters could even be used to gain more
+  information from the system and further increase model performance.
 
 % Limitations
-While, \ours has been designed to be applicable to as many different systems as possible, 
-there are a few limitations that should be considered.
-    % overestimation of count
-    The primary limitation of \ours is the tendency to overestimate the molecular count, 
-    especially in traces with low SNR. 
-    %
-    This is caused by the distribution at the heart of the intensity model. 
-    %
-    The model expects intensities to be observed in evenly spaced, normally distributed 
-    peaks (see histograms in \figref{fig:results:experimental}a,b).
-    %
-    When an intensity is observed between two of these peaks, it can sometimes be cheaper, 
-    in terms of likelihood, to add a new \z{}-state to the model,
-    rather than account for that intensity with the given distribution.
-    %
-    In the extreme limit, an infinite number of states could be used to perfectly explain any intensity trace.
-    %
-    % mention histogram comparison to identify over-counting?
-    %
-    This limitation can be avoided by specifying a prior on \re, the photon emission rate of a single fluorophore. 
-    %
-    A prior on \re effectively increases the cost of adding additional states.
+While \ours has been designed to be applicable to as many different systems as
+possible, there are a few limitations that should be considered:
+  %
+  % overestimation of count
+  The primary limitation of \ours is the tendency to overestimate the molecular
+  count in traces with low SNR.
+  %
+  This is caused by the distribution at the heart of the intensity model. 
+  %
+  The model expects intensities to be observed in evenly spaced, normally
+  distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
+  %
+  When an intensity is observed between two of these peaks, it can sometimes be
+  cheaper (in terms of likelihood) to add a new \z{}-state to the model, rather
+  than account for that intensity with the given distribution.
+  %
+  In the extreme limit, an infinite number of states could be used to perfectly
+  explain any intensity trace.
+  %
+  % mention histogram comparison to identify over-counting?
+  %
+  This limitation can be avoided by specifying a prior on \re, the photon
+  emission rate of a single fluorophore, which effectively increases the cost
+  of adding additional states.
 
-Another limitation is that the intensity model does not capture all the noise in the system.
+Another limitation is that the intensity model does not capture all the noise
+in the system.
     %
-    As seen in \figref{fig:results:experimental}a, there are a significant amount of frames where the 
-    measured intensity is greater than $10^4$ and out of our model's distribution.
+    As seen in \figref{fig:results:experimental}a, there are a occasional
+    frames where the measured intensity is greater than expected and poorly
+    fits our model's distribution.
     % 
-    The frequency of this effect was dependant on the imaging temperature (data not shown).
-    %
-    As a result, we hypothesize that this effect is associated with the DNA-PAINT imaging system.
+    %The frequency of this effect depends on the imaging temperature.
+    %%
+    %As a result, we hypothesize that this effect is associated with the
+    %DNA-PAINT imaging system.
     % 
-    To compensate for this behavior a baseline probability was incorporated into the intensity model 
-    \ie there is a fixed minimum likelihood for observing any intensity.
+    To compensate for those outliers we incorporated a baseline outlier
+    probability into the intensity model, \ie, a fixed uniform likelihood for
+    observing any intensity within the recorded range of values.
     %
-    Further, to reduce the influence of this effect on counting accuracy, the highest 0.5\% of 
-    intensities values were excluded when calculating likelihood (the specific percent is adjustable as a hyperparameter).
+    To further reduce the influence of outliers on counting accuracy, we
+    excluded the highest 0.5\% of intensities values when calculating the
+    likelihood (the specific value is adjustable as a hyperparameter).
 
 % Outlook
-Finally, the Bayesian framework of \ours, opens this method to many opportunities of future expansion.
+Generally, the Bayesian framework of \ours opens this method to many
+opportunities of future expansion.
     % 
-    For example with the simple modification of setting $\pon=0$, this 
-    model could support the counting of photobleaching events. 
+    For example, the simple modification of setting $\pon=0$ could support the
+    counting of photobleaching events.
     %
-    Additionally, by incorporating dynamic priors, our model could 
-    also capture changing conditions over time, potentially even increasing the counting ability.
+    Additionally, by incorporating dynamic priors, our model could also capture
+    changing conditions over time, potentially even increasing the counting
+    ability.
     %extend to include PALM and STORM
-    Further, with minor modifications to the transition distribution to account for photobleaching,
-    this method could be extended to other stochastically blinking emitters, 
-    such as those used in PALM or STORM, opening the door for molecular counting in living samples.
+    Further, with minor modifications to the transition distribution to account
+    for photobleaching, this method could be extended to other stochastically
+    blinking emitters, such as those used in PALM or STORM, opening the door
+    for molecular counting in living samples.
