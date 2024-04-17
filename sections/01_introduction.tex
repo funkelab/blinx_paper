@@ -8,16 +8,16 @@ Molecular counting aims to determine the absolute number of \smallobjects
 associated in an \object, a quantity that is often essential to understanding
 the underlying biology of a system.
   %
-  The activation of T-cells, for example, is sensitive to single ligands, and
+  The activation of T cells, for example, is sensitive to single ligands, and
   quantifying the molecular count of ligand-receptor interactions informs
-  understanding of downstream signalling pathways and
-  sensitivity~\citep{irvine_2002}.
+  understanding of system sensitivity and activation of downstream signalling 
+  pathways~\citep{irvine_2002}.
   %
-  Furthermore, molecular counting enables identifying oligomeric states by
-  counting the subunits in a cluster, differentiating monomers, dimers,
+  Furthermore, molecular counting enables identification of oligomeric states by
+  counting the subunits in a cluster, allowing differentiation of monomers, dimers,
   trimers, and higher order oligomers.
   %
-  Several biological processes depend on this quantity: TGF-$\beta$ signaling,
+  Several biological processes depend on oligomer quantity: TGF-$\beta$ signaling,
   for example, depends on the oligomeric state of Smad~\citep{inman_2002,
   moustakas_2002}.
   %
@@ -26,8 +26,8 @@ the underlying biology of a system.
 
 % fluorescence microscopy alone is not enough
 %
-Often, as in the aforementioned examples, the \smallobjects of interest are only a few
-nanometers apart and as such can not be quantified through standard fluorescence
+Often, as in the aforementioned examples, the \smallobjects of interest are separated by only a few
+nanometers and thus can not be quantified through standard fluorescence
 microscopy techniques.
   %
   %Fluorescence microscopy can provide precise localization information of
@@ -35,16 +35,12 @@ microscopy techniques.
   %as counts of nearby molecules, remains limited.
   %
   In contrast to larger structures (whole cells or organelles), which can
-  easily be discerned in fluorescence microscopy, individual molecules in
-  diffraction limited spots below a resolution of 200 \nanometer can no longer
-  be separated.
+  be discerned in fluorescence microscopy, individual molecules in
+  diffraction limited spots below a resolution of approximately 200 \nanometer can not
+  be separated with light microscopy.
   %
-  Even super-resolution techniques~\citep{betzig_2006,rust_2006} that surpass
-  the diffraction limit are not suitable to discern \smallobjects that are
-  closer than 10 \nanometer apart~\citep{valli_seeing_2021}.
-  %
-  However, many \objects of interest are smaller still, or physically
-  positioned closer together.
+  Even super-resolution techniques~\citep{betzig_2006,rust_2006} cannot discern 
+  \smallobjects that are closer than 10 \nanometer apart~\citep{valli_seeing_2021}.
 
 % summary of what the problem is and how we approach it
 %
@@ -74,18 +70,18 @@ We present a Bayesian solution to estimate the number of fluorescently labelled
 % fluorescence intensity based counting
 %
 Perhaps the simplest method of molecular counting is to correlate the combined
-fluorescent intensity of a spot with the number of \smallobjects, \ie, the
-brighter the spot is, the more \smallobjects are contained~\citep{schmied_2012,
+fluorescent intensity of a spot with the number of \smallobjects, \ie, the more subunits 
+located within a spot, the brighter the spot is expected to be ~\citep{schmied_2012,
 tolar_2005}.
   %
-  This method works well for qualitative measures, but, due to the noise in
-  intensities measured from any single fluorophore, lacks the precision needed
-  to report exact counts.
+  This method works well for qualitative measurements, but, due to the noise in
+  intensities measured from any single fluorophore, this approach lacks the precision 
+  required for accurate estimates of molecular counts. 
 
 % Other methods work by separating things out in time
 %
-Molecular counting can be more reliable if temporal fluctuations of intensity
-are considered.
+Molecular counting methods that incorporate temporal fluctuations of intensity
+are more accurate than correlation approaches.
   %
   % FCS and bSOFI
   Methods such as fluorescence correlation spectroscopy
@@ -95,8 +91,8 @@ are considered.
   in fluorescent intensity over time to estimate the molecular count.
   % Bleaching based
   In other methods, temporal variations in intensity are induced rather than
-  just observed, \eg, by measuring the number of distinct bleaching
-  steps that provide cues about the number of fluorescent
+  just observed; for example, counting distinct bleaching
+  steps can provide estimates of the number of fluorescent
   emitters~\citep{ulbrich_2007,jain_2011,hummert_2021}.
 
 % Some of those use blinking fluorophores
@@ -109,17 +105,17 @@ problem~\citep{rollins_stochastic_2015,nino_2017}.
   % Some of these methods are also based on HMMs, should we mention that here?
   The known blinking behavior allows for more precise models than the random
   fluctuations measured in FCS and bSOFI, while the repeated transitions in
-  intensity provide more information than the irreversible switch in bleaching
-  based counting.
+  intensity provide more information than the irreversible switches that occur 
+  in bleaching-based counting.
   %
   % Limitations
-  A major limitation of these methods is the effect of photo-bleaching, as this
+  A major limitation of all of these methods is the effect of photo-bleaching, because this
   limits the amount of time a single fluorophore can be observed, and makes it
-  difficult to differentiate blinking from photo-bleaching.
+  difficult to distinguish between blinking and photo-bleaching.
 
 % DNA-PAINT is extra useful because its emitters dont bleach either
 %
-In contrast, DNA-PAINT~\citep{schnitzbauer_2017} is a method of producing
+In contrast, DNA-PAINT~\citep{schnitzbauer_2017} provides
 blinking fluorescence that is functionally immune to photo-bleaching due to the
 continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   %
@@ -142,10 +138,8 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   In contrast, our solution fits the model to each frame of the measurement 
   in sequence, fully utilizing both the temporal and intensity information available.
   
-Further, all of the methods mentioned provide a single estimate of molecular count. 
-  %
-  A probabilistic estimate would identify cases where several different counts are likely,
-  providing a more detailed quantitative understanding of the system. 
+Furthermore, all prior methods provide a single estimate of molecular count, whereas our 
+method provides a probabilistic estimate. 
 
 % Our Model
 % ----------
@@ -156,16 +150,16 @@ time.
   %
   % Based on a fully differentiable markov chain
   Based on a fully differentiable \hmm, \ours fits
-  seven parameters, describing the photo-physics and kinetics of the system, 
-  directly to the sequence of measurements, 
-  estimating a likelihood for each possible count.
+  seven parameters that describe the photo-physics and kinetics of the system, 
+  directly to the sequence of measurements and
+  estimates a likelihood for each possible count.
   %
   % probabilistic
-  These likelihoods can be directly compared, producing a posterior
+  These likelihoods can be compared directly, producing a posterior
   distribution of counts given the observation sequence.
   % more accurate than existing methods 
   We first run \ours as a forward model, to simulate
-  different experimental conditions and determine their effect on counting ability.
+  different experimental conditions and determine their effects on counting ability.
   %
   We demonstrate a substantial improvement in counting accuracy compared to both \lbfcs and \qpaint
   and an ability to count across different kinetic regimes.

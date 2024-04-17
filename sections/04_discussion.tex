@@ -2,14 +2,14 @@
 
 Although we used DNA-PAINT for the experiments presented here, our model is not
 limited to DNA-PAINT, and is compatible with any system that generates repeated
-fluorescent blinking.
+fluorescent blinking that reports the underlying molecular count.
   %
   We anticipate that \ours will be adaptable to any experimental molecular
-  counting pipeline, and provide an increase in accuracy as well as
-  probabilistic results, benefiting downstream analysis.
+  counting pipeline, to provide accurate 
+  probabilistic estimates up to at least $\n=30$.
 
 % Assumptions
-Regardless of the emitter chosen, there are a few assumptions that are
+Regardless of the emitter chosen, several assumptions are
 essential to \ours:
   %
   Firstly, we assume that all subunits behave independently.
@@ -20,30 +20,32 @@ essential to \ours:
   In the transition model, this means that the blinking kinetics of one spot
   have no effect on the blinking kinetics of any other.
   %
-  In practice, although not common, subunits in extremely close proximity could
-  potentially have steric hinderance effects on neighboring subunits, violating
-  this assumption.
+  In practice, subunits in extremely close proximity could
+  potentially interact and violate this assumption.
   %
   Other methods like qPAINT make this same assumption and have been shown to
   work well in experimental systems \citep{fischer_quantitative_2021,
   jayasinghe_true_2018}. 
   %
-  Secondly, we assume that all subunits within a spot have identical properties
+  Second, we assume that all subunits within a spot have identical properties
   (\pon, \poff, \re).
   %
-  Rather than model each subunit individually, we model the sum total behavior
-  of all subunits combined. In other words, we assume that each subunit is
+  Rather than model each subunit individually, we model the summed behavior
+  of all subunits combined. 
+  %
+  In other words, we assume that each subunit is
   interchangeable with any other within the same spot.
   %
-  In applications where non-uniform behavior among subunits is expected, \eg,
-  due to 3D conformation, one subunit might be less accessible to diffusion of
-  imager than the others~\citep{civitci_2020}. In those cases, we would expect
-  a decrease in model performance.
+  In some applications, where non-uniform behavior among subunits may occur, \eg,
+  if one unit is less accessible to diffusion of
+  imager than the others~\citep{civitci_2020}. 
+  %
+  In these cases, we would expect a decrease in model performance.
   %
   Finally, we also assume that all properties remain constant over time. 
   %
-  Experimentally, drift in emission properties (\re, \rb) is commonly seen due
-  to an unstable focus and should be corrected before any processing with
+  Experimentally, drift in emission properties (\re, \rb) can result from 
+  an unstable focus and should be corrected before any processing with
   \ours.
   % 
   Changes in kinetic properties over time are also sometimes observed and could
@@ -51,14 +53,14 @@ essential to \ours:
   %
   Unlike the other two assumptions, this assumption is not fundamental to the
   structure of \ours and slight extensions of our model could account for these
-  changing parameters.
+  time dependant parameters.
   %
-  In fact, intentional changes in parameters could even be used to gain more
+  In fact, we anticipate that intentional temporal changes in parameters could be used to gain more
   information from the system and further increase model performance.
 
 % Limitations
 While \ours has been designed to be applicable to as many different systems as
-possible, there are a few limitations that should be considered:
+possible, there are a few limitations that should be considered.
   %
   % overestimation of count
   The primary limitation of \ours is the tendency to overestimate the molecular
@@ -69,7 +71,7 @@ possible, there are a few limitations that should be considered:
   The model expects intensities to be observed in evenly spaced, normally
   distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
   %
-  When an intensity is observed between two of these peaks, it can sometimes be
+  When intensity is observed between two of these peaks, it can sometimes be
   cheaper (in terms of likelihood) to add a new \z{}-state to the model, rather
   than account for that intensity with the given distribution.
   %
@@ -86,13 +88,8 @@ Another limitation is that the intensity model does not capture all the noise
 in the system.
     %
     As seen in \figref{fig:results:experimental}a, there are a occasional
-    frames where the measured intensity is greater than expected and poorly
-    fits our model's distribution.
-    % 
-    %The frequency of this effect depends on the imaging temperature.
-    %%
-    %As a result, we hypothesize that this effect is associated with the
-    %DNA-PAINT imaging system.
+    frames where the measured intensity is greater than expected and 
+    fits the model distribution poorly.
     % 
     To compensate for those outliers we incorporated a baseline outlier
     probability into the intensity model, \ie, a fixed uniform likelihood for
@@ -103,8 +100,8 @@ in the system.
     likelihood (the specific value is adjustable as a hyperparameter).
 
 % Outlook
-Generally, the Bayesian framework of \ours opens this method to many
-opportunities of future expansion.
+The Bayesian framework of \ours opens this method up to many future 
+opportunities.
     % 
     For example, the simple modification of setting $\pon=0$ could support the
     counting of photobleaching events.
