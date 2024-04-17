@@ -93,7 +93,7 @@ are more accurate than correlation approaches.
   In other methods, temporal variations in intensity are induced rather than
   just observed; for example, counting distinct bleaching
   steps can provide estimates of the number of fluorescent
-  emitters~\citep{ulbrich_2007,jain_2011,hummert_2021}.
+  emitters~\citep{ulbrich_2007,jain_2011,hummert_2021, garry_bayesian_2020}.
 
 % Some of those use blinking fluorophores
 %
@@ -138,8 +138,14 @@ continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
   In contrast, our solution fits the model to each frame of the measurement 
   in sequence, fully utilizing both the temporal and intensity information available.
   
-Furthermore, all prior methods provide a single estimate of molecular count, whereas our 
-method provides a probabilistic estimate. 
+Furthermore, all prior methods provide a single estimate of molecular count, whereas 
+a probabilistic method would provide valuable information for downstream analysis.
+  %
+  Bayesian approaches can estimate a likelihood for each possible condition 
+  and have previously been used to infer the number of FRET conformational 
+  states \citep{hon_bayesian-estimated_2019, bronson_learning_2009}, 
+  the number of photo-bleaching steps \citep{garry_bayesian_2020}, 
+  and the molecular count from observed intensity \citep{nino_2017}.
 
 % Our Model
 % ----------

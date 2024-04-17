@@ -72,8 +72,15 @@ the camera parameters.
 	%
 	Providing this value to \lbfcs led to a substantial recovery of performance.
 	% 
-	With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count.
+	With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count. 
 	%
+
+Both \ours and \lbfcs achieve this counting accuracy without prior knowledge of the kinetic parameters.
+	%
+	In contrast, \qpaint is heavily dependant on a kinetic calibration and 
+	therefore not comparable in this context.
+	%
+	A direct comparison to \qpaint is shown in \secref{results:qpaint}
 
 % Longer traces lead to better fits
 A longer trace provides more
@@ -192,7 +199,7 @@ and the specific DNA sequence~\citep{jungmann_single-molecule_2010}.
 	optimal on our microscope.
 
 %-------------
-\subsection{qPAINT Kinetic Regime}
+\subsection{qPAINT Kinetic Regime} \label{results:qpaint}
 %-------------
 % qPAINT operates in a different kinetic regime that lbFCS
 qPAINT relies on the accurate measurement of the average dark time between blinking events~\citep{jungmann_2016} 
