@@ -75,7 +75,7 @@ the camera parameters.
 	With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count. 
 	%
 
-Both \ours and \lbfcs achieve this counting accuracy without prior knowledge of the kinetic parameters.
+Both \ours and \lbfcs count without prior knowledge of the kinetic parameters.
 	%
 	In contrast, \qpaint is heavily dependant on a kinetic calibration and 
 	therefore not comparable in this context.
@@ -141,7 +141,7 @@ The result can be divided into two clear regimes: $\pon < \poff$ and $\pon \geq 
 	In the first regime, where $\pon < \poff$ we see significant limitations to our models counting ability.
 	%
 	Furthermore, when \pon is substantially lower than \poff, our model loses almost 
-	all ability to count and estimates $\truen=1$ or 2, regardless of the true $\truen$.
+	all ability to count and estimates $\n=1$ or 2, regardless of the true $\truen$.
 	%
 	In contrast, in the second regime, where $\pon \geq \poff$ we observe 
 	accurate counting up to $n=20$.
@@ -181,7 +181,7 @@ and the specific DNA sequence~\citep{jungmann_single-molecule_2010}.
 	decreasing temperature to 13\textdegree C decreased \poff to 0.037 
 	(\figref{fig:results:campare_kinetics}b).
 	%
-	As expected, he effects of temperature and concentration were largely independent 
+	As expected, the effects of temperature and concentration were largely independent 
 	of one another \cite{jungmann_single-molecule_2010}.
 	%
 	We also observed a substantial decrease in SNR with decreasing temperature 
@@ -194,7 +194,7 @@ and the specific DNA sequence~\citep{jungmann_single-molecule_2010}.
 	We hypothesize that this is due to the stabilization of partial 
 	binding between imager and docker strands at low temperatures.
 	%
-	Accounting for both the increase in counting accuracy and the decrease 
+	Balancing the increase in counting accuracy and the decrease 
 	in SNR, we identified imaging conditions of 20 nM and 13\textdegree C as 
 	optimal on our microscope.
 
@@ -285,7 +285,7 @@ and the average of the posterior distributions is shown in \figref{fig:results:e
 	Possible counts up to $\n=8$ were modelled, but the likelihoods for counts above $n=3$ were negligible for all traces.
 	%
 	For the traces with a known count of 4, 71/110 (65\%) were correctly identified as 4, 
-	and 103/110 were identified as between 3 and 5. 
+	and 103/110 (94\%) were identified as between 3 and 5. 
 	%
 	The average posterior distribution is shown in \figref{fig:results:experimental}e.
 	Importantly, traces were not preprocessed or filtered before undergoing \ours counting analysis.
