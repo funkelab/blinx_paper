@@ -1,16 +1,28 @@
 \section{Discussion} \label{discussion}
 
-Although we used DNA-PAINT for the experiments presented here, our model is not
-limited to DNA-PAINT, and is compatible with any system that generates repeated
-fluorescent blinking that reports the underlying molecular count.
+In summary, we propose \ours, a method to estimate the molecular count directly from 
+a diffraction limited spot. 
+%
+  In slow kinetic regimes, \ours is able to infer the 
+  most likely kinetics of the system and count without any calibration. 
   %
-  We anticipate that \ours will be adaptable to any experimental molecular
-  counting pipeline, to provide accurate 
-  probabilistic estimates up to at least $\n=30$.
+  However, the same behavior that allows for calibration free counting, 
+  multiple active emitters in a single frame,
+  precludes the use of SMLM super-resolution processing. 
+  %
+  To obtain the temporal separation required for SMLM, faster blinking kinetics must be used, 
+  which in turn necessitates the use of a kinetic calibration for accurate counting.
+
+% Although we used DNA-PAINT for the experiments presented here, our model is not
+% limited to DNA-PAINT, and is compatible with any system that generates repeated
+% fluorescent blinking that reports the underlying molecular count.
+%   %
+%   We anticipate that \ours will be adaptable to any experimental molecular
+%   counting pipeline, to provide accurate 
+%   probabilistic estimates up to at least $\n=30$.
 
 % Assumptions
-Regardless of the emitter chosen, several assumptions are
-essential to \ours:
+Regardless of kinetic regime, several assumptions are essential to \ours:
   %
   Firstly, we assume that all subunits behave independently.
   % 
@@ -21,7 +33,7 @@ essential to \ours:
   have no effect on the blinking kinetics of any other.
   %
   In practice, subunits in extremely close proximity could
-  potentially interact and violate this assumption.
+  potentially interact and violate this assumption~\citep{helmerich_photoswitching_2022}. 
   %
   Other methods like qPAINT make this same assumption and have been shown to
   work well in experimental systems \citep{fischer_quantitative_2021,
@@ -57,6 +69,12 @@ essential to \ours:
   %
   In fact, we anticipate that intentional temporal changes in parameters could be used to gain more
   information from the system and further increase model performance.
+
+By design, \ours is compatible with any
+system so long that these assumptions are met.
+  %
+  In practice we find that DNA-PAINT is the experimental system best equipped for this task 
+  due to its decoupling of photophysics from blinking behavior and resistance to photobleaching. 
 
 % Limitations
 While \ours has been designed to be applicable to as many different systems as

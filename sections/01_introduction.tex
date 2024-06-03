@@ -5,7 +5,7 @@
 % molecular counting: what is it and why do we care?
 %
 Molecular counting aims to determine the absolute number of \smallobjects
-associated in an \object, a quantity that is often essential to understanding
+associated in an complex, a quantity that is often essential to understanding
 the underlying biology of a system.
   %
   The activation of T cells, for example, is sensitive to single ligands, and
@@ -39,13 +39,13 @@ microscopy techniques.
   diffraction limited spots below a resolution of approximately 200 \nanometer can not
   be separated with light microscopy.
   %
-  Even super-resolution techniques~\citep{betzig_2006,rust_2006} cannot discern 
+  Even super-resolution techniques~\citep{betzig_2006,rust_2006,rittweger_sted_2009} cannot discern 
   \smallobjects that are closer than 10 \nanometer apart~\citep{valli_seeing_2021}.
 
 % summary of what the problem is and how we approach it
 %
 We present a Bayesian solution to estimate the number of fluorescently labelled
-\smallobjects in a single diffraction limited spot.
+\smallobjects directly from a diffraction limited spot.
   %
   Our solution is based on a probabilistic model that incorporates the
   photo-physics of blinking fluorescent emitters and models their dynamics over
@@ -88,7 +88,7 @@ are more accurate than correlation approaches.
   (FCS)~\citep{otsuka_2023,wachsmuth_2015,politi_2018} and balanced
   super-resolution optical fluctuation imaging
   (bSOFI)~\citep{geissbuehler_2012} fit higher order statistics to fluctuations
-  in fluorescent intensity over time to estimate the molecular count.
+  in fluorescent intensity over time to quantify the molecular concentration.
   % Bleaching based
   In other methods, temporal variations in intensity are induced rather than
   just observed; for example, counting distinct bleaching
@@ -103,34 +103,42 @@ STORM~\citep{patel_blinking_2021}, can be used to facilitate solving the countin
 problem~\citep{rollins_stochastic_2015,nino_2017}.
   %
   % Some of these methods are also based on HMMs, should we mention that here?
-  The known blinking behavior allows for more precise models than the random
-  fluctuations measured in FCS and bSOFI, while the repeated transitions in
+  The blinking behavior allows for modeling at the single-molecule level, compared 
+  to the bulk measurements of FCS, while the repeated transitions in
   intensity provide more information than the irreversible switches that occur 
   in bleaching-based counting.
   %
   % Limitations
-  A major limitation of all of these methods is the effect of photo-bleaching, because this
-  limits the amount of time a single fluorophore can be observed, and makes it
-  difficult to distinguish between blinking and photo-bleaching.
+  A major limitation of these methods is the complex photophysical properties of 
+  these blinking fluorophores, making it difficult to differentiate between possible 
+  dark states, and photo-bleaching. 
 
-% DNA-PAINT is extra useful because its emitters dont bleach either
+% DNA-PAINT is extra useful because its emitters don't bleach either
 %
-In contrast, DNA-PAINT~\citep{schnitzbauer_2017} provides
-blinking fluorescence that is functionally immune to photo-bleaching due to the
-continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
+In contrast, DNA-PAINT~\citep{schnitzbauer_2017} achieves blinking through transient 
+DNA-binding, effectively decoupling blinking from photophysics. Additionally this has 
+the advantage of producing blinking fluorescence that is functionally immune to 
+photo-bleaching due to the continuous replenishment of fluorophores from 
+solution~\citep{stehr_2021}.
+
+% In contrast, DNA-PAINT~\citep{schnitzbauer_2017} provides
+% blinking fluorescence that is functionally immune to photo-bleaching due to the
+% continuous replenishment of fluorophores from solution~\citep{stehr_2021}.
+  % qPAINT
+  Quantitative DNA-PAINT (qPAINT)~\citep{jungmann_2016} estimates the molecular
+  count based on the frequency of blinking events. For example, if a blinking rate of one
+  event per second is calibrated to one molecule, an observation of
+  ten events per second corresponds to a count of ten molecules. 
+  qPAINT is a relative counting method, and as a result is entirely dependant on the quality of 
+  the calibration, which the measurement of is non-trivial.
   %
   % lbFCS
   Localization based FCS (\lbfcs)~\citep{stein_2019,stein_2021} combines the
   structured blinking of DNA-PAINT with the principles of FCS, fitting the
   autocorrelation function of intensity over time to produce a count. As such,
   it is able to accurately count up to six molecules in a single diffraction
-  limited spot.
+  limited spot, without the need for a calibration.
   %
-  % qPAINT
-  Quantitative DNA-PAINT (qPAINT)~\citep{jungmann_2016} estimates the molecular
-  count based on the frequency of blinking events. For example, if a blinking rate of one
-  event per second is calibrated to one molecule, an observation of
-  ten events per second corresponds to a count of ten molecules.
   % Limitations
   However, both of these methods are limited in that they fit summary
   statistics, rather than the data directly.
@@ -144,7 +152,8 @@ a probabilistic method would provide valuable information for downstream analysi
   Bayesian approaches can estimate a likelihood for each possible condition 
   and have previously been used to infer the number of FRET conformational 
   states \citep{hon_bayesian-estimated_2019, bronson_learning_2009}, 
-  the number of photo-bleaching steps \citep{garry_bayesian_2020}, 
+  the number of photo-bleaching steps \citep{garry_bayesian_2020},
+  the assignment of blinking events to specific fluorophores \citep{gabitto_bayesian_2021, fazel_bayesian_2019},
   and the molecular count from observed intensity \citep{nino_2017}.
 
 % Our Model
@@ -167,9 +176,9 @@ time.
   We first run \ours as a forward model, to simulate
   different experimental conditions and determine their effects on counting ability.
   %
-  We demonstrate a substantial improvement in counting accuracy compared to both \lbfcs and \qpaint
-  and an ability to count across different kinetic regimes.
+  We demonstrate a substantial improvement in calibration free (compared to \lbfcs) 
+  and calibrated (compared to \qpaint), counting accuracy, and 
+  an ability to count across different kinetic regimes.
   %
   Finally, we prove the counting ability of \ours experimentally by validating 
   the estimated count with ground truth measured by super-resolution DNA-PAINT imaging.
-
