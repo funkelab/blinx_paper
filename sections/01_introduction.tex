@@ -30,29 +30,22 @@ Often, as in the aforementioned examples, the \smallobjects of interest are sepa
 nanometers and thus can not be quantified through standard fluorescence
 microscopy techniques.
   %
-  %Fluorescence microscopy can provide precise localization information of
-  %molecular species, but its ability to determine quantitative information, such
-  %as counts of nearby molecules, remains limited.
+  While traditional fluorescence microscopy is diffraction limited to a resolution 
+  of approximately 200 \nanometer, super-resolution 
+  techniques~\citep{betzig_2006,rust_2006,rittweger_sted_2009} 
+  are able to discern individual \smallobjects up to a resolution of 10 \nanometer 
+  apart~\citep{valli_seeing_2021}.
   %
-  In contrast to larger structures (whole cells or organelles), which can
-  be discerned in fluorescence microscopy, individual molecules in
-  diffraction limited spots below a resolution of approximately 200 \nanometer can not
-  be separated with light microscopy.
+  Below that threshold, it is no longer possible to quantify the molecular count 
+  through visual separation.
   %
-  \todo{make positive statement}
-  Even super-resolution techniques~\citep{betzig_2006,rust_2006,rittweger_sted_2009} cannot discern 
-  \smallobjects that are closer than 10 \nanometer apart~\citep{valli_seeing_2021}.
-  \todo{this works up to a given distance}
-  \todo{below that distance, SR methods can not count molecules any longer}
-
-\todo{make clear: we are interested in counts, not structure; SR is for structure, not counts}
 
 % summary of what the problem is and how we approach it
 %
-We present an alternative to counting the number of molecules in a diffraction
-limited spot, which does not rely on super-resolution.
+We present an alternative method of molecular counting, which does not rely on super-resolution.
 %
-  To that end, we develop a Bayesian solution to estimate the number of
+  Shifting focus from the structure of the complex and focusing solely on the molecular count, 
+  we develop a Bayesian solution to estimate the number of
   fluorescently labelled \smallobjects directly from a diffraction limited
   spot.
   %
@@ -64,7 +57,6 @@ limited spot, which does not rely on super-resolution.
   spot over time (\figref{fig:method:overview}a), this model can be used to obtain the 
   most likely number of emitters contained in that spot: the molecular count.
 
-% Motivate fluorescence based methods (doesn't say a lot IMO -Jan)
 %
 %
 %Although other methods exist to quantify molecular count at this scale, a
