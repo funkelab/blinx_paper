@@ -1,9 +1,12 @@
 \@ifundefined{nolabels}{
   \pgfplotsset{xlabel=frames}
   \pgfplotsset{ylabel=intensity}
+  \pgfplotsset{grid=major}
+  \pgfplotsset{grid style={dashed}}
 }{
   \pgfplotsset{xticklabel=\empty}
   \pgfplotsset{yticklabel=\empty}
+  \pgfplotsset{ticks=none}
   \pgfplotsset{scaled ticks=false}
 }
 \@ifundefined{histogramcsv}{}{
@@ -16,8 +19,6 @@
   scale only axis=true,
   enlarge x limits=false,
   xtick distance=500,
-  grid=major,
-  grid style={dashed},
   ticklabel style={font=\small},
   legend style={nodes={scale=0.6, transform shape}},
 ]
