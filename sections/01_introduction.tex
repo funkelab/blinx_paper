@@ -39,13 +39,22 @@ microscopy techniques.
   diffraction limited spots below a resolution of approximately 200 \nanometer can not
   be separated with light microscopy.
   %
+  \todo{make positive statement}
   Even super-resolution techniques~\citep{betzig_2006,rust_2006,rittweger_sted_2009} cannot discern 
   \smallobjects that are closer than 10 \nanometer apart~\citep{valli_seeing_2021}.
+  \todo{this works up to a given distance}
+  \todo{below that distance, SR methods can not count molecules any longer}
+
+\todo{make clear: we are interested in counts, not structure; SR is for structure, not counts}
 
 % summary of what the problem is and how we approach it
 %
-We present a Bayesian solution to estimate the number of fluorescently labelled
-\smallobjects directly from a diffraction limited spot.
+We present an alternative to counting the number of molecules in a diffraction
+limited spot, which does not rely on super-resolution.
+%
+  To that end, we develop a Bayesian solution to estimate the number of
+  fluorescently labelled \smallobjects directly from a diffraction limited
+  spot.
   %
   Our solution is based on a probabilistic model that incorporates the
   photo-physics of blinking fluorescent emitters and models their dynamics over
