@@ -1,27 +1,62 @@
 \section{Discussion} \label{discussion}
 
-In slow kinetic regimes, \ours is able to infer the most likely kinetics of the
-system and count without any calibration.
+Our analysis of counting in different kinetic regimes highlights a trade-off 
+that exists between counting ability and resolution.
   %
-  However, in that regime we observe multiple active emitters in a single
-  frame, which precludes the use of SMLM super-resolution processing.
+  For counting, a slower kinetic regime, where multiple emitters are active in a single frame, is optimal. 
   %
-  To obtain the temporal separation required for SMLM, faster blinking kinetics must be used, 
-  which in turn necessitates the use of a kinetic calibration for accurate counting.
+  For resolution, a fast kinetics regime is required to obtain the temporal separation required for SMLM.
+  % 
+  \ours is able to accurately estimate molecular count in both regimes, either calibration-free in the slow regime, 
+  or with a calibration in the fast regime.
 
-\todo{introduce fundamental trade-off: structure or count}
-\todo{for counting, different experimental regimes are optimal}
+% Limitations
+While \ours has been designed to be robust and applicable to a range of 
+different experimental systems, there are a few limitations that should be considered.
+  %
+  % overestimation of count
+  The primary limitation of \ours is the tendency to overestimate the molecular
+  count in traces with low SNR.
+  %
+  This is caused by the distribution at the heart of the intensity model. 
+  %
+  The model expects intensities to be observed in evenly spaced, normally
+  distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
+  %
+  When intensity is observed between two of these peaks, it can sometimes be
+  cheaper (in terms of likelihood) to add a new \z{}-state to the model, rather
+  than account for that intensity with the given distribution.
+  %
+  In the extreme limit, an infinite number of states could be used to perfectly
+  explain any intensity trace.
+  %
+  % mention histogram comparison to identify over-counting?
+  %
+  This limitation can be avoided by specifying a prior on \re, the photon
+  emission rate of a single fluorophore, which effectively increases the cost
+  of adding additional states.
 
-% Although we used DNA-PAINT for the experiments presented here, our model is not
-% limited to DNA-PAINT, and is compatible with any system that generates repeated
-% fluorescent blinking that reports the underlying molecular count.
-%   %
-%   We anticipate that \ours will be adaptable to any experimental molecular
-%   counting pipeline, to provide accurate 
-%   probabilistic estimates up to at least $\n=30$.
+Another limitation is that the intensity model does not capture all the noise
+in the system.
+    %
+    As seen in \figref{fig:results:experimental}a, there are occasional
+    frames where the measured intensity is greater than expected and 
+    fits the model distribution poorly.
+    % 
+    To compensate for those outliers we incorporated a baseline outlier
+    probability into the intensity model, \ie, a fixed uniform likelihood for
+    observing any intensity within the recorded range of values.
+    %
+    To further reduce the influence of these observed outliers on counting accuracy, we
+    excluded the highest 0.5\% of intensities values when calculating the
+    likelihood (the specific value is adjustable as a hyperparameter).
 
 % Assumptions
-Regardless of kinetic regime, several assumptions are essential to \ours:
+In this work, we used DNA-PAINT due to its resistance to photobleaching and consistent, 
+predictable blinking behavior.
+  %
+  However, \ours is not specific to DNA-PAINT by design, and could be 
+  applied to any experimental system, so long as a few essential assumptions are met:
 
   Firstly, we assume that all subunits behave independently.
   % 
@@ -53,7 +88,7 @@ Regardless of kinetic regime, several assumptions are essential to \ours:
   %
   In these cases, we would expect a decrease in model performance.
 
-  Finally, we also assume that all properties remain constant over time. 
+Finally, we also assume that all properties remain constant over time. 
   %
   Experimentally, drift in emission properties (\re, \rb) can result from 
   an unstable focus and should be corrected before any processing with
@@ -69,56 +104,12 @@ Regardless of kinetic regime, several assumptions are essential to \ours:
   In fact, we anticipate that intentional temporal changes in parameters could be used to gain more
   information from the system and further increase model performance.
 
-By design, \ours is compatible with any
-system so long that these assumptions are met.
-  %
-  In practice we find that DNA-PAINT is the experimental system best equipped for this task 
-  due to its decoupling of photophysics from blinking behavior and resistance to photobleaching. 
-
-% Limitations
-While \ours has been designed to be applicable to as many different systems as
-possible, there are a few limitations that should be considered.
-  %
-  % overestimation of count
-  The primary limitation of \ours is the tendency to overestimate the molecular
-  count in traces with low SNR.
-  %
-  This is caused by the distribution at the heart of the intensity model. 
-  %
-  The model expects intensities to be observed in evenly spaced, normally
-  distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
-  %
-  When intensity is observed between two of these peaks, it can sometimes be
-  cheaper (in terms of likelihood) to add a new \z{}-state to the model, rather
-  than account for that intensity with the given distribution.
-  %
-  In the extreme limit, an infinite number of states could be used to perfectly
-  explain any intensity trace.
-  %
-  % mention histogram comparison to identify over-counting?
-  %
-  This limitation can be avoided by specifying a prior on \re, the photon
-  emission rate of a single fluorophore, which effectively increases the cost
-  of adding additional states.
-
-Another limitation is that the intensity model does not capture all the noise
-in the system.
-    %
-    As seen in \figref{fig:results:experimental}a, there are a occasional
-    frames where the measured intensity is greater than expected and 
-    fits the model distribution poorly.
-    % 
-    To compensate for those outliers we incorporated a baseline outlier
-    probability into the intensity model, \ie, a fixed uniform likelihood for
-    observing any intensity within the recorded range of values.
-    %
-    To further reduce the influence of outliers on counting accuracy, we
-    excluded the highest 0.5\% of intensities values when calculating the
-    likelihood (the specific value is adjustable as a hyperparameter).
-
 % Outlook
-The Bayesian framework of \ours opens this method up to many future 
-opportunities.
+
+In the future, through the Bayesian framework of \ours, these assumptions could be relaxed, 
+opening opportunities for applications to new systems.
+% The Bayesian framework of \ours opens this method up to many future 
+% opportunities.
     % 
     For example, the simple modification of setting $\pon=0$ could support the
     counting of photobleaching events.
@@ -126,10 +117,9 @@ opportunities.
     Additionally, by incorporating dynamic priors, our model could also capture
     changing conditions over time, potentially even increasing the counting
     ability.
-    %extend to include PALM and STORM
+    % extend to include PALM and STORM
     Further, with minor modifications to the transition distribution to account
     for photobleaching, this method could be extended to other stochastically
     blinking emitters, such as those used in PALM or STORM, opening the door
     for molecular counting in living samples.
     %
-    
