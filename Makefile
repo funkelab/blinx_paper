@@ -21,3 +21,6 @@ arxiv_export: clean default
 clean:
 	-rm -rf .latexmk
 	-rm -rf figures/tikzexternal/*
+
+count: default
+	-./count.sh
