@@ -4,58 +4,58 @@
 
 % molecular counting: what is it and why do we care?
 %
-Molecular counting aims to determine the absolute number of \smallobjects
-associated in an complex, a quantity that is often essential to understanding
+Molecular counting aims to determine the absolute number of units 
+in an complex, a quantity that is often essential to understanding
 the underlying biology of a system.
   %
   The activation of T cells, for example, is sensitive to single ligands, and
-  quantifying the molecular count of ligand-receptor interactions informs
-  understanding of system sensitivity and activation of downstream signalling 
-  pathways~\citep{irvine_2002}.
+  quantifying the molecular count of ligand-receptor interactions elucidates 
+  system sensitivity and mechanisms of signalling pathways~\citep{irvine_2002}.
   %
-  Furthermore, molecular counting enables identification of oligomeric states by
-  counting the subunits in a cluster, allowing differentiation of monomers, dimers,
-  trimers, and higher order oligomers.
+  Furthermore, molecular counting enables identification of oligomeric states, 
+  allowing differentiation of monomers, dimers, trimers, and higher order oligomers.
   %
   Several biological processes depend on oligomer quantity: TGF-$\beta$ signaling,
   for example, depends on the oligomeric state of Smad~\citep{inman_2002,
   moustakas_2002}.
   %
-  Similarly, the oligomeric state of G-protein coupled receptors influences
-  downstream GPCR signaling~\citep{felce_2018, breitwieser_2004}.
+  Similarly, the oligomeric state of G-protein coupled receptors influences 
+  GPCR signaling~\citep{felce_2018, breitwieser_2004}.
 
 % fluorescence microscopy alone is not enough
 %
-Often, as in the aforementioned examples, the \smallobjects of interest are separated by only a few
-nanometers and thus can not be quantified through standard fluorescence
+Units of interest are often separated by only a few
+nanometers and thus cannot be quantified through standard fluorescence
 microscopy techniques.
   %
   While traditional fluorescence microscopy is diffraction limited to a resolution 
   of approximately 200 \nanometer, super-resolution 
   techniques~\citep{betzig_2006,rust_2006,rittweger_sted_2009} 
-  are able to discern individual \smallobjects up to a resolution of 10 \nanometer 
-  apart~\citep{valli_seeing_2021}.
+  can provide resolution of 10 \nanometer~\citep{valli_seeing_2021}.
   %
-  Below that threshold, it is no longer possible to quantify the molecular count 
-  through visual separation.
+  Below this approximate threshold, molecular count cannot be determined
+  by visual separation.
   %
 
 % summary of what the problem is and how we approach it
 %
-We present an alternative method of molecular counting, which does not rely on super-resolution.
+We present an alternative method of molecular counting 
+that does not rely on super-resolution microscopy.
 %
-  Shifting focus from the structure of the complex and focusing solely on the molecular count, 
-  we develop a Bayesian solution to estimate the number of
+  We attempt to estimate the molecular count directly through observation of 
+  fluorescence dynamics, rather than by trying to optically separate signals.
+  %
+  We developed a Bayesian solution to estimate the number of
   fluorescently labelled \smallobjects directly from a diffraction limited
   spot.
   %
   Our solution is based on a probabilistic model that incorporates the
-  photo-physics of blinking fluorescent emitters and models their dynamics over
+  photo-physics of blinking fluorescent emitters and that models their dynamics over
   time as a Markov chain.
   %
-  Given a trace of the combined intensity of all \smallobjects contained in a
-  spot over time (\figref{fig:method:overview}a), this model can be used to obtain the 
-  most likely number of emitters contained in that spot: the molecular count.
+  Given a temporal record of the combined intensity of all \smallobjects within a
+  diffraction limited spot (\figref{fig:method:overview}a), this model provides the 
+  most likely number of emitters within the spot: the molecular count.
 
 %
 %
@@ -112,14 +112,14 @@ problem~\citep{rollins_stochastic_2015,nino_2017}.
   % Limitations
   A major limitation of these methods is the complex photophysical properties of 
   these blinking fluorophores, making it difficult to differentiate between possible 
-  dark states, and photo-bleaching. 
+  dark states and photo-bleaching. 
 
 % DNA-PAINT is extra useful because its emitters don't bleach either
 %
 In contrast, DNA-PAINT~\citep{schnitzbauer_2017} achieves blinking through transient 
-DNA-binding, effectively decoupling blinking from photophysics. Additionally this has 
-the advantage of producing blinking fluorescence that is functionally immune to 
-photo-bleaching due to the continuous replenishment of fluorophores from 
+DNA-binding, effectively decoupling blinking from photophysics. This has 
+the additional advantage of producing blinking fluorescence that is functionally immune to 
+photo-bleaching, due to the continuous replenishment of fluorophores from 
 solution~\citep{stehr_2021}.
 
 % In contrast, DNA-PAINT~\citep{schnitzbauer_2017} provides
@@ -131,27 +131,27 @@ solution~\citep{stehr_2021}.
   event per second is calibrated to one molecule, an observation of
   ten events per second corresponds to a count of ten molecules. 
   qPAINT is a relative counting method, and as a result is entirely dependant on the quality of 
-  the calibration, which the measurement of is non-trivial.
+  the calibration, which can be a non-trivial endeavor.
   %
   % lbFCS
   Localization based FCS (\lbfcs)~\citep{stein_2019,stein_2021} combines the
   structured blinking of DNA-PAINT with the principles of FCS, fitting the
-  autocorrelation function of intensity over time to produce a count. As such,
-  it is able to accurately count up to six molecules in a single diffraction
-  limited spot, without the need for a calibration.
+  autocorrelation function of intensity over time to produce a count. \lbfcs 
+  can accurately count up to six molecules in a diffraction
+  limited spot, without calibration.
   %
   % Limitations
-  However, both of these methods are limited in that they fit summary
+  However, both of these methods are limited because they fit summary
   statistics, rather than the data directly.
   %
-  In contrast, our solution fits the model to each frame of the measurement 
-  in sequence, fully utilizing both the temporal and intensity information available.
+  In contrast, we fit the model to every measurement, 
+  fully utilizing both the time and intensity information.
   
-Furthermore, all prior methods provide a single estimate of molecular count, whereas 
-a probabilistic method would provide valuable information for downstream analysis.
+Furthermore, all prior methods provide a single estimate of molecular count, even though 
+a probabilistic count may be preferable for downstream analysis.
   %
   Bayesian approaches can estimate a likelihood for each possible condition 
-  and have previously been used to infer the number of FRET conformational 
+  and have been used previously to infer the number of FRET conformational 
   states \citep{hon_bayesian-estimated_2019, bronson_learning_2009}, 
   the number of photo-bleaching steps \citep{garry_bayesian_2020},
   the assignment of blinking events to specific fluorophores \citep{gabitto_bayesian_2021, fazel_bayesian_2019},
@@ -161,25 +161,27 @@ a probabilistic method would provide valuable information for downstream analysi
 % ----------
 % fully Bayesian
 We propose \ours, a Bayesian model to estimate the molecular count
-directly from a fluctuating sequence of fluorescent intensity measurements over
-time.
+directly from a trace of fluctuating diffraction limited fluorescent
+intensity measurements.
   %
   % Based on a fully differentiable markov chain
   Based on a fully differentiable \hmm, \ours fits
   seven parameters that describe the photo-physics and kinetics of the system, 
-  directly to the sequence of measurements and
+  to the sequence of measurements and
   estimates a likelihood for each possible count.
   %
   % probabilistic
   These likelihoods can be compared directly, producing a posterior
-  distribution of counts given the observation sequence.
+  distribution of counts given the observed sequence.
   % more accurate than existing methods 
   We first run \ours as a forward model, to simulate
-  different experimental conditions and determine their effects on counting ability.
+  different experimental conditions and to determine the effect of 
+  each condition on counting ability.
   %
-  We demonstrate a substantial improvement in calibration free (compared to \lbfcs) 
-  and calibrated (compared to \qpaint), counting accuracy, and 
-  an ability to count across different kinetic regimes.
+  We find that \ours provides a substantial improvement in calibration-free 
+  (compared to \lbfcs) 
+  and calibrated (compared to \qpaint), counting accuracy, and can 
+  count across different kinetic regimes.
   %
   Finally, we prove the counting ability of \ours experimentally by validating 
   the estimated count with ground truth measured by super-resolution DNA-PAINT imaging.

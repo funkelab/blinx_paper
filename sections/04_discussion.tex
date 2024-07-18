@@ -1,49 +1,49 @@
 \section{Discussion} \label{discussion}
 
-Our analysis of counting in different kinetic regimes highlights a trade-off 
-that exists between counting ability and resolution.
+Our analysis of different kinetic regimes highlights a trade-off 
+between resolution and counting.
   %
-  For counting, a slower kinetic regime, where multiple emitters are active in a single frame, is optimal. 
-  %
-  For resolution, a fast kinetics regime is required to obtain the temporal separation required for SMLM.
+  Relatively fast kinetics are required to generate temporal separation required for single 
+  molecule localization microscopy.
   % 
-  \ours is able to accurately estimate molecular count in both regimes, either calibration-free in the slow regime, 
+  In contrast, a slower kinetic regime, where multiple emitters are active in a single frame, 
+  is optimal for counting.
+  %
+  \ours can accurately estimate molecular count in both regimes, either calibration-free in the slow regime 
   or with a calibration in the fast regime.
 
 % Limitations
-While \ours has been designed to be robust and applicable to a range of 
-different experimental systems, there are a few limitations that should be considered.
+While \ours is robust to a range of experimental conditions, 
+we identified several limitations.
   %
   % overestimation of count
-  The primary limitation of \ours is the tendency to overestimate the molecular
-  count in traces with low SNR.
-  %
-  This is caused by the distribution at the heart of the intensity model. 
+  First, \ours tends to overestimate the molecular
+  count in time series with low SNR.
   %
   The model expects intensities to be observed in evenly spaced, normally
   distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
   %
-  When intensity is observed between two of these peaks, it can sometimes be
-  cheaper (in terms of likelihood) to add a new \z{}-state to the model, rather
-  than account for that intensity with the given distribution.
+  With low SNR, noise can generate intensity between peaks, and adding additional 
+  \z{}-states can sometimes yield higher likelihoods than correctly absorbing 
+  this noise into the fitted distribution.
   %
-  In the extreme limit, an infinite number of states could be used to perfectly
-  explain any intensity trace.
+  In the limit, an infinite number of states could perfectly
+  explain any intensity time series.
   %
   % mention histogram comparison to identify over-counting?
   %
-  This limitation can be avoided by specifying a prior on \re, the photon
+  This can be avoided by specifying a prior on \re, the photon
   emission rate of a single fluorophore, which effectively increases the cost
-  of adding additional states.
+  of adding additional states, and therefore decreases the likelihood of these models.
 
-Another limitation is that the intensity model does not capture all the noise
+A second limitation is that the intensity model does not capture all of the noise
 in the system.
     %
     As seen in \figref{fig:results:experimental}a, there are occasional
     frames where the measured intensity is greater than expected and 
     fits the model distribution poorly.
     % 
-    To compensate for those outliers we incorporated a baseline outlier
+    To compensate for these outliers, we incorporated a baseline outlier
     probability into the intensity model, \ie, a fixed uniform likelihood for
     observing any intensity within the recorded range of values.
     %
@@ -52,13 +52,14 @@ in the system.
     likelihood (the specific value is adjustable as a hyperparameter).
 
 % Assumptions
-In this work, we used DNA-PAINT due to its resistance to photobleaching and consistent, 
+In this work, we used DNA-PAINT to test the performance of \ours 
+due to its resistance to photobleaching and consistent, 
 predictable blinking behavior.
   %
-  However, \ours is not specific to DNA-PAINT by design, and could be 
-  applied to any experimental system, so long as a few essential assumptions are met:
+  However, \ours is not specific to DNA-PAINT and could be 
+  applied to any experimental system that meets the following three assumptions.
 
-  Firstly, we assume that all subunits behave independently.
+  First, all sub-units are assumed to behave independently.
   % 
   In the intensity model, this means that observed intensity will scale
   linearly with the number of active emitters $z$.
@@ -66,38 +67,38 @@ predictable blinking behavior.
   In the transition model, this means that the blinking kinetics of one spot
   have no effect on the blinking kinetics of any other.
   %
-  In practice, subunits in extremely close proximity could
-  potentially interact and violate this assumption~\citep{helmerich_photoswitching_2022}. 
+  In practice, sub-units in close proximity might 
+  interact and violate this assumption~\citep{helmerich_photoswitching_2022}. 
   %
-  Other methods like qPAINT make this same assumption and have been shown to
+  Other methods, like qPAINT, also make this assumption and have been shown to
   work well in experimental systems \citep{fischer_quantitative_2021,
   jayasinghe_true_2018}. 
 
-  Second, we assume that all subunits within a spot have identical properties
+  Second, all sub-units within a spot are assumed to have identical properties
   (\pon, \poff, \re).
   %
-  Rather than model each subunit individually, we model the summed behavior
-  of all subunits combined. 
+  Rather than model each sub-unit individually, we model the summed behavior
+  of all sub-units combined. 
   %
-  In other words, we assume that each subunit is
+  In other words, we assume that each sub-unit is
   interchangeable with any other within the same spot.
   %
-  In some applications, where non-uniform behavior among subunits may occur, \eg,
+  In some application, non-uniform behavior among sub-units may occur, for example
   if one unit is less accessible to diffusion of
   imager than the others~\citep{civitci_2020}. 
   %
-  In these cases, we would expect a decrease in model performance.
+  In these cases, we expect a decrease in model performance.
 
-Finally, we also assume that all properties remain constant over time. 
+Finally, all properties are assumed to remain constant over time. 
   %
   Experimentally, drift in emission properties (\re, \rb) can result from 
   an unstable focus and should be corrected before any processing with
   \ours.
   % 
   Changes in kinetic properties over time are also sometimes observed and could
-  be caused by photo-bleaching, damage to emitters or changes in temperature. 
+  be caused by photo-bleaching, damage to emitters or temperature changes. 
   %
-  Unlike the other two assumptions, this assumption is not fundamental to the
+  Unlike the first two assumptions, this assumption is not fundamental to the
   structure of \ours and slight extensions of our model could account for these
   time dependant parameters.
   %
@@ -105,18 +106,15 @@ Finally, we also assume that all properties remain constant over time.
   information from the system and further increase model performance.
 
 % Outlook
-
-In the future, through the Bayesian framework of \ours, these assumptions could be relaxed, 
-opening opportunities for applications to new systems.
-% The Bayesian framework of \ours opens this method up to many future 
-% opportunities.
+In principle, these assumptions could be relaxed within the Bayesian framework of \ours,
+providing opportunities to apply \ours to new systems and questions.
     % 
     For example, the simple modification of setting $\pon=0$ could support the
     counting of photobleaching events.
     %
-    Additionally, by incorporating dynamic priors, our model could also capture
-    changing conditions over time, potentially even increasing the counting
-    ability.
+    Additionally, by incorporating dynamic priors, \ours could also capture
+    changing conditions over time, potentially increasing counting
+    ability beyond what we demonstrate here.
     % extend to include PALM and STORM
     Further, with minor modifications to the transition distribution to account
     for photobleaching, this method could be extended to other stochastically

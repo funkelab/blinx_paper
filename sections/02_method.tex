@@ -1,7 +1,7 @@
 \section{Method}
 
 Starting from the photo-physics of the system, we derive a probabilistic model
-that accounts for both the observed intensity, and the temporal fluctuation
+that accounts for both the observed intensity and the temporal fluctuation
 kinetics.
   %
   Given an intensity trace, the output of our method is the posterior
@@ -13,8 +13,8 @@ kinetics.
 We consider the case of multiple fluorescent emitters within a single
 diffraction limited spot.
 %
-  As such, we can only measure their combined intensity contributions
-  $\x{t}$ at a timepoint $t$.
+  As such, we can measure only their combined intensity contributions
+  $\x{t}$ at time $t$.
   %
   We assume that each emitter blinks stochastically and independently of the
   others, yielding a fluctuating trace $\trace = (\x{1},\ldots,\x{T})$ of total
@@ -222,8 +222,8 @@ the emitter as inactive).
   %
   For multiple emitters, however, a transition from \z{t-1} to \z{t} can be
   caused by multiple events. Consider, for example the case of two emitters
-  ($\n=2$). A transition from $\z{t-1}=1$ to $\z{t}=1$ can either be caused either by
-  no change occurring at all or by one emitter activating while the other
+  ($\n=2$). A transition from $\z{t-1}=1$ to $\z{t}=1$ can be caused either by
+  no change occurring or by one emitter becoming active while the other emitter 
   deactivates.
 
 In the general case ($\n\geq1$), we consider all possible events that can
@@ -242,7 +242,7 @@ number $a$ of active emitters that deactivated from $t-1$ to $t$:
   \end{align}
   %
   We assume that all emitters share the same \pon and \poff, and that
-  both remain constant over time.
+  both probabilities remain constant over time.
 
 
 \subsubsection{Inference}
@@ -254,19 +254,17 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   However, we are interested in the posterior distribution $p(\trace|\n)$.
   %
   Accounting for the priors on \parameters in addition to the likelihood,
-  this is known as the model evidence and defined as:
+  this is known as the model evidence and is defined as:
   %
   \begin{equation*}
     p(\trace | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
     \text{.}
   \end{equation*}
   %
-  Unfortunately, no closed form solution exists for this integral. 
-  %
-  Although no closed for solution exists for this integral, multiple approximations exist including 
+  Although no closed form solution exists for this integral, multiple approximations exist including 
   variational methods \cite{bronson_learning_2009} and the Laplace approximation~\citep{bishop_pattern_2006}.
   %
-  We use the later, which is the maximum likelihood solution corrected by the Occam factor:
+  We use the latter, which is the maximum likelihood solution corrected by the Occam factor:
 
   \begin{equation}
     \ln p(\trace | n) \approx
@@ -291,7 +289,7 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   %
   Here, $M$ is the dimensionality of \parameters, which is constant.
   %
-  Because we are interested only in comparing likelihoods this term can 
+  Because we are interested only in comparing likelihoods, this term can 
   safely be ignored, resulting in:
   %
   \begin{equation}
@@ -300,7 +298,7 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
     \label{eq:method:evidence}
   \end{equation}
   %
-  Therefore, to estimate the posterior distribution over \n we first need to 
+  Therefore, to estimate the posterior distribution over \n, we first need to 
   find the maximum likelihood parameters $\parametersmap$ for each value of \n. 
 
   This model is fully differentiable, allowing us to estimate 
@@ -324,7 +322,7 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   %
   thus allowing us to estimate the posterior distribution $p(\trace|\n)$. 
   %
-  Additionally, we can obtain an estimate of the the maximum likelihood molecular count:
+  Additionally, we can obtain an estimate of the maximum likelihood molecular count:
   %
   \begin{equation}
       \truen =
