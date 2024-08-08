@@ -62,8 +62,9 @@
   % Brace to MLE
   \draw[color=linecolor,decorate,decoration={brace,raise=2mm,aspect=0.2}]
     (trace.north east) --
-    node[pos=0.2,right=2mm,color=foreground] (brace) {}
-    node[pos=0.2,right=16mm,draw,color=foreground,rectangle,rounded corners] (mle) {\ours}
+    node[pos=0.2,right=2mm] (brace) {}
+       node[pos=0.1,right=14mm,draw,rectangle,rounded corners] (sparkles) {\textit{sparkles}}
+       node[pos=0.5,right=16mm,draw,rectangle,rounded corners] (mle) {\ours}
     (trace.south east);
 
   % Posterior
@@ -83,6 +84,9 @@
     }}
     \input{figures/plots/p_n_given_x.plot}
   \end{scope}
+
+  \draw[color=linecolor,arrow] (brace) -- (sparkles);
+  \draw[color=linecolor,arrow] (sparkles) -- (mle);
 
   \draw[color=linecolor,arrow] (brace) -- (mle);
   \draw[color=linecolor,arrow] (mle) -- (posterior);
