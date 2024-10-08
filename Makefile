@@ -11,6 +11,10 @@ default:
 	cp .latexmk/main.pdf .
 	cp .latexmk/figures.pdf .
 
+pre_submission:
+	(ulimit -n 1024; latexmk -auxdir=.latexmk -outdir=.latexmk -pdf -shell-escape -interaction=nonstopmode -halt-on-error -file-line-error pre_submission.tex)
+	cp .latexmk/pre_submission.pdf .
+
 arxiv_export: clean default
 	-rm -rf arxiv_export
 	-arxiv_latex_cleaner --verbose --use_external_tikz figures/tikzexternal .
