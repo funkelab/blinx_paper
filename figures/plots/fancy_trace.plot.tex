@@ -20,7 +20,7 @@
   enlarge x limits=false,
   xtick distance=500,
   ticklabel style={font=\small},
-  legend style={nodes={scale=0.6, transform shape}},
+  legend style={fill=black, nodes={scale=0.6, transform shape}},
 ]
 
   \addplot [
@@ -59,7 +59,7 @@
 
 \end{axis}
 \@ifundefined{plotlabel}{}{
-  \node[anchor=north west,rectangle,draw,fill=white] at (trace.north west) {\plotlabel};
+  \node[anchor=north west,rectangle,draw,fill=black] at (trace.north west) {\plotlabel};
 }
 
 \@ifundefined{histogramcsv}{}{
@@ -81,7 +81,7 @@
     ymin=\ymin,
     ymax=\ymax,
     ticklabel style={font=\small},
-    legend style={nodes={scale=0.6, transform shape}},
+    legend style={fill=black, nodes={scale=0.6, transform shape}},
   ]
 
     \addplot+[

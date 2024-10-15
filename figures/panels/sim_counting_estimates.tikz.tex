@@ -23,9 +23,9 @@
 
     \pgfplotsset{
       colormap={posteriorcolormap}{
-        color(0.0)=(white)
+        color(0.0)=(black)
         color(0.2)=(funkey_color_2)
-        color(1.0)=(funkey_color_2!50!black)
+        color(1.0)=(funkey_color_2!50!white)
       }
     }
 
@@ -58,6 +58,7 @@
     domain=0:30,
     ticklabel style={font=\small},
     legend pos=north west,
+    legend style={fill=black},
   ]
 
     \addlegendimage{mark=square*,only marks,funkey_color_2}
