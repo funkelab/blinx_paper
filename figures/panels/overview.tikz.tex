@@ -1,7 +1,13 @@
+\tikzset{
+  every picture/.style={line width=0.75pt}, % Set default line width
+  every node/.style={text=foreground}, % Set default node text color
+  every path/.style={color=linecolor}, % Set default line color
+}
+
 \tikzsetnextfilename{overview}%
 \begin{tikzpicture}
 
-  \begin{scope}[spy using outlines={magnification=2,size=12mm,very thick}]
+  \begin{scope}[spy using outlines={magnification=2,size=12mm,very thick, draw=funkey_color_1}]
 
     \node[image] (frame) {\includegraphics[width=42mm]{figures/data/overview/sample_frame}};
 
@@ -15,71 +21,90 @@
         draw=funkey_color_1,
         every spy on node/.append style={ultra thick},
         every spy in node/.append style={ultra thick},
-        spy connection path={\draw[ultra thick] (tikzspyonnode) -- (tikzspyinnode);}
+        spy connection path={\draw[ultra thick, color=funkey_color_1] (tikzspyonnode) -- (tikzspyinnode);}
     ]
       on ($(frame)+(1.1, 1.25)$)
       in node (patch_1) [image,right=6mm,anchor=north west]
       at ($(frame.north east)-(0.2,0.2)$);
   \end{scope}
 
-  % example trace
+  % Example trace
   \begin{scope}
     \def\tracecsv{figures/data/overview/trace.csv}
     \def\traceintensitycol{trace}
     \def\nolabels{}
     \setlength\plotwidth{64mm}
     \setlength\plotheight{20mm}
-    \pgfplotsset{every axis/.style={xshift=6mm,anchor=north west,name=trace,at={(patch_3.north east)}}}
+    \pgfplotsset{every axis/.style={
+      xshift=6mm,
+      anchor=north west,
+      name=trace,
+      at={(patch_3.north east)},
+      tick label style={color=foreground},
+      axis line style={color=foreground}
+    }}
     \input{figures/plots/fancy_trace.plot}
   \end{scope}
 
-  \node[anchor=north,inner sep=2pt] at (trace.230) {\small time};
-  \node[rotate=90,anchor=south,inner sep=2pt] at (trace.west) {\small intensity};
+  \node[anchor=north,inner sep=2pt,color=foreground] at (trace.230) {\small time};
+  \node[rotate=90,anchor=south,inner sep=2pt,color=foreground] at (trace.west) {\small intensity};
 
-  % observed / hidden line
-  \draw[gray,very thick]
+  % Observed / hidden line
+  \draw[color=linecolor,very thick]
     (patch_1.west|-frame.350) --
-      node[pos=0,anchor=south west] {observed}
-      node[pos=0,anchor=north west] {hidden}
+      node[pos=0,anchor=south west,color=foreground] {observed}
+      node[pos=0,anchor=north west,color=foreground] {hidden}
       node[pos=0.36] (sample_1) {}
       node[pos=0.62] (sample_2) {}
       node[pos=0.95] (sample_3) {}
     (trace.east|-frame.350);
 
-  % brace to MLE
-  \draw[decorate,decoration={brace,raise=2mm,aspect=0.2}]
+  % Brace to MLE
+  \draw[color=linecolor,decorate,decoration={brace,raise=2mm,aspect=0.2}]
     (trace.north east) --
     node[pos=0.2,right=2mm] (brace) {}
-    node[pos=0.2,right=16mm,draw,rectangle,rounded corners] (mle) {\ours}
+       node[pos=0.1,right=14mm,draw,rectangle,rounded corners] (sparkles) {\textit{sparkles}}
+       node[pos=0.5,right=16mm,draw,rectangle,rounded corners] (mle) {\ours}
     (trace.south east);
 
-  % posterior
+  % Posterior
   \begin{scope}
     \def\posteriorcsv{figures/data/overview/posterior.csv}
     \def\posteriorcol{posterior}
     \def\noylabels{}
     \setlength\plotwidth{24mm}
     \setlength\plotheight{24mm}
-    \pgfplotsset{every axis/.style={yshift=-8mm,anchor=north,name=posterior,at=(mle)}}
+    \pgfplotsset{every axis/.style={
+      yshift=-8mm,
+      anchor=north,
+      name=posterior,
+      at=(mle),
+      tick label style={color=foreground},
+      axis line style={color=foreground}
+    }}
     \input{figures/plots/p_n_given_x.plot}
   \end{scope}
 
-  \draw[arrow] (brace) -- (mle);
-  \draw[arrow] (mle) -- (posterior);
+  \draw[color=linecolor,arrow] (brace) -- (sparkles);
+  \draw[color=linecolor,arrow] (sparkles) -- (mle);
 
-  % blinky things
+  \draw[color=linecolor,arrow] (brace) -- (mle);
+  \draw[color=linecolor,arrow] (mle) -- (posterior);
+
+  % Blinky things
   \node (hidden) at (frame.326-|patch_1) {\blinky{off}{off}{off}{off}{off}};
   \node (z_sample_1) at (frame.326-|sample_1) {\blinky{on}{off}{on}{on}{off}};
   \node (z_sample_2) at (frame.326-|sample_2) {\blinky{on}{off}{on}{off}{off}};
   \node (z_sample_3) at (frame.326-|sample_3) {\blinky{on}{off}{off}{off}{off}};
 
-  \draw[arrow] (z_sample_1) -- +(0, 2.8);
-  \draw[arrow] (z_sample_2) -- +(0, 2.4);
-  \draw[arrow] (z_sample_3) -- +(0, 2.0);
+  \draw[color=linecolor,arrow] (z_sample_1) -- +(0, 2.8);
+  \draw[color=linecolor,arrow] (z_sample_2) -- +(0, 2.4);
+  \draw[color=linecolor,arrow] (z_sample_3) -- +(0, 2.0);
 
-  \node[anchor=north,inner sep=10pt] at (hidden) {\strut$\n=5$};
-  \node[anchor=north,inner sep=10pt] at (z_sample_1) {\strut$\z{}=3$};
-  \node[anchor=north,inner sep=10pt] at (z_sample_2) {\strut$\z{}=2$};
-  \node[anchor=north,inner sep=10pt] at (z_sample_3) {\strut$\z{}=1$};
+  \node[anchor=north,inner sep=10pt,color=foreground] at (hidden) {\strut$\n=5$};
+  \node[anchor=north,inner sep=10pt,color=foreground] at (z_sample_1) {\strut$\z{}=3$};
+  \node[anchor=north,inner sep=10pt,color=foreground] at (z_sample_2) {\strut$\z{}=2$};
+  \node[anchor=north,inner sep=10pt,color=foreground] at (z_sample_3) {\strut$\z{}=1$};
 
 \end{tikzpicture}
+
