@@ -8,8 +8,11 @@ do \
   detex -l -n $i > `echo $i | sed -e 's/tex/txt/'`
 done
 
+echo "Abstract:"
+wc -w $(echo sections/00_abstract.txt)
+
 setopt NULL_GLOB
-for d in sections/00_abstract sections/01_introduction sections/02_method sections/03_results sections/04_discussion sections/05_experimental_methods
+for d in sections/01_introduction sections/02_method sections/03_results sections/04_discussion
 do \
   echo "Counting in $d..."
   a=($d.txt)
