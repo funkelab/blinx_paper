@@ -1,6 +1,6 @@
 \section{Supplemental Notes}
 
-\subsection{Method Note 1} \label{sup_notes_meth_1}
+\subsection{Transition Model in the case $n=1$} \label{n1_transition}
 For the case of a single emitter (\ie, $\n=1$), the probability of observing
 this emitter as active (\ie, $\z{t}=1$) if the emitter was
 inactive in the previous frame, is \pon , or $(1-\poff)$ if 
@@ -13,7 +13,7 @@ the emitter as inactive).
   no change occurring or by one emitter becoming active while the other emitter 
   deactivates.
 
-\subsection{Note 1} \label{sup_note_1}
+\subsection{Determination of Priors} \label{exp_priors}
 We experimentally determined the prior on \rb by averaging the 
 	intensity of the pixels immediately outside the region of interest.
 	%
@@ -27,7 +27,7 @@ We experimentally determined the prior on \rb by averaging the
 	We observed that fitting $n=1$ captures this specific transition, and provides a good
 	estimate of photon emission rate of a single emitter \re.
 
-\subsection{Note 2} \label{sup_note_2}
+\subsection{Analysis and recovery of \lbfcs performance} \label{lbfcs_analysis}
 Upon further analysis, the main limitation of \lbfcs is the estimation of the 
 	intensity of a single emitter, corresponding to \re in \ours. 
 	%
@@ -38,8 +38,8 @@ Upon further analysis, the main limitation of \lbfcs is the estimation of the
 	% 
 	With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count.
 
-\subsection{Note 3} \label{sup_note_3}
-Because noise in our model is a function of intensity, quantifying the SNR of a trace 
+\subsection{Quantification of SNR} \label{calc_snr}
+Because noise in our model is a function of intensity, quantifying a single SNR value for an entire trace 
 	is not trivial. 
 	%
 	For simplicity, here we define SNR as the difference in intensity between 
@@ -47,7 +47,7 @@ Because noise in our model is a function of intensity, quantifying the SNR of a 
 	%
 	In effect this is the higher bound of SNR for a given trace.
 
-\subsection{Note 4} \label{sup_note_4}
+\subsection{Distribution of occupied states} \label{occupied_states}
 When $\pon < \poff$, the distribution is shifted towards 0, and a majority 
 	of the frames occupy the lowest two \z{}-states (\figref{fig:results:campare_kinetics}c). 
 	In this regime, the true count becomes indistinguishable for all methods, without prior information. 
@@ -57,7 +57,7 @@ When $\pon < \poff$, the distribution is shifted towards 0, and a majority
 	%
 	This provides ample information for the model to infer the correct $n$.
 
-\subsection{Note 5} \label{sup_note_5}
+\subsection{Experimentally determined blinking kinetics} \label{exp_kinetics}
 In DNA-PAINT, the blinking rate is determined by the kinetics of single-stranded DNA binding,
 which in turn depends on experimental conditions such as temperature and concentration, 
 and the specific DNA sequence~\citep{jungmann_single-molecule_2010}.
@@ -99,7 +99,7 @@ and the specific DNA sequence~\citep{jungmann_single-molecule_2010}.
 	in SNR, we identified imaging conditions of 20 nM and 13\textdegree C as 
 	optimal on our microscope.
 
-\subsection{Note 6} \label{sup_note_6}
+\subsection{qPAINT tends to underestimate count at high $n$} \label{qpaint_undercount}
 Due to the stochastic nature of blinking, multiple emitters can 
 be active at any given time, which becomes increasingly likely at higher counts.
 	%
@@ -116,7 +116,7 @@ be active at any given time, which becomes increasingly likely at higher counts.
 	As a result, \ours avoids underestimation and can provide an accurate  
 	molecular count up to $\n=30$.
 
-\subsection{Note 7} \label{sup_note_7}
+\subsection{Paired imaging experiment} \label{paired_exp}
 Incorporation efficiency is roughly 80 percent for each docking site \cite{strauss_2018}, 
 so only a fraction of the origamis were expected to contain all 4 dockers. 
 	% 
@@ -132,7 +132,7 @@ so only a fraction of the origamis were expected to contain all 4 dockers.
 	%
 	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
 
-\subsection{Note 8} \label{sup_note_8}
+\subsection{Limitations} \label{limits}
 % % Limitations
 While \ours is robust to a range of experimental conditions, 
 we identified several limitations.

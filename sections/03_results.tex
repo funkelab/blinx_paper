@@ -10,7 +10,8 @@
 %-------------
 % Simulated traces based on experimentally relevant parameters
 Running \ours as a forward model to simulate experiments, 
-we generated traces for counts $\n=1$ to 30 (\figref{fig:results:sim_counting}a,b).
+we generated traces for counts $\n=1$ to 30 (\figref{fig:results:sim_counting}a,b), 
+consisting of 4000 frames, corresponding to an imaging time of 14 minutes.
 	%
 	We determined experimentally relevant camera parameters from a calibration of the
 	sCMOS camera (\parametersc: $\camgain=2.17$, $\camoffset=4791$, $\camvar=774$). 
@@ -18,8 +19,6 @@ we generated traces for counts $\n=1$ to 30 (\figref{fig:results:sim_counting}a,
 	We determined kinetic (\parameterst: $\pon=0.036$, $\poff=0.028$), and emission parameters 
 	(\parameterse: $\re=2.79$, $\rb=6.77$) from an initial experiment, 
 	which closely matched those reported in the literature \cite{stein_2021}.
-	%
-	We simulated traces for 4000 frames, corresponding to an imaging time of 14 minutes.
 
 % priors were placed on camera parameters, but all others were uniform
 For inference, we placed tight, empirically determined, Gaussian priors on 
@@ -29,29 +28,15 @@ the camera parameters.
 	to fit blinking rates without external bias,
 	%
 	and loose priors on the emission parameters (\rb, \re) to prevent 
-	over-estimation of count (see \secref{discussion}, \secref{sup_note_1}). 
-	% how we got these priors
-	% We experimentally determined the prior on \rb by averaging the 
-	% intensity of the pixels immediately outside the region of interest.
-	% %
-	% We estimated the prior on \re  by first fitting a count of $\n=1$ to the trace.
-	% %
-	% The distribution of all observed $z$-states is unimodal.
-	% % 
-	% Therefore, whichever \z{}-state is the most common, the second most common state 
-	% will be $\z{} \pm 1$. 
-	% %
-	% We observed that fitting $n=1$ captures this specific transition, and provides a good
-	% estimate of photon emission rate of a single emitter \re.
-	%
+	over-estimation of count (see \secref{limits}, \secref{exp_priors}). 
 	
 % blinx can count!
-\ours accurately fit simulated time series with counts up to $\n=30$ (\figref{fig:results:sim_counting}c).
+\ours accurately fit simulated traces with counts up to $\n=30$ (\figref{fig:results:sim_counting}c).
 	%
 	For $\n=10$ and below, \ours estimated the true count with a substantially 
 	higher likelihood than all other possibilities. 
 	%
-	Above $\n=10$ the posterior broadened as other possibilities became more likely. 
+	Above $\n=10$ the posterior broadened as other possibilities increased in likelihood. 
 	%
 	The most likely estimate was the true count in 177/300 (59\%) of traces and 
 	was within 1 of the true count in 267/300 (89\%) of all traces.
@@ -62,18 +47,8 @@ the camera parameters.
 	% blinx outperforms lbFCS, counting up to 30 
 	This is a tripling in performance compared to \lbfcs, which counted 
 	accurately up to $\n=6$ and was within 1 of the true count for 64/300 (21\%) of traces, 
-	but failed to estimate higher counts (further analysis in \secref{sup_note_2}).
-	%
-	% Upon further analysis, the main limitation of \lbfcs is the estimation of the 
-	% intensity of a single emitter, corresponding to \re in \ours. 
-	% %
-	% \lbfcs relies on a histogram based method to determine this value, while 
-	% \ours is able to jointly optimize this parameter with other parameters.
-	% %
-	% Providing this value to \lbfcs led to a substantial recovery of performance.
-	% % 
-	% With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count. 
-	%
+	but failed to estimate higher counts (further analysis in \secref{lbfcs_analysis}).
+
 
 Both \ours and \lbfcs count without prior knowledge of the kinetic parameters.
 	%
@@ -84,7 +59,7 @@ Both \ours and \lbfcs count without prior knowledge of the kinetic parameters.
 
 % Longer traces lead to better fits
 Longer time series provide more
-information to the model than shorter series and increase counting accuracy.
+information to the model and increase counting accuracy.
 	%
 	We simulated and fit time series of lengths ranging from 100 to 10,000 frames, with the same parameters 
 	as the previous section (\figref{fig:results:sim_counting}d).
@@ -97,12 +72,14 @@ information to the model than shorter series and increase counting accuracy.
 	This is likely because only a small subset of possible states were observed in this short time. % maybe more explanation?
 
 % there is a lower bound to SNR, below a specific SNR, model maximally overcounts
-We determined the robustness of our model and the minimum signal-to-noise ratio 
+We next determined the robustness of our model and the minimum signal-to-noise ratio 
 (SNR) needed to achieve an accurate count.
 	%
 	We artificially increased the variance of the readout noise \camvar, 
 	to simulate traces with SNRs ranging from 9 to 1 (where 9 
-	corresponds to the parameters previously used) \secref{sup_note_3}.
+	corresponds to the parameters previously used) 
+	%
+	(See \secref{calc_snr} for a note on how SNR was calculated).
 	%
 	\ours shows accurate counting for SNRs $\geq 4$ (\figref{fig:results:sim_counting}e). 
 	%
@@ -110,7 +87,7 @@ We determined the robustness of our model and the minimum signal-to-noise ratio
 	the highest \n tested, no matter the true count. 
 	%
 	This is due to the model adding states to compensate for the wide distribution of intensities  
-	(see \secref{discussion}).
+	(see \ref{limits}).
 
 %-------------
 \subsection{Effect of kinetic parameters}
@@ -121,7 +98,7 @@ The performance of \ours depends on the true kinetic parameters of the system (\
 	from $\n=1$ to 20, with a range of kinetic parameters, 
 	while holding all other parameters constant.
 	%
-	The parameter values included the range of experimentally determined kinetics:
+	The range of parameter values was determined from literature including:
 	qPAINT: (\pon, \poff) = (0.006, 0.2) \cite{jungmann_2016} and \lbfcs (0.02, 0.02) \cite{stein_2021}. 
 	%
 	We summarized the resulting posteriors by calculating the expected squared error over all true counts: 
@@ -140,7 +117,7 @@ The results can be divided into two regimes: $\pon < \poff$ and $\pon \geq \poff
 	%
 	A clear difference between these two regimes can be seen in the distribution 
 	of their hidden states \z{} (\figref{fig:results:campare_kinetics}a, insets, 
-	further discussion in \secref{sup_note_4}).
+	further discussion in \secref{occupied states}).
 	%
 	% When $\pon < \poff$, the distribution is shifted towards 0, and a majority 
 	% of the frames occupy the lowest two \z{}-states (\figref{fig:results:campare_kinetics}c). 
@@ -152,48 +129,12 @@ The results can be divided into two regimes: $\pon < \poff$ and $\pon \geq \poff
 	% This provides ample information for the model to infer the correct $n$.
 	
 % Experimental
-To validate our experimental ability to... \todo{} explain figure 3b in 2 sentences
-
-% In DNA-PAINT, the blinking rate is determined by the kinetics of single-stranded DNA binding,
-% which in turn depends on experimental conditions such as temperature and concentration, 
-% and the specific DNA sequence~\citep{jungmann_single-molecule_2010}.
-% 	%
-% 	As a result, the kinetic parameters \pon and \poff of our model can be 
-% 	tuned by adjusting the temperature and imager concentration. 
-% 	%
-% 	As seen in (\figref{fig:results:campare_kinetics}b), \pon increases with imager concentration
-% 	and \poff increases with temperature.
-% 	%
-% 	We imaged DNA origami with a known count of $\n=1$ at 25\textdegree C and an 
-% 	imager concentration of 10 nM and measured $\pon=0.028$ and $\poff=0.072$ 
-% 	(\figref{fig:results:campare_kinetics}b),
-% 	%
-% 	conditions within the poor counting 
-% 	accuracy regime of $\pon < \poff$ (\figref{fig:results:campare_kinetics}a). % fix
-% 	%
-% 	To examine performance in the predicted more favorable kinetic regime,  
-% 	we increased imager concentration and decreased temperature.
-% 	%
-% 	Increasing imager concentration to 30 nM raised \pon to 0.071 and 
-% 	decreasing temperature to 13\textdegree C decreased \poff to 0.037 
-% 	(\figref{fig:results:campare_kinetics}b).
-% 	%
-% 	As expected, the effects of temperature and concentration were largely independent 
-% 	of one another \cite{jungmann_single-molecule_2010}.
-% 	%
-% 	We also observed a substantial decrease in SNR with decreasing temperature 
-% 	and increasing concentration. 
-% 	%
-% 	This was an expected side effect of increasing concentration, because increasing 
-% 	imager concentration increases \rb.
-% 	%
-% 	But the effect of temperature on SNR was surprising. 
-% 	We hypothesize that this is due to the stabilization of partial 
-% 	binding between imager and docker strands at low temperatures.
-% 	%
-% 	Balancing the increase in counting accuracy and the decrease 
-% 	in SNR, we identified imaging conditions of 20 nM and 13\textdegree C as 
-% 	optimal on our microscope.
+To validate our experimental control over the kinetic parameters we imaged DNA 
+origami with a known count of $\n=1$ at different temperatures and imager
+concentrations~\citep{jungmann_single-molecule_2010}. 
+	%
+	\pon and \poff were then estimated from \ours (\figref{fig:results:campare_kinetics}b) 
+	(See \ref{exp_kinetics}).
 
 %-------------
 \subsection{qPAINT Kinetic Regime} \label{results:qpaint}
@@ -212,7 +153,7 @@ qPAINT relies on the accurate measurement of the average dark time between blink
 	qPAINT faces the same limitation and relies on a calibration 
 	of the blinking kinetics of a single binding site.
 	% 
-	Incorporating this calibration as priors on the kinetic parameters, 
+	Incorporating this calibration as a prior on the kinetic parameters, 
 	and tightening the priors on \re and \rb, the counting 
 	accuracy of \ours is restored (\figref{fig:results:qpaint_counting}c). 
 	%
@@ -221,7 +162,7 @@ qPAINT relies on the accurate measurement of the average dark time between blink
 	comparable to the favorable kinetic regime (\figref{fig:results:sim_counting}c).
 	%
 	\ours also shows an improvement in accuracy compared to qPAINT, which tends 
-	to underestimate the molecular count (See \secref{sup_note_6}).
+	to underestimate the molecular count (See \secref{qpaint_undercount}).
 	%
 % Obtaining these priors requires additional experimental steps, and is often not trivial. 
 % 	%
@@ -235,24 +176,6 @@ qPAINT relies on the accurate measurement of the average dark time between blink
 % 	%
 	Counting in this kinetic regime expands the use of \ours beyond diffraction limited spots, 
 	and enables counting in super-resolved SMLM reconstructed images.
-
-
-% qPAINT undercounts but blinx does not
-% Due to the stochastic nature of blinking, multiple emitters can 
-% be active at any given time, which becomes increasingly likely at higher counts.
-% 	%
-% 	This is not compatible with the qPAINT requirement of well separated, 
-% 	single emitter blinking events.
-% 	%
-% 	As a result, at higher \n the measured average dark time is longer than the true average dark time
-% 	and results in qPAINT underestimating molecular count at higher \n
-% 	(especially noticeable above $\n=20$, see \figref{fig:results:qpaint_counting}c). 
-% 	%
-% 	In \ours, the simultaneous activity of multiple emitters is modeled explicitly in both the 
-% 	intensity and transition models (\eqref{eq:methods:p_c_given_z} and \eqref{eq:method:transition}). 
-% 	%
-% 	As a result, \ours avoids underestimation and can provide an accurate  
-% 	molecular count up to $\n=30$.
 	
 %-------------
 \subsection{Experimental Counting}
@@ -268,7 +191,7 @@ which provides nano-scale control over the number and location of emitters~\cite
 	could be visually confirmed through super-resolution post-processing.
 	%
 	Origamis were then imaged in a paired experiment, resulting in registered 
-	traces and super-resolution confirmed counts (see \secref{sup_note_7})
+	traces and super-resolution confirmed counts (see \secref{paired_experiment})
 
 	% Incorporation efficiency is roughly 80 percent for each docking site \cite{strauss_2018}, 
 	% so only a fraction of the origamis were expected to contain all 4 dockers. 
