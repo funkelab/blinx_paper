@@ -1,19 +1,120 @@
-\section{Supplementary Methods}
-\subsection{DNA-Origami specifics}
-\subsection{Extracting traces from images}
+\section{Supplemental Notes}
 
-\section{Supplementary Figures}
+\subsection{Note 1} \label{sup_note_1}
+We experimentally determined the prior on \rb by averaging the 
+	intensity of the pixels immediately outside the region of interest.
+	%
+	We estimated the prior on \re  by first fitting a count of $\n=1$ to the trace.
+	%
+	The distribution of all observed $z$-states is unimodal.
+	% 
+	Therefore, whichever \z{}-state is the most common, the second most common state 
+	will be $\z{} \pm 1$. 
+	%
+	We observed that fitting $n=1$ captures this specific transition, and provides a good
+	estimate of photon emission rate of a single emitter \re.
 
-\begin{figure*}
-    \includegraphics[width=\linewidth]{../figures/si_preliminary_trace.png}
-    \caption{Caption goes here}
-    \label{fig:si:preliminary_trace}
-\end{figure*}
-  
+\subsection{Note 2} \label{sup_note_2}
+Upon further analysis, the main limitation of \lbfcs is the estimation of the 
+	intensity of a single emitter, corresponding to \re in \ours. 
+	%
+	\lbfcs relies on a histogram based method to determine this value, while 
+	\ours is able to jointly optimize this parameter with other parameters.
+	%
+	Providing this value to \lbfcs led to a substantial recovery of performance.
+	% 
+	With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count.
 
-\section{Experimental Notes}
+\subsection{Note 3} \label{sup_note_3}
+Because noise in our model is a function of intensity, quantifying the SNR of a trace 
+	is not trivial. 
+	%
+	For simplicity, here we define SNR as the difference in intensity between 
+	the first two states (\z{0} and \z{1}) divided by the standard deviation of the difference. 
+	%
+	In effect this is the higher bound of SNR for a given trace.
 
-\subsection{DNA-PAINT at cold temperatures}
-% DNA sequence design for colder temperatures
-% see multiple simultaneous stable binding events with 5xCTC docker and 8nt imager
+\subsection{Note 4} \label{sup_note_4}
+When $\pon < \poff$, the distribution is shifted towards 0, and a majority 
+	of the frames occupy the lowest two \z{}-states (\figref{fig:results:campare_kinetics}c). 
+	In this regime, the true count becomes indistinguishable for all methods, without prior information. 
+	%
+	When $\pon \geq \poff$, this distribution is centered, or even shifted towards $n$ 
+	and a larger fraction of the states are visited (\figref{fig:results:campare_kinetics}d). 
+	%
+	This provides ample information for the model to infer the correct $n$.
 
+\subsection{Note 5} \label{sup_note_5}
+In DNA-PAINT, the blinking rate is determined by the kinetics of single-stranded DNA binding,
+which in turn depends on experimental conditions such as temperature and concentration, 
+and the specific DNA sequence~\citep{jungmann_single-molecule_2010}.
+	%
+	As a result, the kinetic parameters \pon and \poff of our model can be 
+	tuned by adjusting the temperature and imager concentration. 
+	%
+	As seen in (\figref{fig:results:campare_kinetics}b), \pon increases with imager concentration
+	and \poff increases with temperature.
+	%
+	We imaged DNA origami with a known count of $\n=1$ at 25\textdegree C and an 
+	imager concentration of 10 nM and measured $\pon=0.028$ and $\poff=0.072$ 
+	(\figref{fig:results:campare_kinetics}b),
+	%
+	conditions within the poor counting 
+	accuracy regime of $\pon < \poff$ (\figref{fig:results:campare_kinetics}a). % fix
+	%
+	To examine performance in the predicted more favorable kinetic regime,  
+	we increased imager concentration and decreased temperature.
+	%
+	Increasing imager concentration to 30 nM raised \pon to 0.071 and 
+	decreasing temperature to 13\textdegree C decreased \poff to 0.037 
+	(\figref{fig:results:campare_kinetics}b).
+	%
+	As expected, the effects of temperature and concentration were largely independent 
+	of one another \cite{jungmann_single-molecule_2010}.
+	%
+	We also observed a substantial decrease in SNR with decreasing temperature 
+	and increasing concentration. 
+	%
+	This was an expected side effect of increasing concentration, because increasing 
+	imager concentration increases \rb.
+	%
+	But the effect of temperature on SNR was surprising. 
+	We hypothesize that this is due to the stabilization of partial 
+	binding between imager and docker strands at low temperatures.
+	%
+	Balancing the increase in counting accuracy and the decrease 
+	in SNR, we identified imaging conditions of 20 nM and 13\textdegree C as 
+	optimal on our microscope.
+
+\subsection{Note 6} \label{sup_note_6}
+Due to the stochastic nature of blinking, multiple emitters can 
+be active at any given time, which becomes increasingly likely at higher counts.
+	%
+	This is not compatible with the qPAINT requirement of well separated, 
+	single emitter blinking events.
+	%
+	As a result, at higher \n the measured average dark time is longer than the true average dark time
+	and results in qPAINT underestimating molecular count at higher \n
+	(especially noticeable above $\n=20$, see \figref{fig:results:qpaint_counting}c). 
+	%
+	In \ours, the simultaneous activity of multiple emitters is modeled explicitly in both the 
+	intensity and transition models (\eqref{eq:methods:p_c_given_z} and \eqref{eq:method:transition}). 
+	%
+	As a result, \ours avoids underestimation and can provide an accurate  
+	molecular count up to $\n=30$.
+
+\subsection{Note 7} \label{sup_note_7}
+Incorporation efficiency is roughly 80 percent for each docking site \cite{strauss_2018}, 
+so only a fraction of the origamis were expected to contain all 4 dockers. 
+	% 
+	Origamis were first imaged at 13\textdegree C with low laser power (1.5\%) and 20 nM imager concentration to 
+	collect traces (4,000 frames at 200 ms exposure time) for counting with \ours (\figref{fig:results:experimental}a,b).
+	%
+	The system was then brought to 25\textdegree C, buffer exchange was performed, and new imager 
+	was added at 10 nM.
+	%
+	The origamis were imaged again at high laser power (40\%),
+	and post-processed with Picasso \citep{schnitzbauer_2017}, to obtain 
+	super-resolution ground truth (\figref{fig:results:experimental}c).
+	%
+	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
