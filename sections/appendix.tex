@@ -1,5 +1,18 @@
 \section{Supplemental Notes}
 
+\subsection{Method Note 1} \label{sup_notes_meth_1}
+For the case of a single emitter (\ie, $\n=1$), the probability of observing
+this emitter as active (\ie, $\z{t}=1$) if the emitter was
+inactive in the previous frame, is \pon , or $(1-\poff)$ if 
+it was previously active (and similarly for the probability of observing 
+the emitter as inactive).
+  %
+  For multiple emitters, however, a transition from \z{t-1} to \z{t} can be
+  caused by multiple events. Consider, for example the case of two emitters
+  ($\n=2$). A transition from $\z{t-1}=1$ to $\z{t}=1$ can be caused either by
+  no change occurring or by one emitter becoming active while the other emitter 
+  deactivates.
+
 \subsection{Note 1} \label{sup_note_1}
 We experimentally determined the prior on \rb by averaging the 
 	intensity of the pixels immediately outside the region of interest.
@@ -118,3 +131,43 @@ so only a fraction of the origamis were expected to contain all 4 dockers.
 	super-resolution ground truth (\figref{fig:results:experimental}c).
 	%
 	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
+
+\subsection{Note 8} \label{sup_note_8}
+% % Limitations
+While \ours is robust to a range of experimental conditions, 
+we identified several limitations.
+  %
+  % overestimation of count
+  First, \ours tends to overestimate the molecular
+  count in time series with low SNR.
+  %
+  The model expects intensities to be observed in evenly spaced, normally
+  distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
+  %
+  With low SNR, noise can generate intensity between peaks, and adding additional 
+  \z{}-states can sometimes yield higher likelihoods than correctly absorbing 
+  this noise into the fitted distribution.
+  %
+  In the limit, an infinite number of states could perfectly
+  explain any intensity time series.
+  %
+  % mention histogram comparison to identify over-counting?
+  %
+  This can be avoided by specifying a prior on \re, the photon
+  emission rate of a single fluorophore, which effectively increases the cost
+  of adding additional states, and therefore decreases the likelihood of these models.
+
+A second limitation is that the intensity model does not capture all of the noise
+in the system.
+    %
+    As seen in \figref{fig:results:experimental}a, there are occasional
+    frames where the measured intensity is greater than expected and 
+    fits the model distribution poorly.
+    % 
+    To compensate for these outliers, we incorporated a baseline outlier
+    probability into the intensity model, \ie, a fixed uniform likelihood for
+    observing any intensity within the recorded range of values.
+    %
+    To further reduce the influence of these observed outliers on counting accuracy, we
+    excluded the highest 0.5\% of intensities values when calculating the
+    likelihood (the specific value is adjustable as a hyperparameter).

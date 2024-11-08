@@ -9,8 +9,8 @@ between resolution and counting.
   In contrast, a slower kinetic regime, where multiple emitters are active in a single frame, 
   is optimal for counting.
   %
-  \ours can accurately estimate molecular count in both regimes, either calibration-free in the slow regime 
-  or with a calibration in the fast regime.
+  \ours can accurately estimate molecular count in both regimes, either calibration-free in the slow 
+  or with a calibration in the fast.
 
 % Limitations
 While \ours is robust to a range of experimental conditions, 
@@ -20,36 +20,53 @@ we identified several limitations.
   First, \ours tends to overestimate the molecular
   count in time series with low SNR.
   %
-  The model expects intensities to be observed in evenly spaced, normally
-  distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
+  Second the intensity model does not capture all of the noise
+  in the system.
   %
-  With low SNR, noise can generate intensity between peaks, and adding additional 
-  \z{}-states can sometimes yield higher likelihoods than correctly absorbing 
-  this noise into the fitted distribution.
+  However, neither of these are fatal, and specific implementation details 
+  allow us to minimize their effects. (See \secref{sup_note_8}) 
   %
-  In the limit, an infinite number of states could perfectly
-  explain any intensity time series.
-  %
-  % mention histogram comparison to identify over-counting?
-  %
-  This can be avoided by specifying a prior on \re, the photon
-  emission rate of a single fluorophore, which effectively increases the cost
-  of adding additional states, and therefore decreases the likelihood of these models.
+  
 
-A second limitation is that the intensity model does not capture all of the noise
-in the system.
-    %
-    As seen in \figref{fig:results:experimental}a, there are occasional
-    frames where the measured intensity is greater than expected and 
-    fits the model distribution poorly.
-    % 
-    To compensate for these outliers, we incorporated a baseline outlier
-    probability into the intensity model, \ie, a fixed uniform likelihood for
-    observing any intensity within the recorded range of values.
-    %
-    To further reduce the influence of these observed outliers on counting accuracy, we
-    excluded the highest 0.5\% of intensities values when calculating the
-    likelihood (the specific value is adjustable as a hyperparameter).
+
+% % Limitations
+% While \ours is robust to a range of experimental conditions, 
+% we identified several limitations.
+%   %
+%   % overestimation of count
+%   First, \ours tends to overestimate the molecular
+%   count in time series with low SNR.
+%   %
+%   The model expects intensities to be observed in evenly spaced, normally
+%   distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
+%   %
+%   With low SNR, noise can generate intensity between peaks, and adding additional 
+%   \z{}-states can sometimes yield higher likelihoods than correctly absorbing 
+%   this noise into the fitted distribution.
+%   %
+%   In the limit, an infinite number of states could perfectly
+%   explain any intensity time series.
+%   %
+%   % mention histogram comparison to identify over-counting?
+%   %
+%   This can be avoided by specifying a prior on \re, the photon
+%   emission rate of a single fluorophore, which effectively increases the cost
+%   of adding additional states, and therefore decreases the likelihood of these models.
+
+% A second limitation is that the intensity model does not capture all of the noise
+% in the system.
+%     %
+%     As seen in \figref{fig:results:experimental}a, there are occasional
+%     frames where the measured intensity is greater than expected and 
+%     fits the model distribution poorly.
+%     % 
+%     To compensate for these outliers, we incorporated a baseline outlier
+%     probability into the intensity model, \ie, a fixed uniform likelihood for
+%     observing any intensity within the recorded range of values.
+%     %
+%     To further reduce the influence of these observed outliers on counting accuracy, we
+%     excluded the highest 0.5\% of intensities values when calculating the
+%     likelihood (the specific value is adjustable as a hyperparameter).
 
 % Assumptions
 In this work, we used DNA-PAINT to test the performance of \ours 
@@ -61,10 +78,9 @@ predictable blinking behavior.
 
   First, all sub-units are assumed to behave independently.
   % 
-  In the intensity model, this means that observed intensity will scale
-  linearly with the number of active emitters $z$.
-  %
-  In the transition model, this means that the blinking kinetics of one spot
+  This means that observed intensity will scale
+  linearly with the number of active emitters $z$ and 
+  the blinking kinetics of one spot
   have no effect on the blinking kinetics of any other.
   %
   In practice, sub-units in close proximity might 
@@ -75,19 +91,13 @@ predictable blinking behavior.
   jayasinghe_true_2018}. 
 
   Second, all sub-units within a spot are assumed to have identical properties
-  (\pon, \poff, \re).
-  %
-  Rather than model each sub-unit individually, we model the summed behavior
-  of all sub-units combined. 
+  (\pon, \poff, \re), which allows us to model the summed behavior of all sub-units combined.
   %
   In other words, we assume that each sub-unit is
   interchangeable with any other within the same spot.
   %
-  In some applications, where non-uniform behavior among subunits may occur, \eg,
-  if one unit is less accessible to diffusion of
-  imager than the others~\citep{civitci_2020}. 
-  %
-  In these cases, we expect a decrease in model performance.
+  In some applications, where non-uniform behavior among subunits may occur~\citep{civitci_2020},
+  we expect a decrease in model performance.
 
 Finally, all properties are assumed to remain constant over time. 
   %
