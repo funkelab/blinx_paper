@@ -26,45 +26,6 @@ we identified several limitations.
   However, neither of these are fatal, and specific implementation details 
   allow us to minimize their effects. (see \ref{limits}) 
   %
-  
-% % Limitations
-% While \ours is robust to a range of experimental conditions, 
-% we identified several limitations.
-%   %
-%   % overestimation of count
-%   First, \ours tends to overestimate the molecular
-%   count in time series with low SNR.
-%   %
-%   The model expects intensities to be observed in evenly spaced, normally
-%   distributed peaks (see histograms in \figref{fig:results:experimental}a,b).
-%   %
-%   With low SNR, noise can generate intensity between peaks, and adding additional 
-%   \z{}-states can sometimes yield higher likelihoods than correctly absorbing 
-%   this noise into the fitted distribution.
-%   %
-%   In the limit, an infinite number of states could perfectly
-%   explain any intensity time series.
-%   %
-%   % mention histogram comparison to identify over-counting?
-%   %
-%   This can be avoided by specifying a prior on \re, the photon
-%   emission rate of a single fluorophore, which effectively increases the cost
-%   of adding additional states, and therefore decreases the likelihood of these models.
-
-% A second limitation is that the intensity model does not capture all of the noise
-% in the system.
-%     %
-%     As seen in \figref{fig:results:experimental}a, there are occasional
-%     frames where the measured intensity is greater than expected and 
-%     fits the model distribution poorly.
-%     % 
-%     To compensate for these outliers, we incorporated a baseline outlier
-%     probability into the intensity model, \ie, a fixed uniform likelihood for
-%     observing any intensity within the recorded range of values.
-%     %
-%     To further reduce the influence of these observed outliers on counting accuracy, we
-%     excluded the highest 0.5\% of intensities values when calculating the
-%     likelihood (the specific value is adjustable as a hyperparameter).
 
 % Assumptions
 In this work, we used DNA-PAINT to test the performance of \ours 
@@ -84,7 +45,7 @@ predictable blinking behavior.
   In practice, sub-units in close proximity might 
   interact and violate this assumption~\citep{helmerich_photoswitching_2022}. 
   %
-  Other methods, like qPAINT, also make this assumption and have been shown to
+  However, other methods like qPAINT, also make this assumption and have been shown to
   work well in experimental systems \citep{fischer_quantitative_2021,
   jayasinghe_true_2018}. 
 
