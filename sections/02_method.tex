@@ -67,8 +67,6 @@ number of emitters \n given the intensity trace \trace, \ie:
 % currently active emitters \z{t} can be directly derived from the photo-physics
 % of our microscope.
   %
-In the following section we omit the subscript $t$ for clarity.
-  
 Working backwards through the light path of the microscope, the measured intensity value \x{}
 is a function of the number of photons \photons detected
 (\figref{fig:method:overview}c).
@@ -81,7 +79,7 @@ is a function of the number of photons \photons detected
   $p(\photons|\z{},\parameterse)$.
 
 The probability of observing an intensity \x{} given \z{} can then be obtained
-by marginalizing over \photons, \ie:
+by marginalizing over \photons (we omit the subscript $t$ in the following):
   %
   \begin{equation}
     p(\x{}|\z{},\parameters) =
@@ -100,10 +98,10 @@ using an EMCCD camera).
   However, when using an sCMOS camera, its contribution is 
   significant ~\citep{huang_video-rate_2013}.
   %
-  To accommodate both systems, here we include the readout noise in our model.
+  To accommodate both systems, we include the readout noise in our model.
   %
   However, the readout noise contribution can be negated by setting $\camoffset=0$, 
-  and $\camvar << 1$.
+  and $\camvar \ll 1$.
   %
   Given \photons photons, the readout intensity of the camera is normally
   distributed~\citep{huang_video-rate_2013}
