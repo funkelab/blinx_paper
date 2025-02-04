@@ -31,8 +31,10 @@ number of emitters \n given the intensity trace \trace, \ie:
   \end{equation*}
   %
   % Can ignore p(n)
-  Assuming a uniform prior on the number of emitters, $p(\n)$ can be ignored
-  and it remains to model the likelihood $p(\trace|\n)$.
+  % Assuming a uniform prior on the number of emitters, $p(\n)$ can be ignored
+  % and it remains to model the likelihood $p(\trace|\n)$.
+  \revise{The prior on the number of emitters $p(\n)$ is application specific, 
+  so it remains to model the likelihood $p(\trace|\n)$.}
   %
   % choose to model as HMM
   %
@@ -69,7 +71,16 @@ number of emitters \n given the intensity trace \trace, \ie:
   %
 Working backwards through the light path of the microscope, the measured intensity value \x{}
 is a function of the number of photons \photons detected
-(\figref{fig:method:overview}c).
+(\figref{fig:method:overview}c). \revise{added citations}
+  \cite{pawely_three-dimensional,huang_video-rate_2013, laine_imaging_2021}
+  %
+  note: in order to maximize signal to noise, we pool the intensities of the pixels within an ROI around the spot.
+  Therefore we do not explicitly model the PSF, but only care about the sum total of photos detected.
+
+  \revise{Here we determine x by summing the intensity values of a square centered at the detected spot.
+  For which we assume that individual spots are well separated.
+  We chose the size of the square, such that it is larger than the point 
+  spread function and we capture the majority of photons emitted by the spot.}
   %
   The detector itself contributes noise to the system, known as the readout
   noise, which we model as $p(\x{}|\photons,\parametersc)$.

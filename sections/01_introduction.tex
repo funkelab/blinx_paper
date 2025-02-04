@@ -155,15 +155,30 @@ DNA-binding, effectively decoupling blinking from photo-physics.
   % In contrast, we fit the model to every measurement, 
   % fully utilizing both the time and intensity information.
   
-Furthermore, all prior methods provide a single estimate of molecular count, even though 
+Furthermore, \revise{these DNA-PAINT based} methods provide a single estimate of molecular count, even though 
 a probabilistic count may be preferable for downstream analysis.
   %
+  % Bayesian approaches can estimate a likelihood for each possible condition 
+  % and have been used previously to infer the number of FRET conformational 
+  % states \citep{hon_bayesian-estimated_2019, bronson_learning_2009}, 
+  % the number of photo-bleaching steps \citep{garry_bayesian_2020},
+  % the assignment of blinking events to specific fluorophores \citep{gabitto_bayesian_2021, fazel_bayesian_2019},
+  % and the molecular count from observed intensity \citep{nino_2017}.
+
   Bayesian approaches can estimate a likelihood for each possible condition 
-  and have been used previously to infer the number of FRET conformational 
-  states \citep{hon_bayesian-estimated_2019, bronson_learning_2009}, 
-  the number of photo-bleaching steps \citep{garry_bayesian_2020},
-  the assignment of blinking events to specific fluorophores \citep{gabitto_bayesian_2021, fazel_bayesian_2019},
-  and the molecular count from observed intensity \citep{nino_2017}.
+  and have previously been applied to estimate physical parameters from fluorescence 
+  intensity time traces \citep{hon_bayesian-estimated_2019, bronson_learning_2009, 
+  garry_bayesian_2020}. 
+  
+  \revise{Additionally, Bayesian, Markov-chain based models} 
+  \citep{patel_hidden_2019} 
+  \revise{have previously been used to estimate the molecular count in dSTORM} 
+  \citep{nino_2017, patel_blinking_2021, nino_nanoscopic_2019, boonkird_expectation_max_2021} 
+  \revise{and PALM} 
+  \citep{rollins_stochastic_2015}
+  \revise{, where dyes have complex physics with many possible states. 
+  Here we focus on SMLM where each emitter can be characterized as 
+  being in one of two states, either on or off.}
 
 % Our Model
 % ----------
