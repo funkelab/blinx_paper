@@ -132,6 +132,7 @@ so only a fraction of the origamis were expected to contain all 4 dockers.
 	%
 	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
 
+
 \subsection{Approximation of Poisson Shot Noise} \label{poisson}
 
 \input{figures/figure_6_poisson}
@@ -145,6 +146,18 @@ around 80 photons are observed in an individual frame
 (see~\figref{fig:poisson_vs_normal}). In our experiments, we found that the
 photon rate per frame was well above 2000.
 }
+
+\subsection{DNA-PAINT} \label{dna-paint-concerns}
+	\revise{
+		Due to the constant exchange of imager strands with fresh fluorophores, DNA-PAINT is generally 
+		resistant to photobleaching effects. However, over long imaging time, the ssDNA docker strands can 
+		become damaged, preventing the binding of new imager strands, producing an effect that appears similar 
+		to photobleaching. (needs ref)
+		%
+		This can be ameliorated by including oxyagen scavanging buffers while imaging, which are included in 
+		our experimental setup (see \secref{exp_methods})
+	}
+
 
 \subsection{Limitations} \label{limits}
 % % Limitations

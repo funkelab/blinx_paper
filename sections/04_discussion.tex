@@ -30,7 +30,7 @@ we identified several limitations.
 % Assumptions
 In this work, we used DNA-PAINT to test the performance of \ours 
 due to its resistance to photobleaching and consistent, 
-predictable blinking behavior.
+predictable blinking behavior \revise{( see \secref{dna-paint-concerns})}.
   %
   However, \ours is not specific to DNA-PAINT and could be 
   applied to any experimental system that meets the following three assumptions.
@@ -55,7 +55,11 @@ predictable blinking behavior.
   In other words, we assume that each sub-unit is
   interchangeable with any other within the same spot.
   %
-  In some applications, where non-uniform behavior among subunits may occur~\citep{civitci_2020},
+  In some applications, where non-uniform behavior among subunits may occur 
+  \revise{
+    (i.e. in different local environments (\pon and \poff)~\citep{civitci_2020}, 
+    or at different distances from the coverslip (\re),
+    }
   we expect a decrease in model performance.
 
 Finally, all properties are assumed to remain constant over time. 
