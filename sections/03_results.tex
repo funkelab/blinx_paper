@@ -24,11 +24,14 @@ consisting of 4000 frames, corresponding to an imaging time of 14 minutes.
 For inference, we placed tight, empirically determined, Gaussian priors on 
 the camera parameters.
 	%
-	We also placed flat uniform priors on the kinetic parameters, allowing the model 
+	\revise{We also placed a uniform prior on the number of emitters betweeen 1 and 35},
+	
+	flat uniform priors on the kinetic parameters, allowing the model 
 	to fit blinking rates without external bias,
 	%
-	and loose priors on the emission parameters (\rb, \re) to prevent 
+	loose priors on the emission parameters (\rb, \re) to prevent 
 	over-estimation of count (see \secref{limits}, \secref{exp_priors}). 
+
 	
 % blinx can count!
 \ours accurately fit simulated traces with counts up to $\n=30$ (\figref{fig:results:sim_counting}c).
@@ -192,6 +195,8 @@ which provides nano-scale control over the number and location of emitters~\cite
 	%
 	Origamis were then imaged in a paired experiment, resulting in registered 
 	traces and super-resolution confirmed counts (see \secref{paired_experiment})
+	%
+	\revise{\ours was then used to estimate the count, with a uniform prior on the number of emitters between 1 and 8.}
 
 	% Incorporation efficiency is roughly 80 percent for each docking site \cite{strauss_2018}, 
 	% so only a fraction of the origamis were expected to contain all 4 dockers. 
