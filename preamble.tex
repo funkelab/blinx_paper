@@ -16,6 +16,7 @@
 \usepackage{bm}
 \usepackage[title]{appendix}
 \usepackage[hidelinks]{hyperref}
+\usepackage[normalem]{ulem}
 \usetikzlibrary{external}
 \tikzexternalize[prefix=figures/tikzexternal/]
 \makeatletter
@@ -40,6 +41,13 @@
 % introduce a new word
 \def\introduce#1{{\color{funkey_color_1}\ul{#1}}}
 %\def\introduce#1{#1}  % uncomment this for final version
-\def\revise#1{{\color{funkey_color_1}\ul{#1}}}
+\newcommand\grayuline{\bgroup\markoverwith{\textcolor{funkey_color_1}{\rule[-0.5ex]{0.5pt}{0.4pt}}}\ULon}
+\newcommand\revise[2][]{%
+  \ifstrempty{#1}{%
+  }{%
+    \reviewpoint{#1}%
+  }%
+  {\color{funkey_color_1}\grayuline{#2}}%
+}
 
 \def\mathlet#1#2{\pgfmathparse{#2}\let#1\pgfmathresult}
