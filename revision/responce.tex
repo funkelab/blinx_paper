@@ -15,7 +15,6 @@
 
 \begin{document}
 
-\ThisULCornerWallPaper{1}{janelia-letterhead.pdf}
 \thispagestyle{empty}
 Managing Editor\\
 \textit{Nano Letters}\\
@@ -25,25 +24,132 @@ United States\\
 Dear,
 
 % Comment 1:
- - changed the title to: 
+1.	The first significant concern pertains to the manuscript's title, 
+which suggests a general solution for molecular counting. 
+However, the methodology appears to be specifically tailored for Fluorescence Correlation Spectroscopy 
+(FCS) with a rigid two-state Markov Chain structure. 
+This narrow focus may mislead readers regarding the method's applicability to other SMLM 
+techniques such as PALM and dSTORM, where a two-state model has proven inadequate. 
+It is recommended that the authors revise the title to more accurately reflect the scope of 
+their methodology, emphasizing its application to FCS or clarifying its limitations concerning other SMLM techniques.
+
+- We don't believe that this model is specific to FCS, while we use similar traces, we never compute correlation functions. 
+However, we agree that our original title is too broad. Therefore we specify that our method requires that the modeled emitter 
+only have "on" and "off states.
+
+Based on this comment we made the following changes:
+\begin{description}
+    \item[$\bullet$] Changed the title to: A Bayesian model to count the number of two-state emitters in a diffraction limited spot
+\end{description}
 
 % Comment 2:
+2. Second, and in my opinion, the introduction of the manuscript inadequately addresses the 
+breadth of existing quantitative methods for molecular counting in SMLM. Notably, significant works 
+(including but not limited to Rollins et al. (2014), Patel et al. (2021) and Nino et al. (2017, 2019 2021)) 
+are omitted, which neglects important contextual frameworks and benchmarks against which 
+blinx's performance should be compared in the more general scope of SMLM. 
+Expanding the literature review to include a discussion of these existing methods and providing 
+comparative analyses would better highlight blinx's advantages and limitations. 
+Furthermore, the manuscript incorrectly claims that prior methods offer only single estimates of 
+molecular counts, disregarding current approaches which indeed utilize Bayesian estimates. 
+While this statement is factually inaccurate relative to the title of the manuscript, if the 
+focus is on counting in FCS, this should be made much clearer and the introduction should indeed 
+reflect this the positioning of blinx as a unique probabilistic estimator for FCS.
+
+What we did:
 - toned down "all prior methods provide a single estimate of count", we meant all paint-based methods
 - re-wrote the section in the intro on Bayesian based methods, including all references suggested by the reviewer (+ a few more)
-- 
 
-% Comment 3:
+3.	On the topic of emphasizing the novelty of Bayesian modeling, 
+the third critical issue arises from the manuscript's assumption of a uniform (flat) 
+prior on the number of emitters within a Bayesian framework. 
+This effectively reverts to a frequentist (i.e. non-Bayesian) estimate, 
+negating the benefits of Bayesian methods such as incorporating prior knowledge 
+and handling low-probability scenarios which may arise in FCS or otherwise, 
+but most importantly contradicting the supposed novelty of Bayesian modeling for this application. 
+The authors should reconsider the choice of a uniform prior and either explore or discuss 
+the integration of other informative priors that leverage existing knowledge or distributional 
+assumptions to fully utilize the strengths of the Bayesian framework.
+
+What we did
  - changed sentence about ignoring p(n) to say p(n) is application specific
  - Add mention of prior to results sections
 
+ 4.	Fourth, the necessity of employing the Laplace approximation within the 
+ Bayesian inference framework is questionable, particularly given the presence of a flat prior. 
+ Maximum Likelihood Estimation (MLE) with Newton iterations could potentially suffice without 
+ introducing the additional complexity of the Laplace approximation. 
+ The authors should provide a rationale for choosing the Laplace approximation over 
+ alternative inference methods, particularly since many approximations to the true 
+ posterior are made in model construction. If the approximation does not offer clear advantages, 
+ simplifying the inference process by adopting standard MLE techniques should be considered.
+
+ What we did:
+
+
 % Comment 5:
+5.	Fifth, the model construction lacks adequate references to foundational concepts 
+like Poisson noise or photon intensity distributions via Point Spread Functions (PSFs). 
+This omission limits the reader's ability to understand the theoretical underpinnings 
+and validate the model's assumptions. Incorporating additional references would provide a 
+more comprehensive background on the noise models and intensity distributions utilized in blinx's construction.
+
+What we did:
 - Added references to Poisson noise and gaussain noise
 - TODO: clarify moving from 1 pixel to summed intensity over rollins
 
-% 
+6.	Sixth, the validity of using a large-sample Gaussian approximation for the 
+Poisson-distributed shot noise is questionable, especially for very short frame 
+intervals where photon counts are low. In scenarios with extremely high frame 
+rates and minimal photon counts per frame, this approximation becomes invalid, 
+potentially affecting downstream analysis accuracy. The authors should assess the 
+range of frame intervals and photon counts where the Gaussian approximation remains valid. 
+If significant deviations occur, alternative approaches should be considered, or the 
+limitations of the approximation should be explicitly discussed. 
+
+What we did:
 
 
+7.	Seventh, the manuscript assumes time as discrete and posits that all 
+emitters share identical and constant blinking parameters (pon and poff). 
+This is unrealistic for general imaging techniques, where pon is much less than poff is 
+typical (and calibrated) to ensure sparse localizations for state-of-the-art 
+SMLM to work as effectively as possible. These strong assumptions may not hold 
+in practical FCS applications, leading to inaccurate molecular counts and limited 
+generalizability (as is clearly shown in the later studies of the proposed model) 
+to more diverse experimental conditions.
 
+8.	Due to the nature of the aforementioned approximations, in the simulation analysis, 
+noticeable discrepancies exist between the inferred model and raw intensity histograms. 
+Additionally, figures, particularly Fig. 2d-e, lack necessary labels and descriptions, 
+obscuring the evaluation of the model's performance. Enhancing the description and 
+clarity of simulation results, ensuring all figures are fully labeled, and providing 
+comprehensive captions would facilitate better understanding. 
+The authors should address the apparent discrepancies between the model and simulations, 
+possibly by refining the model, quantifying the approximation errors and/or offering 
+explanations for the observed differences under a range of parameters choices.
+
+9.	The manuscript does not account for the effects of adding a noise floor (low SNR) 
+which could mitigate inaccuracies in molecular count predictions under low SNR conditions, 
+as is also clearly shown in simulations. Ignoring SNR variations may limit the model's 
+robustness and applicability in experiments with varying noise levels. Integrating SNR 
+considerations into the model, potentially by adapting noise handling mechanisms from 
+existing methods, would improve molecular count predictions in low SNR scenarios.
+
+10.	Last, the experimental validation using DNA origami with known counts (N=1 and N=4) 
+demonstrates suboptimal posterior probabilities as outputted from blinx, 
+indicating the model's inability to assign high confidence to correct counts 
+even in simplistic scenarios. For instance, a posterior probability of 0.6 for N=4 
+in the real-data analysis (in which it is visually clear that the posterior probability 
+that N=4 should be much higher than 0.6), suggests uncertainty that undermines the model's 
+reliability, effectiveness and overall utility. The authors should investigate the causes 
+of low posterior probabilities and aim to refine the model to enhance its confidence in 
+molecular count assignments. Expanding the experimental validation to include a broader 
+range of counts and more complex configurations would also provide a more thorough assessment 
+of the model's capabilities.
+
+% \bibliographystyle{unsrt}
+% \bibliography{references}
 
 \vspace{5mm}
 Alex Hillsley,\\
