@@ -132,6 +132,20 @@ so only a fraction of the origamis were expected to contain all 4 dockers.
 	%
 	Only origamis that had a visual count matching the designed count (1 or 4) were selected for analysis with \ours.
 
+\subsection{Approximation of Poisson Shot Noise} \label{poisson}
+
+\input{figures/figure_6_poisson}
+
+\revise{%
+We approximate the Poisson shot noise distribution with a normal distribution
+(see~\secref{sec:shot_noise}). This approximation might be problematic in
+setups that yield very few photons per spot and frame. The discrepancy between
+the Poisson distribution and the normal distribution vanishes when at least
+around 80 photons are observed in an individual frame
+(see~\figref{fig:poisson_vs_normal}). In our experiments, we found that the
+photon rate per frame was well above 2000.
+}
+
 \subsection{Limitations} \label{limits}
 % % Limitations
 While \ours is robust to a range of experimental conditions, 

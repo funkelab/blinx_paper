@@ -1,0 +1,23 @@
+\begin{tikzpicture}
+  \setlength\plotwidth{10cm}
+  \setlength\plotheight{5cm}
+  \input{figures/plots/poisson_normal.tikz}
+  \node[right=10mm of min,yshift=6mm] (minzoom) {
+    \begin{tikzpicture}
+      \def\mean{81}
+      \input{figures/plots/poisson_vs_normal.tikz}
+    \end{tikzpicture}
+  };
+  \node[right=8mm of minzoom] (expzoom) {
+    \begin{tikzpicture}
+      \def\mean{2048}
+      \input{figures/plots/poisson_vs_normal.tikz}
+    \end{tikzpicture}
+  };
+  \begin{pgfonlayer}{background}
+    \node[fit=(expzoom),draw=funkey_color_2,fill=funkey_color_2!10!white,rounded corners] (expzoombox) {};
+    \node[fit=(minzoom),draw=funkey_color_2,fill=funkey_color_2!10!white,rounded corners] (minzoombox) {};
+    \draw[very thick,funkey_color_2] (expzoombox) -- (exp);
+    \draw[very thick,funkey_color_2] (minzoombox) -- (min);
+  \end{pgfonlayer}
+\end{tikzpicture}

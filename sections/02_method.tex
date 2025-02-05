@@ -150,6 +150,7 @@ using an EMCCD camera).
   \end{align}
 
 \paragraph{Shot Noise}
+\label{sec:shot_noise}
 
 Due to shot noise, the number of photons detected over a time interval
 $\deltat$ is Poisson distributed~\cite{mehta_poisson_2016}
@@ -169,8 +170,9 @@ $\deltat$ is Poisson distributed~\cite{mehta_poisson_2016}
     \label{eq:methods:p_c_given_z}
   \end{equation}
   %
-  For large values of $\lambda$, the Poisson distribution approaches a normal
-  distribution with both mean and variance of $\lambda$ and therefore we
+  For large values of $\lambda$ \revise{($>80$)}, the Poisson distribution
+  approaches a normal distribution with both mean and variance of $\lambda$
+  \revise{(KL-divergence $<10^{-3}$, see \ref{poisson})} and therefore we
   approximate our shot noise distribution as:
   %
   \begin{equation}

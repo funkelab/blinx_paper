@@ -1,0 +1,38 @@
+\mathlet\xmin{\mean - 200}
+\mathlet\xmax{\mean + 200}
+\begin{axis}[
+  width=3cm,
+  height=2cm,
+  scale only axis=true,
+  %xlabel=$c$,
+  %ylabel={$p(c)$},
+  ymin=0,
+  xmin=\xmin,
+  xmax=\xmax,
+  domain=\xmin:\xmax,
+  xtick distance=200,
+  ytick distance=0.5,
+  yticklabels=\empty,
+  scaled ticks=false,
+  ticklabel style={font=\small},
+  legend style={nodes={scale=0.6, transform shape}},
+]
+
+  % normal distribution
+  \addplot[
+    color=funkey_color_3,
+    very thick,
+    smooth,
+    samples=100,
+  ] {exp(-(x-\mean)^2/(2*\mean))/sqrt(2*pi*\mean)};
+
+  % Poisson distribution
+  \addplot[
+    color=funkey_color_2,
+    smooth,
+    samples=100,
+  ] table [
+    col sep=comma,
+    y=p,
+  ] {figures/data/poisson_normal/poisson_\mean.csv};
+\end{axis}

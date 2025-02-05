@@ -1,0 +1,40 @@
+\begin{semilogyaxis}[
+  width=\plotwidth,
+  height=\plotheight,
+  scale only axis=true,
+  enlarge x limits=false,
+  xlabel=$\lambda$,
+  ylabel={$\text{KL}(\poisson[\lambda]\;||\;\mathcal{N}[\lambda,\lambda])$},
+  xtick distance=1000,
+  ticklabel style={font=\small},
+  legend style={nodes={scale=0.6, transform shape}},
+]
+
+  \addplot[
+    color=funkey_color_1,
+  ] table [
+    col sep=comma,
+    x=lambda,
+    y=kl_divergence,
+  ] {figures/data/poisson_normal/kl_divergence.csv};
+
+  \addplot[
+    color=funkey_color_2,
+    mark=*,
+    mark size=1.7pt,
+    mark options={line width=0},
+  ] coordinates {
+    (81.06406406406407, 0.001034395150157321)
+  };
+
+  \addplot[
+    color=funkey_color_2,
+    mark=*,
+    mark size=1.7pt,
+    mark options={line width=0},
+  ] coordinates {
+    (2082.665665665666, 4.001881278669847e-05)
+  };
+  \coordinate (min) at (axis cs:81.06406406406407, 0.001034395150157321);
+  \coordinate (exp) at (axis cs:2082.665665665666, 4.001881278669847e-05);
+\end{semilogyaxis}
