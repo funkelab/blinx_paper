@@ -75,9 +75,6 @@ is a function of the number of photons \photons detected
 % \revise{added_citations}
 \cite{pawely_three-dimensional,huang_video-rate_2013, laine_imaging_2021}
   %
-  note: in order to maximize signal to noise, we pool the intensities of the pixels within an ROI around the spot.
-  Therefore we do not explicitly model the PSF, but only care about the sum total of photos detected.
-
   \revise{Here we determine x by summing the intensity values of a square centered at the detected spot.
   For which we assume that individual spots are well separated.
   We chose the size of the square, such that it is larger than the point 
@@ -173,7 +170,7 @@ $\deltat$ is Poisson distributed~\cite{mehta_poisson_2016}
   %
   For large values of $\lambda$ \revise{($>80$)}, the Poisson distribution
   approaches a normal distribution with both mean and variance of $\lambda$
-  \revise{(KL-divergence $<10^{-3}$, see \ref{poisson})} and therefore we
+  \revise{(KL-divergence $<10^{-3}$, see \ref{poisson} and \figref{fig:poisson_vs_normal})} and therefore we
   approximate our shot noise distribution as:
   %
   \begin{equation}

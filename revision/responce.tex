@@ -2,7 +2,6 @@
 \usepackage[centering,tmargin=30mm,bmargin=20mm,lmargin=1.0in,rmargin=1.0in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{wallpaper}
-
 \renewcommand{\familydefault}{\sfdefault}
 
 \date{\today}
@@ -36,11 +35,11 @@ It is recommended that the authors revise the title to more accurately reflect t
 their methodology, emphasizing its application to FCS or clarifying its limitations concerning other SMLM techniques.
 
 \underline{\textbf{Responce:}}
-- We don't believe that this model is specific to FCS, while we use similar traces, we never compute correlation functions. 
-However, we agree that our original title is too broad. Therefore we specify that our method requires that the modeled emitter 
-only have "on" and "off states.
+We agree with the reviewer that the manuscripts title may be too general and as a result misleading for some readers.
+To clarify this, we have changed the title to: "A Bayesian model to count the number of two-state emitters in a 
+diffraction limited spot". 
 
-Based on this comment we made the following changes:
+Changes:
 \begin{description}
     \item[$\bullet$] Changed the title to: A Bayesian model to count the number of two-state emitters in a diffraction limited spot
 \end{description}
@@ -62,10 +61,21 @@ focus is on counting in FCS, this should be made much clearer and the introducti
 reflect this the positioning of blinx as a unique probabilistic estimator for FCS.
 
 \underline{\textbf{Responce:}}
-What we did:
+We thank the reviewer for highlighting these highly relevant references. We have re-written a section of 
+the introduction to include these references and highlight their previous work in Bayesian modeling of 
+these systems and in Markovian modeling of blinking fluorophores.
+
+We also thank the reviewer for raising a concern over the claim of other methods. We have changed the text to 
+clarify that the other DNA-PAINT based models, that are directly comparable to blinx, offer only a single estimate 
+of count. As the reviewer correctly pointed out, many of these other Bayesian methods do provide a probabilistic 
+estimate.
+
+Changes
 \begin{description}
-    \item[$\bullet$] toned down "all prior methods provide a single estimate of count", we meant all paint-based methods
-    \item[$\bullet$] re-wrote the section in the intro on Bayesian based methods, including all references suggested by the reviewer (+ a few more)
+    \item[$\bullet$] changed "all prior methods provide a single estimate of count" to 
+    "these DNA-PAINT based methods provide a single estimate of molecular count"
+    \item[$\bullet$] re-wrote a paragraph in the introduction to highlight specific contributions from 
+    each of the suggested references
 \end{description}
 
 % Comment 3
@@ -83,9 +93,21 @@ the integration of other informative priors that leverage existing knowledge or 
 assumptions to fully utilize the strengths of the Bayesian framework.
 
 \underline{\textbf{Responce:}}
-What we did
+We believe that this comment misunderstands our work. A uniform or flat prior on the number of emitters is 
+not an assumption of our model. In the original manuscript we imprecisely claim that this prior is uniform and 
+can be ignored. But what we meant to convey is that this prior is application specific and to keep our model as 
+general as possible, we move forward with the manuscript assuming that it is uniform. We have updated the text to make 
+this point more clear. 
+
+Further this assumption does not limit us from changing this prior at a later point. For the simulations 
+we apply a uniform prior between 1 and 35 emitters, while for the experiments we apply a uniform prior between 1 and 8. 
+The text of the results section has also been changed to clarify this point.
+Again, we chose a uniform prior because we wanted to demonstrate the robustness of our model, but one could easily 
+add more complex priors to the model, without fundamental changes to the derivation shown in the methods. 
+
+Changes:
 \begin{description}
-    \item[$\bullet$] changed sentence about ignoring p(n) to say p(n) is application specific
+    \item[$\bullet$] stated that $p(n)$ is application specific in section 2.1
     \item[$\bullet$] explained in section 3.1 that we placed a uniform prior between 1 and 35
     \item[$\bullet$] explained in section 3.4 that we placed a uniform prior between 1 and 8
 \end{description}
@@ -115,8 +137,12 @@ This omission limits the reader's ability to understand the theoretical underpin
 and validate the model's assumptions. Incorporating additional references would provide a 
 more comprehensive background on the noise models and intensity distributions utilized in blinx's construction.
 
-\underline{\textbf{Responce:}}
-What we did:
+\underline{\textbf{Responce:}} 
+We have added references to both poisson and guassian noise when describing the model construction. Further to 
+increase clarity we have added a few sentences that describe how we obtain our intensity measurement $x$ from 
+the image. 
+
+Changes
 \begin{description}
     \item[$\bullet$] Added references to Poisson noise and gaussain noise
     \item[$\bullet$] added section to methods explaining moving from 1 pixel to summed intensity over an roi 
@@ -135,7 +161,23 @@ If significant deviations occur, alternative approaches should be considered, or
 limitations of the approximation should be explicitly discussed. 
 
 \underline{\textbf{Responce:}}
-What we did:
+We believe that the guassian approximation is very reasonable especially in regime where our model operates. 
+To demonstrate this point we plotted the KL-divergence between the Poisson and Gaussian distributions 
+as a function of photon count $\lambda$ (see figure S1). The absolute KL-divergence at which the approximation fails 
+is debatable, but we chose a value of $10^{-3}$ which corresponds to a $\lambda$ value of 81. We experimentally 
+observed $\lambda=2084$ which corresponds to a KL-divergence less than $10^{-4}$.
+%
+Based on our calculated emission rates, a frame rate greater than $1 frame / 4 ms$ would be required to drop below 
+a photon count of 81. At such high frame rates we expect that low SNR would become the limiting factor rather 
+than this approximation. Also note that this is the same approximation used in Huang et. al. 2013
+
+Changes
+\begin{description}
+    \item[$\bullet$] Added figure S1 and referenced in section 2.1.1 illustrating the KL-divergence between 
+    the Poisson and Gaussian distributions as a function of photon count ($\lambda$)
+    \item[$\bullet$] Added section S9 to the appendix and referenced in section 2.1.1 discussion the validity of this 
+    approximation
+\end{description}
 
 % Comment 7
 \textbf{Comment}
@@ -208,22 +250,24 @@ The posterior distribution shown in figure 4e is the average of the posterior
 calculated for each of the 131 experimental traces. 
 For “high confidence” traces, like the one shown in figure 4b, 
 the posterior probability approaches 1, as shown in the inset to the histogram in figure 4b. 
-For other traces, the model is less confident (shown in figure S?). 
+For other traces, the model is less confident (shown in figure S2a). 
 For these traces the correct count (4) is still the highest probability (~0.7), 
-but counts > 4 also have a significant probability. 
+but counts greater than 4 also have a significant probability. 
 This behavior is expected. 
 One can easily imagine that the true count is 5, but only 4 of the emitters are 
 ever “on” at the same time, and thus the highest count ever observed is 4. 
 This scenario is less likely than the true count being 4, but is not impossible 
 (our model estimates the probability at ~20\%). 
 For still other traces the model can be incorrect. 
-For example the trace shown in figure S?, is estimated to have a count of 3, with high probability. 
+For example the trace shown in figure S2b, is estimated to have a count of 3, with high probability. 
 When averaging across all traces, these incorrect posteriors reduce the average posterior of N=4. 
 For these reasons we are not surprised by the values in the posterior distribution shown in figure 4e.
 
 What we did:
 \begin{description}
-    \item[$\bullet$] added additional figure to SI, to give more context to the distribution shown in figure 4e.
+    \item[$\bullet$] added figure S2, to give more context to the distribution shown in figure 4e. Whereas figure 4e 
+    shows the average of 110 posteriors, this figure shows individual posteriors for 2 example traces.
+    \item[$\bullet$] added section S? to discuss in more detail the posteriors of the N=4 experimental results.
 \end{description}
 
 Reviewer 2:
@@ -266,7 +310,7 @@ This is not a consideration for the data shown because its origami flat on the c
 
 \underline{\textbf{Responce:}}
 
-What we did:
+Changes
 \begin{description}
     \item[$\bullet$] added section discussing limitations of DNA-PAINT to the SI, and a reference to it in the discussion
     \item[$\bullet$] added details about how emission rate could be non-constant to discussion
