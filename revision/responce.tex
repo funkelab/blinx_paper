@@ -125,7 +125,20 @@ Changes:
  simplifying the inference process by adopting standard MLE techniques should be considered.
 
  \underline{\textbf{Responce:}}
- What we did:
+ We would like to clarify that we are using Maximum Likelihood Estimation, and optimizing our model 
+ by performing gradient ascent directly on our loss function. We employ the Laplace Approximation 
+ post-hoc to normalize likelihoods between different models. Because we model each molecular count 
+ individually (with a different number of possible states) the model likelihoods are not comparable 
+ in principle. The Occam's factor normalizes models of differing complexity, allowing us to directly 
+ compare the likelihoods of our different models and construct the posterior.
+
+ In order to clarify this we now explicitly state in the text that we first find the MLE, and then use Occam's factor to compensate 
+ for different model complexities.
+
+ Changes
+ \begin{description}
+    \item[$\bullet$] 
+\end{description}
 
 
 % Comment 5:
