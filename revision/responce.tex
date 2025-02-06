@@ -263,11 +263,29 @@ For example the trace shown in figure S2b, is estimated to have a count of 3, wi
 When averaging across all traces, these incorrect posteriors reduce the average posterior of N=4. 
 For these reasons we are not surprised by the values in the posterior distribution shown in figure 4e.
 
-What we did:
+Changes:
 \begin{description}
     \item[$\bullet$] added figure S2, to give more context to the distribution shown in figure 4e. Whereas figure 4e 
     shows the average of 110 posteriors, this figure shows individual posteriors for 2 example traces.
     \item[$\bullet$] added section S? to discuss in more detail the posteriors of the N=4 experimental results.
+\end{description}
+
+\textbf{Minor Comment}
+While the manuscript is generally well-written, certain sections could benefit from clearer 
+explanations, particularly in describing the transition and intensity models. Additionally, 
+the computational demands of the blinx model are not discussed, which is relevant for practical 
+applications involving large datasets.
+
+\underline{\textbf{Responce:}}
+We agree with the reviewer that discussing the computational demands of blinx is important and
+have added a section to the supplemental information, and referenced it in the discussion.
+
+Additionally, we hope that the changes we have made to the methods section in response to other 
+comments has increased it's clarity.
+
+Changes:
+\begin{description}
+    \item[$\bullet$] added section S3.12 Run Time to discuss the computational demands of blinx
 \end{description}
 
 Reviewer 2:
@@ -279,6 +297,13 @@ Reviewer 2:
 which takes a similar approach but applies it to the entire image, not just a sub-location.
 
 \underline{\textbf{Responce:}}
+We thank the reviewer for highlighting this missing reference. We have included it in our discussion of 
+other bayesian approaches to single-molecule imaging in the introduction.
+
+Changes
+\begin{description}
+    \item[$\bullet$] added reference and short sentence to the introduction.
+\end{description}
 
 \textbf{Comment}
 
@@ -290,8 +315,10 @@ It’s also clear why it doesn’t work at low duty cycle, because it’s not en
 distinguish between rates and emitters.
 
 \underline{\textbf{Responce:}}
+We have moved our definition of SNR to the main text (section 3.1) and removed the associated section from the 
+supplemental material.
 
-What we did:
+Changes
 \begin{description}
     \item[$\bullet$] Moved definition of SNR to main text
 \end{description}
@@ -309,10 +336,16 @@ Even without TIRF, the emission to the coverslip is somewhat depth dependent.
 This is not a consideration for the data shown because its origami flat on the coverslip.
 
 \underline{\textbf{Responce:}}
+We thank the reviewer for highlighting these possible sources of variation. In the discussion we have expanded our 
+section on possible sources of variation in parameters within a spot to include the emission rates. Additionally 
+we added a section the the appendix highlighting the potential flaws in the assumption that DNA-PAINT is resistant 
+to photo-bleaching. Finally, we would like to point out that we used specific buffers to ameliorate this effect in 
+our experimental procedure, and added a reference to that section in the new SI section. 
 
 Changes
 \begin{description}
-    \item[$\bullet$] added section discussing limitations of DNA-PAINT to the SI, and a reference to it in the discussion
+    \item[$\bullet$] added section S3.10 to the SI discussing limitations of DNA-PAINT, and referenced 
+    it from the discussion
     \item[$\bullet$] added details about how emission rate could be non-constant to discussion
 \end{description}
 

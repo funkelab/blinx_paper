@@ -52,14 +52,14 @@ Upon further analysis, the main limitation of \lbfcs is the estimation of the
 	% 
 	With \re provided, \lbfcs identified 200/300 (67\%) of traces within 1 of the true count.
 
-\subsection{Quantification of SNR} \label{calc_snr}
-Because noise in our model is a function of intensity, quantifying a single SNR value for an entire trace 
-	is not trivial. 
-	%
-	For simplicity, here we define SNR as the difference in intensity between 
-	the first two states (\z{0} and \z{1}) divided by the standard deviation of the difference. 
-	%
-	In effect this is the higher bound of SNR for a given trace.
+% \subsection{Quantification of SNR} \label{calc_snr}
+% Because noise in our model is a function of intensity, quantifying a single SNR value for an entire trace 
+% 	is not trivial. 
+% 	%
+% 	For simplicity, here we define SNR as the difference in intensity between 
+% 	the first two states (\z{0} and \z{1}) divided by the standard deviation of the difference. 
+% 	%
+% 	In effect this is the higher bound of SNR for a given trace.
 
 \subsection{Distribution of occupied states} \label{occupied_states}
 When $\pon < \poff$, the distribution is shifted towards 0, and a majority 
@@ -149,7 +149,6 @@ so only a fraction of the origamis were expected to contain all 4 dockers.
 
 \subsection{Approximation of Poisson Shot Noise} \label{poisson}
 
-
 \revise{%
 We approximate the Poisson shot noise distribution with a normal distribution
 (see~\secref{sec:shot_noise}). This approximation might be problematic in
@@ -159,6 +158,9 @@ around 80 photons are observed in an individual frame
 (see~\figref{fig:poisson_vs_normal}). In our experiments, we found that the
 photon rate per frame was well above 2000.
 }
+
+\subsection{N=4 Experimental Posterior} \label{exp_posterior}
+\revise{discuss here}
 
 \subsection{DNA-PAINT} \label{dna-paint-concerns}
 	\revise{
@@ -212,3 +214,17 @@ in the system.
     To further reduce the influence of these observed outliers on counting accuracy, we
     excluded the highest 0.5\% of intensities values when calculating the
     likelihood (the specific value is adjustable as a hyperparameter).
+
+\subsection{Run Time} \label{runtime}
+\revise{
+Because of the repeated gradient ascent steps taken to fit each trace, 
+blinx is significantly slower than lbFCS or qPAINT. Fitting a single trace with possible 
+counts between 1 and 20 on a standard cpu takes roughly 10 min. The time per possible count 
+also increases with count i.e. y=1 converges in 20s and y=20 in 45s. This is expected due to the 
+increase in number of operations that goes along with the increased number of states. 
+
+Blinx contains a few options to reduce this run time. The first is that it is highly vectorizable. 
+This means that as many traces that can fit in memory can be run in parallel without significantly 
+effecting the run time. Second is that the maximum number of iterations can be set as a hyperparameter. 
+For this manuscript we set this to 2,000 iterations to ensure convergence, but if time is limiting this 
+could be decreased without a significant drop in performance.}
