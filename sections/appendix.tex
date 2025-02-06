@@ -1,3 +1,17 @@
+\makeatletter
+\renewcommand \thesection{S\@arabic\c@section}
+\renewcommand\thetable{S\@arabic\c@table}
+\renewcommand \thefigure{S\@arabic\c@figure}
+\setcounter{figure}{0}   
+\makeatother
+
+\input{sections/05_experimental_methods}
+
+\section{Supplemental Figures}
+\input{figures/figure_6_poisson}
+\input{figures/figure_7_posteriors}
+\clearpage
+
 \section{Supplemental Notes}
 
 \subsection{Transition Model in the case $n=1$} \label{n1_transition}
@@ -135,7 +149,6 @@ so only a fraction of the origamis were expected to contain all 4 dockers.
 
 \subsection{Approximation of Poisson Shot Noise} \label{poisson}
 
-\input{figures/figure_6_poisson}
 
 \revise{%
 We approximate the Poisson shot noise distribution with a normal distribution
@@ -158,7 +171,7 @@ photon rate per frame was well above 2000.
 		our experimental setup (see \secref{exp_methods}).
 	}
 
-\input{figures/figure_7_posteriors}
+
 
 \subsection{Limitations} \label{limits}
 % % Limitations
