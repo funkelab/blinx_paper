@@ -11,5 +11,15 @@
     \small
     \centerline{\input{figures/panels/bad_fit_posterior.tikz.tex}}
   \end{panel}
+  \caption{%
+    \panelref{a} Experimental trace with a true count of 4, and the blinx 
+    estimated posterior, identifying 4 as the most likely count. The posterior 
+    displays a relatively high likelihood that the count could be $>4$, which is likely 
+    due to increased noise.
+    \panelref{b} Another experimental trace with a true count of 4, where the blinx 
+    estimated posterior incorrectly finds that 3 is the most likely count. Posteriors 
+    that are confidently incorrect such as this one reduce the average probability of 
+    the correct count in \figref{fig:results:experimental}e.
+  }
   \label{fig:exp_posterior}
 \end{figure}

@@ -31,10 +31,11 @@
 
   \caption{%
     \panelref{a} The counting ability of \ours is dependant on the blinking kinetics, 
-      showing increased model accuracy when $\pon > \poff$. 
+      showing increased model accuracy when $\pon > \poff$. Each box represents the total squared 
+      error for traces with n=1,...,20.
       Top inset: when $\pon < \poff$, the distribution of
-      observed \z{} states is shifted towards 0. Bottom inset: for
-      $\pon = \poff$, the distribution of \z{} states is centered at $1/2$ $n$.
+      observed \z{} states (true $n=10$) is shifted towards 0. Bottom inset: for
+      $\pon = \poff$, the distribution of \z{} states (true $n=10$) is centered at $1/2$ $n$.
     %
     \panelref{b} Average experimental blinking kinetics as a function of imager
       concentration (marker sizes) and temperature (color).
@@ -45,9 +46,12 @@
   \contcaption{
     \capcont
     %
-    \panelref{c} Trace and \ours fit, \pon=0.01, \poff=0.2, and true count of $n$=10, representative of (a) top inset.
+    \panelref{c} Trace and \ours estimated posterior (most likely $n=3$), \pon=0.01, \poff=0.2, and true count of $n$=10, 
+    representative of (a) top inset. In this regime \ours fails to recover the true $n$ because 
+    not enough \z{} states were observed
     %
-    \panelref{d} Trace and \ours fit, \pon=0.02, \poff=0.02, and true count of $n$=10, representative of (a) bottom inset.
+    \panelref{d} Trace and \ours estimated posterior, \pon=0.02, \poff=0.02, and true count of $n$=10, 
+    representative of (a) bottom inset. In contrast to \panelref{c}, in this regime \ours counts accurately.
   }
   \label{fig:results:campare_kinetics}
 \end{figure*}

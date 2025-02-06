@@ -28,15 +28,20 @@
 
   \caption{
       \panelref{a} Overview of the \ours method (scale bar: 1 $\mu$m). 
-      \ours is fit on a series of observed intensity measurements, 
-      produced by a hidden state of independent stochastically blinking emitters.
+      \ours fits each detected spot individually, extracting a time series 
+      of intensity measurements, fitting our model and producing a posterior 
+      over possible counts. It is assumed that each spot is made up of $n$ independent 
+      emitters.
       %
-      \panelref{b} \pon and \poff (\parameterst) parameterize the blinking kinetics of each individual emitter
+      \panelref{b} \pon and \poff (\parameterst) parameterize the blinking kinetics 
+      of each individual emitter
       %
-      \panelref{c} The distribution of observed intensities is affected by both Poisson distributed shot noise (\parameterse), and 
+      \panelref{c} The distribution of observed intensities is affected 
+      by both Poisson distributed shot noise (\parameterse), and 
         Gaussian distributed readout noise (\parametersc).
       %
-      \panelref{d} \ours is based on a hidden Markov model conditioned on the total count $n$ and seven estimated parameters.
+      \panelref{d} \ours is based on a hidden Markov model conditioned on the 
+      total count $n$ and seven estimated parameters.
   }
   \label{fig:method:overview}
 \end{figure*}
