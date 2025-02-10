@@ -235,7 +235,7 @@ number of active emitters \z{} over time.
 %   no change occurring or by one emitter becoming active while the other emitter 
 %   deactivates.
 
-Expanding to the multi-emitter level (for intuition from the $n=1$ case see \ref{n1_transition}), 
+Expanding to the multi-emitter level (for intuition from the $n=1$ case see~\ref{n1_transition}), 
 we consider all possible events that can lead to an observed change in \z{}. To 
 that end, we marginalize over $a$ the number of active emitters that deactivated 
 from $t-1$ to $t$:
@@ -256,34 +256,61 @@ from $t-1$ to $t$:
 
 \subsubsection{Inference}
 
-The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
-\eqref{eq:method:HMM}, depends on a total of seven parameters
-\parameters and the total number of emitters \n.
+\revise{%
+During inference, we are interested in the posterior distribution
+}
+%
+\begin{equation*}
+  p(\trace | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
+  \text{.}
+\end{equation*}
   %
-  However, we are interested in the posterior distribution $p(\trace|\n)$.
+  Although no closed form solution exists for this integral, multiple
+  approximations exist including variational methods
+  \cite{bronson_learning_2009} and the Laplace
+  approximation~\citep{bishop_pattern_2006}.
   %
-  Accounting for the priors on \parameters in addition to the likelihood,
-  this is known as the model evidence and is defined as:
+  We use the latter, which is the maximum likelihood solution corrected by the
+  Occam factor.
+  \revise{%
+    To that end, we first identify the maximum likelihood parameters
+  }
+    \begin{equation}
+      \parametersmap = \text{arg}\max_{\parameters} p(\trace | \parameters, \n)
+    \end{equation}
+  \revise{%
+    through gradient ascent for each possible \n, and then correct for model
+    complexity using the Occam factor evaluated at \parametersmap:
+  }
   %
-  \begin{equation*}
-    p(\trace | n) = \int p(\trace | \theta, n) p(\theta | n) d\theta
-    \text{.}
-  \end{equation*}
-  %
-  Although no closed form solution exists for this integral, multiple approximations exist including 
-  variational methods \cite{bronson_learning_2009} and the Laplace approximation~\citep{bishop_pattern_2006}.
-  %
-  We use the latter, which is the maximum likelihood solution corrected by the Occam factor:
-
   \begin{equation}
     \ln p(\trace | n) \approx
       \ln p(\trace | \parametersmap, \n) +
       \underbrace{O(\trace, \parametersmap)}_\text{Occam factor}
-    \text{,}
+    \text{.}
     \label{eq:method:evidence_with_m}
   \end{equation}
+
+\revise{%
+  Since our model is fully differentiable with respect to \parameters, we
+  find the maximum likelihood parameters \parametersmap through gradient
+  ascent:
+}
   %
-  where the Occam factor $O(\trace, \parametersmap)$ is defined as
+  \begin{align}
+    \parameters_{k+1} =
+      \parameters_{k} +
+      \nu \frac{\partial p(\trace | \parameters, \n)}{\partial \parameters}
+    \bigg\rvert_{\parameters_{k}}
+    \notag
+    \text{,}
+  \end{align}
+  %
+  where $\nu$ is the step size, dynamically calculated by the Adam optimizer,
+  and the gradients of \parameters are taken with respect to the likelihood
+  $p(\trace | \n, \parameters)$.
+
+  \revise{The Occam factor $O(\trace, \parametersmap)$ is defined as}
   %
   \begin{align*}
     O(\trace, \parametersmap) &=
@@ -298,40 +325,19 @@ The likelihood $p(\trace|\parameters,\n)$ of observing \trace, see
   %
   Here, $M$ is the dimensionality of \parameters, which is constant.
   %
-  Because we are interested only in comparing likelihoods, this term can 
-  safely be ignored, resulting in:
+  Because we are interested only in comparing likelihoods, this term can safely
+  be ignored, resulting in:
   %
   \begin{equation}
-    \ln p(\trace | \n) \approx \ln p(\trace | \parametersmap, \n) + \ln p(\parametersmap) - \frac{1}{2} \ln |A|
+    \ln p(\trace | \n) \approx
+      \ln p(\trace | \parametersmap, \n) +
+      \ln p(\parametersmap) -
+      \frac{1}{2} \ln |A|
     \text{.}
     \label{eq:method:evidence}
   \end{equation}
-  %
-  Therefore, to estimate the posterior distribution over \n, we first need to 
-  find the maximum likelihood parameters $\parametersmap$ for each value of \n. 
 
-  This model is fully differentiable, allowing us to estimate 
-  the maximum likelihood parameters through gradient ascent:
-  %
-  \begin{align}
-    \parameters_{k+1} = \parameters_{k} + \nu \frac{\partial p(\trace | \parameters, \n)}{\partial \parameters}
-    \bigg\rvert_{\parameters_{k}}
-    \notag
-    \text{,}
-  \end{align}
-  %
-  where $\nu$ is the step size, dynamically calculated by the Adam optimizer, and 
-  the gradients of \parameters are taken with respect to the likelihood: $p(\trace | \n, \parameters)$.
-  %
-  The maximum likelihood parameters $\parametersmap$ are then obtained,
-  \begin{equation}
-    \parametersmap = \text{arg}\max_{\parameters} p(\trace | \parameters, \n)
-    \text{,}
-  \end{equation}
-  %
-  thus allowing us to estimate the posterior distribution $p(\trace|\n)$. 
-  %
-  Additionally, we can obtain an estimate of the maximum likelihood molecular count:
+Finally, we can obtain an estimate of the maximum likelihood molecular count:
   %
   \begin{equation}
       \truen =
