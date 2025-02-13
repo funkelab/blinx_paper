@@ -1,19 +1,27 @@
-\def\histogramcsv{figures/data/exp_counting/intensity_histograms.csv}%
-\def\tracecsv{figures/data/exp_counting/traces_and_fits.csv}%
-\def\posteriorcsv{figures/data/exp_counting/posteriors.csv}%
-\def\traceintensitycol{N1_trace_good}%
-\def\zcol{N1_fit_good}%
-\def\histbincol{N1_good_bins}%
-\def\histcountcol{N1_good_measured}%
-\def\modelfitcol{N1_good_model}%
-\def\posteriorcol{posterior_1}%
 \tikzsetnextfilename{exp_trace_n1}%
 \begin{tikzpicture}
-  \input{figures/plots/fancy_trace.plot}
-  \def\noylabels{}
-  \def\noxlabel{}
+  \argsinput[
+    histogramcsv=figures/data/exp_counting/intensity_histograms.csv,
+    tracecsv=figures/data/exp_counting/traces_and_fits.csv,
+    traceintensitycol=N1_trace_good,
+    zcol=N1_fit_good,
+    histbincol=N1_good_bins,
+    histcountcol=N1_good_measured,
+    modelfitcol=N1_good_model,
+    plotlabel={$\noexpand\n=1$}
+  ]{figures/plots/fancy_trace.plot}
   \setlength\plotwidth{0.1\plotwidth}
   \setlength\plotheight{\plotwidth}
-  \pgfplotsset{every axis/.style={anchor=below south east,at={($(histogram.south east)-(2mm,2mm)$)}}}
-  \input{figures/plots/p_n_given_x.plot}
+  \pgfplotsset{
+    every axis/.style={anchor=below south east,at={($(histogram.south east)-(2mm,2mm)$)}},
+    xtick distance=1,
+  }
+  \argsinput[
+    posteriorcsv=figures/data/exp_counting/posteriors.csv,
+    posteriorcol=posterior_1,
+    noxlabel,
+    xmin=1,
+    xmax=8
+  ]{figures/plots/p_n_given_x.plot}
+  \node[above=0mm of posterior] {posterior};
 \end{tikzpicture}

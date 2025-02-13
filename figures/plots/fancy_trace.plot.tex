@@ -1,17 +1,17 @@
-\@ifundefined{nolabels}{
-  \pgfplotsset{xlabel=frames}
-  \pgfplotsset{ylabel=intensity}
-  \pgfplotsset{grid=major}
-  \pgfplotsset{grid style={dashed}}
-}{
+\ifarg{nolabels}{
   \pgfplotsset{xticklabel=\empty}
   \pgfplotsset{yticklabel=\empty}
   \pgfplotsset{ticks=none}
   \pgfplotsset{scaled ticks=false}
+}{
+  \pgfplotsset{xlabel=frames}
+  \pgfplotsset{ylabel=intensity}
+  \pgfplotsset{grid=major}
+  \pgfplotsset{grid style={dashed}}
 }
-\@ifundefined{histogramcsv}{}{
+\ifarg{histogramcsv}{
   \setlength{\plotwidth}{0.73\plotwidth}
-}
+}{}
 \begin{axis}[
   name=trace,
   width=\plotwidth,
@@ -35,9 +35,9 @@
     x=frames,
     y=\traceintensitycol
   ] {\tracecsv};
-  \@ifundefined{nolabels}{\addlegendentry{intensity trace}}{}
+  \ifarg{nolabels}{}{\addlegendentry{intensity trace}}
 
-  \@ifundefined{zcol}{}{
+  \ifarg{zcol}{
     \addplot [
       color=ztracecolor,
       thick
@@ -46,8 +46,8 @@
       x=frames,
       y=\zcol
     ] {\tracecsv};
-    \@ifundefined{nolabels}{\addlegendentry{inferred state}}{}
-  }
+    \ifarg{nolabels}{}{\addlegendentry{inferred state}}
+  }{}
 
   % remember min/max y-axis values for next plot
   \pgfplotsextra{
@@ -58,11 +58,11 @@
   }
 
 \end{axis}
-\@ifundefined{plotlabel}{}{
+\ifarg{plotlabel}{
   \node[anchor=north west,rectangle,draw,fill=white] at (trace.north west) {\plotlabel};
-}
+}{}
 
-\@ifundefined{histogramcsv}{}{
+\ifarg{histogramcsv}{
   \begin{axis}[
     at={($(trace.east) + (4mm,0)$)},
     name=histogram,
@@ -109,4 +109,4 @@
     \addlegendentry{inferred model}
 
   \end{axis}
-}
+}{}

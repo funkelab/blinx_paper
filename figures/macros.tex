@@ -18,6 +18,50 @@
 \newlength{\plotwidth}
 \newlength{\plotheight}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% support for arguments (in TikZ pictures) %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% put TikZ pictures into a separate file (e.g., plot.tikz.tex)
+
+% input the picture into your document using \argsinput[foo=bar]{plot.tikz.tex}
+%   -> the macro \foo will be set to 'bar'
+
+% default values can be set inside the TikZ picture using \defaultarg{foo}{default value}
+
+% use \tikzexternalname to set the name of the picture, right before \begin{tikzpicture}
+%   this will create a unique name for the given args, which ensures that the
+%   picture will be recompiled when the args on the outside change
+
+% inside your picture, use \ifarg{name to test}{if given}{if not given} to test
+% whether an argument was set
+
+% custom input to set pgfkeys
+\pgfkeys{%
+  /args/.is family,
+  /args,
+  % set value of macro <key> to <value>
+  /args/.unknown/.code={\expandafter\edef\csname \pgfkeyscurrentname\endcsname{\pgfkeyscurrentvalue}}
+}
+\newcommand\argsinput[2][]{%
+  \pgfkeys{/args,#1}%
+  \def\args{#1}%
+  \input{#2}%
+}
+\newcommand{\ifarg}[3]{%
+  \ifcsname#1\endcsname%
+    #2%
+  \else%
+    #3%
+  \fi%
+}
+\newcommand{\defaultarg}[2]{%
+  \ifarg{#1}{}{\expandafter\def\csname#1\endcsname{#2}}%
+}
+\newcommand{\tikzexternalname}[1]{%
+  \tikzsetnextfilename{#1-\pdfmdfivesum{\args}}%
+}
+
 % draw 5 example fluorophores, args are "on" or "off"
 \def\blinky#1#2#3#4#5{
   \begin{tikzpicture}[node distance=3mm]

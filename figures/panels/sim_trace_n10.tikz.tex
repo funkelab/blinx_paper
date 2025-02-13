@@ -1,18 +1,15 @@
-\def\histogramcsv{figures/data/sim_counting/intensity_histogram.csv}%
-\def\tracecsv{figures/data/sim_counting/trace_and_fit_N10.csv}%
-\def\traceintensitycol{trace}%
-\def\zcol{fit}%
-\def\histbincol{N10_bins}%
-\def\histcountcol{N10_measured}%
-\def\modelfitcol{N10_model}%
-\def\posteriorcsv{figures/data/sim_counting/posteriors.csv}%
-\def\posteriorcol{posterior_10}%
 \tikzsetnextfilename{sim_trace_n10}%
 \begin{tikzpicture}
-  \def\plotlabel{$\n = 10$}
-  \input{figures/plots/fancy_trace.plot}
-  \def\noylabels{}
-  \def\noxlabel{}
+  \argsinput[
+    histogramcsv=figures/data/sim_counting/intensity_histogram.csv,
+    tracecsv=figures/data/sim_counting/trace_and_fit_N10.csv,
+    traceintensitycol=trace,
+    zcol=fit,
+    histbincol=N10_bins,
+    histcountcol=N10_measured,
+    modelfitcol=N10_model,
+    plotlabel={$\noexpand\n=10$}
+  ]{figures/plots/fancy_trace.plot}
   \setlength\plotwidth{0.1\plotwidth}
   \setlength\plotheight{\plotwidth}
   \pgfplotsset{every axis/.style={
@@ -20,5 +17,10 @@
     at={($(histogram.south east)-(2mm,0)$)},
     xtick distance=2
   }}
-  \input{figures/plots/p_n_given_x.plot}
+  \argsinput[
+    posteriorcsv=figures/data/sim_counting/posteriors.csv,
+    posteriorcol=posterior_10,
+    noxlabel
+  ]{figures/plots/p_n_given_x.plot}
+  \node[above=0mm of posterior] {posterior};
 \end{tikzpicture}

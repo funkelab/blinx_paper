@@ -1,23 +1,30 @@
 \def\eps{0.001}%  skip bars for values below eps
-\@ifundefined{noylabels}{}{
+\ifarg{noylabels}{
   \pgfplotsset{yticklabel=\empty}
   \pgfplotsset{ylabel=\empty}
-}
-\@ifundefined{noxlabel}{
-  \pgfplotsset{xlabel=$n$}
-}{
+}{}
+\ifarg{noxlabel}{
   \pgfplotsset{xlabel=\empty}
+}{
+  \pgfplotsset{xlabel=$n$}
+}
+\ifarg{xmin}{
+  \pgfplotsset{xmin=\xmin,xmax=\xmax}
+  \pgfplotsset{enlarge x limits={abs=0.5}}
+}{
+  \pgfplotsset{enlarge x limits={abs=1.5}}
 }
 \begin{axis}[
+  name=posterior,
   width=\plotwidth,
   height=\plotheight,
   scale only axis=true,
-  enlarge x limits={abs=1.5},
   enlarge y limits=0,
   ymin=0,
   ymax=1,
   scaled ticks=false,
   ticklabel style={font=\tiny},
+  ylabel=\empty,
   axis background/.style={fill=white},
 ]
 

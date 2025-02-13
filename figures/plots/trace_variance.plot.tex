@@ -1,3 +1,4 @@
+\def\defaultarg{xtickdistance}{1}
 \def\intervalplot#1#2{
   \addplot[
     color=#2,
@@ -32,15 +33,16 @@
     opacity=0.4,
     forget plot,
   ] fill between[of=lower and upper];
-  \@ifundefined{nolegend}{
-    \addlegendentry{$n=#1$}
-  }{}
+  \ifarg{nolegend}{}{
+    \addlegendentry{$\n=#1$}
+  }
 }
 \begin{axis}[
   width=\plotwidth,
   height=\plotheight,
   scale only axis,
   xlabel=\xlabel,
+  ylabel=\ylabel,
   enlarge x limits=false,
   enlarge y limits=false,
   xtick distance=\xtickdistance,

@@ -24,13 +24,14 @@
 
   % example trace
   \begin{scope}
-    \def\tracecsv{figures/data/overview/trace.csv}
-    \def\traceintensitycol{trace}
-    \def\nolabels{}
     \setlength\plotwidth{64mm}
     \setlength\plotheight{20mm}
     \pgfplotsset{every axis/.style={xshift=6mm,anchor=north west,name=trace,at={(patch_3.north east)}}}
-    \input{figures/plots/fancy_trace.plot}
+    \argsinput[
+      tracecsv=figures/data/overview/trace.csv,
+      traceintensitycol=trace,
+      nolabels
+    ]{figures/plots/fancy_trace.plot}
   \end{scope}
 
   \node[anchor=north,inner sep=2pt] at (trace.230) {\small time};
@@ -55,13 +56,17 @@
 
   % posterior
   \begin{scope}
-    \def\posteriorcsv{figures/data/overview/posterior.csv}
-    \def\posteriorcol{posterior}
-    \def\noylabels{}
     \setlength\plotwidth{24mm}
     \setlength\plotheight{24mm}
-    \pgfplotsset{every axis/.style={yshift=-8mm,anchor=north,name=posterior,at=(mle)}}
-    \input{figures/plots/p_n_given_x.plot}
+    \pgfplotsset{
+      every axis/.style={yshift=-8mm,anchor=north,name=posterior,at=(mle)},
+      xtick distance=1
+    }
+    \argsinput[
+      posteriorcsv=figures/data/overview/posterior.csv,
+      posteriorcol=posterior
+    ]{figures/plots/p_n_given_x.plot}
+    \node[below=2mm of posterior.north] {posterior};
   \end{scope}
 
   \draw[arrow] (brace) -- (mle);
