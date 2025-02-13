@@ -20,7 +20,15 @@ Managing Editor\\
 United States\\
 
 \vspace{5mm}
-Dear,
+
+Dear Prof Besley, 
+
+We thank you and the reviewers for providing this feedback on our submitted manuscript. We have made many significant revisions, 
+and believe that the manuscript is now in much better shape. Please find a detailed response to each reviewer's comments and a summary 
+of all changes made below.
+
+
+Reviewer 1:
 
 % Comment 1:
 \textbf{Comment}
@@ -74,8 +82,9 @@ Changes
 \begin{description}
     \item[$\bullet$] changed "all prior methods provide a single estimate of count" to 
     "these DNA-PAINT based methods provide a single estimate of molecular count"
-    \item[$\bullet$] re-wrote a paragraph in the introduction to highlight specific contributions from 
-    each of the suggested references
+    \item[$\bullet$] re-wrote the discussion of other Bayesian methods in the introduction 
+    to highlight specific contributions from each of the suggested references. 
+    \item[$\bullet$] Added references [31, 34, 35, 36]
 \end{description}
 
 % Comment 3
@@ -105,9 +114,9 @@ add more informative priors to the model, without fundamental changes to the der
 
 Changes:
 \begin{description}
-    \item[$\bullet$] stated that $p(n)$ is application specific in section 2.1
-    \item[$\bullet$] explained in section 3.1 that we placed a uniform prior between 1 and 35
-    \item[$\bullet$] explained in section 3.4 that we placed a uniform prior between 1 and 8
+    \item[$\bullet$] stated that $p(n)$ is application specific in section 2.1 Model
+    \item[$\bullet$] explained in section 3.1 Simulated Experiments that we placed a uniform prior between 1 and 35
+    \item[$\bullet$] explained in section 3.4 Experimental Counting that we placed a uniform prior between 1 and 8
 \end{description}
 
 % Comment
@@ -135,7 +144,7 @@ Changes:
 
  Changes
  \begin{description}
-    \item[$\bullet$] 
+    \item[$\bullet$] re-structured section 2.1.3 Inference
 \end{description}
 
 
@@ -155,8 +164,10 @@ the image.
 
 Changes
 \begin{description}
-    \item[$\bullet$] Added references to Poisson noise and Gaussian noise
-    \item[$\bullet$] added section to methods explaining moving from 1 pixel to summed intensity over an roi 
+    \item[$\bullet$] Added references [37, 38, 39] to section 2.1.1 Intensity Model. 
+    Discussing the contributions of Poisson noise and Gaussian noise to the system.
+    \item[$\bullet$] added a few sentences to section 2.1.1 Intensity Model explaining 
+    how traces were extracted from the raw images.  
 \end{description}
 
 % Comment 6
@@ -186,8 +197,10 @@ Changes
 \begin{description}
     \item[$\bullet$] Added figure S1 and referenced in section 2.1.1 illustrating the KL-divergence between 
     the Poisson and Gaussian distributions as a function of photon count ($\lambda$)
-    \item[$\bullet$] Added section S9 to the appendix and referenced in section 2.1.1 discussion the validity of this 
+    \item[$\bullet$] Added section S9 to the appendix and referenced in section 2.1.1 Intensity Model discussion the validity of this 
     approximation
+    \item[$\bullet$] referenced Huang et. al. 2013 [38] in section 2.1.1 Intensity Model, where the same 
+    approximation is used
 \end{description}
 
 % Comment 7
@@ -203,6 +216,18 @@ generalizability (as is clearly shown in the later studies of the proposed model
 to more diverse experimental conditions.
 
 \underline{\textbf{Response:}}
+We would like to clarify on what is meant by "identical and constant blinking parameters". 
+Our model assumes that the $p_{on}$ of an emitter in a spot is equal to that of every other 
+emitter in the same spot, and that the same is true for $p_{off}$. However, we do not assume 
+that $p_{on} = p_{off}$ for any emitters. We also address this assumption in the discussion 
+clarifying that in real systems this may not be the case, and that we expect a decrease in model 
+performance as the parameters of emitters within a single spot diverge. 
+
+In Figure 3a, we evaluate the models performance for a wide variety of $p_{on}$ and $p_{off}$ 
+combinations. Further, in section 3.3 qPAINT Kinetic Regime and Figure 4, we evaluate the model 
+in the exact regime that the reviewer describes, where $p_{on}$ is much less than $p_{off}$. 
+We find that while the base model fails in this regime, performance is recovered, and even 
+surpasses that of qPAINT once priors are placed on the blinking parameters. 
 
 % Comment
 \textbf{Comment}
@@ -218,6 +243,35 @@ possibly by refining the model, quantifying the approximation errors and/or offe
 explanations for the observed differences under a range of parameters choices.
 
 \underline{\textbf{Response:}}
+We are not sure what discrepancies between the inferred model and raw intensity histograms 
+the reviewer is referring to. We show intensity histograms (in purple) and fit model 
+distributions (in orange) in Figures 2a, 2b, 3c, 3d, 4a, 4b, 5a, and 5b, and they closely 
+match in each case. For the experimental data shown in Figures 5a and 5b, the intensity histogram 
+is slightly noisier, but our inferred model still accurately fits the data. 
+
+In order to clarify each of the figures, especially Figures 2d and 2e, we have added 
+labels and descriptions, as well as expanded each of the captions.
+
+Changes
+\begin{description}
+    \item[$\bullet$] Figure 1: Labeled the posterior distribution and expanded the caption
+    to describe that each spot is fit independently
+    \item[$\bullet$] Figures 2a, 2b, 3c, 3d, 4a, 4b, 5a, and 5b: the inset panel on the 
+    far right has been labeled "posterior" and the y-axis has been added.
+    \item[$\bullet$] Figure 2d and 2e: the y axis has been labeled as "estimated n"
+    \item[$\bullet$] Figure 2d: additional x-ticks have been added to clarify the trace 
+    lengths tested
+    \item[$\bullet$] Figure 2: Caption expanded to explain the colorbar in Figure 2c and 
+    that Figure 2c shows an averaged posterior over 10 traces for each n.
+    \item[$\bullet$] Figure 3: Caption expanded to explain that blinx fails for the kinetic 
+    conditions shown in Figure 3c, but works well for those shown in Figure 3d.
+    \item[$\bullet$] Figure 4: Caption expanded to explain that this regime poses a challenge 
+    for blinx because of the limited number of intensity states observed.
+    \item[$\bullet$] Figure 5: Caption expanded to reference Figure S2, and provide a deeper 
+    look at the posterior shown in Figure 5e
+    \item[$\bullet$] Figure 5b, 5d, 5e: the x-axis of the posterior plots was extended to 
+    show the range of the prior placed on possible count $p(n)$.
+\end{description}
 
 % Comment
 \textbf{Comment}
@@ -363,6 +417,7 @@ Changes
 % \bibliography{references}
 
 \vspace{5mm}
+Thank you, \\
 Alex Hillsley,\\
 Jan Funke,\\
 HHMI Janelia Research Campus
