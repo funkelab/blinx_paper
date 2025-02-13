@@ -1,5 +1,5 @@
 default:
-	latexmk -pdf responce.tex -outdir=.latexmk
-	cp .latexmk/responce.pdf responce.pdf
+	latexmk -pdf response.tex -outdir=.latexmk
+	cp .latexmk/response.pdf response.pdf
 clean:
 	rm -rf .latexmk

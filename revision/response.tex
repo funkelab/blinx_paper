@@ -34,7 +34,7 @@ techniques such as PALM and dSTORM, where a two-state model has proven inadequat
 It is recommended that the authors revise the title to more accurately reflect the scope of 
 their methodology, emphasizing its application to FCS or clarifying its limitations concerning other SMLM techniques.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We agree with the reviewer that the manuscripts title may be too general and as a result misleading for some readers.
 To clarify this, we have changed the title to: "A Bayesian model to count the number of two-state emitters in a 
 diffraction limited spot". 
@@ -60,7 +60,7 @@ While this statement is factually inaccurate relative to the title of the manusc
 focus is on counting in FCS, this should be made much clearer and the introduction should indeed 
 reflect this the positioning of blinx as a unique probabilistic estimator for FCS.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We thank the reviewer for highlighting these highly relevant references. We have re-written a section of 
 the introduction to include these references and highlight their previous work in Bayesian modeling of 
 these systems and in Markovian modeling of blinking fluorophores.
@@ -92,7 +92,7 @@ The authors should reconsider the choice of a uniform prior and either explore o
 the integration of other informative priors that leverage existing knowledge or distributional 
 assumptions to fully utilize the strengths of the Bayesian framework.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We believe that this comment misunderstands our work. A uniform or flat prior on the number of emitters is 
 not an assumption of our model. In the original manuscript we imprecisely claim that this prior is uniform and 
 can be ignored. But what we meant to convey is that this prior is application specific and to keep our model as 
@@ -124,7 +124,7 @@ Changes:
  posterior are made in model construction. If the approximation does not offer clear advantages, 
  simplifying the inference process by adopting standard MLE techniques should be considered.
 
- \underline{\textbf{Responce:}}
+ \underline{\textbf{Response:}}
  We would like to clarify that we are using Maximum Likelihood Estimation, and optimizing our model 
  by performing gradient ascent directly on our loss function. We employ the Laplace Approximation 
  post-hoc to normalize likelihoods between different models. Because we model each molecular count 
@@ -150,7 +150,7 @@ This omission limits the reader's ability to understand the theoretical underpin
 and validate the model's assumptions. Incorporating additional references would provide a 
 more comprehensive background on the noise models and intensity distributions utilized in blinx's construction.
 
-\underline{\textbf{Responce:}} 
+\underline{\textbf{Response:}} 
 We have added references to both poisson and guassian noise when describing the model construction. Further to 
 increase clarity we have added a few sentences that describe how we obtain our intensity measurement $x$ from 
 the image. 
@@ -173,7 +173,7 @@ range of frame intervals and photon counts where the Gaussian approximation rema
 If significant deviations occur, alternative approaches should be considered, or the 
 limitations of the approximation should be explicitly discussed. 
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We believe that the guassian approximation is very reasonable especially in regime where our model operates. 
 To demonstrate this point we plotted the KL-divergence between the Poisson and Gaussian distributions 
 as a function of photon count $\lambda$ (see figure S1). The absolute KL-divergence at which the approximation fails 
@@ -204,7 +204,7 @@ in practical FCS applications, leading to inaccurate molecular counts and limite
 generalizability (as is clearly shown in the later studies of the proposed model) 
 to more diverse experimental conditions.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 
 % Comment
 \textbf{Comment}
@@ -219,7 +219,7 @@ The authors should address the apparent discrepancies between the model and simu
 possibly by refining the model, quantifying the approximation errors and/or offering 
 explanations for the observed differences under a range of parameters choices.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 
 % Comment
 \textbf{Comment}
@@ -231,7 +231,7 @@ robustness and applicability in experiments with varying noise levels. Integrati
 considerations into the model, potentially by adapting noise handling mechanisms from 
 existing methods, would improve molecular count predictions in low SNR scenarios.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We are not sure that we understand this comment. We model noise along every step in the 
 lightpath of the experiment (readout noise in the detector, shot noise of the fluorophore, and
 background photon emission from various sources). 
@@ -258,7 +258,7 @@ molecular count assignments. Expanding the experimental validation to include a 
 range of counts and more complex configurations would also provide a more thorough assessment 
 of the model's capabilities.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 The posterior distribution shown in figure 4e is the average of the posterior 
 calculated for each of the 110 experimental traces. 
 For “high confidence” traces, like the one shown in figure 4b, 
@@ -289,7 +289,7 @@ explanations, particularly in describing the transition and intensity models. Ad
 the computational demands of the blinx model are not discussed, which is relevant for practical 
 applications involving large datasets.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We agree with the reviewer that discussing the computational demands of blinx is important and
 have added a section to the supplemental information, and referenced it in the discussion.
 
@@ -309,7 +309,7 @@ Reviewer 2:
 “Bayesian localization microscopy reveals nanoscale podosome dynamics” 
 which takes a similar approach but applies it to the entire image, not just a sub-location.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We thank the reviewer for highlighting this missing reference. We have included it in our discussion of 
 other bayesian approaches to single-molecule imaging in the introduction.
 
@@ -327,7 +327,7 @@ intensity go away, and there become large correlations in model parameters to ex
 It’s also clear why it doesn’t work at low duty cycle, because it’s not enough information to 
 distinguish between rates and emitters.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We have moved our definition of SNR to the main text (section 3.1) and removed the associated section from the 
 supplemental material.
 
@@ -348,7 +348,7 @@ The emission rate would depend on the TIRF evanescence field and fluorophore dis
 Even without TIRF, the emission to the coverslip is somewhat depth dependent. 
 This is not a consideration for the data shown because its origami flat on the coverslip.
 
-\underline{\textbf{Responce:}}
+\underline{\textbf{Response:}}
 We thank the reviewer for highlighting these possible sources of variation. In the discussion we have expanded our 
 section on possible sources of variation in parameters within a spot to include the emission rates. Additionally 
 we added a section the the appendix highlighting the potential flaws in the assumption that DNA-PAINT is resistant 
