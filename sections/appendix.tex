@@ -175,7 +175,7 @@ photon rate per frame was well above 2000.
 		Due to the constant exchange of imager strands with fresh fluorophores, DNA-PAINT is generally 
 		resistant to photobleaching effects. However, over long imaging time, the ssDNA docker strands can 
 		become damaged, preventing the binding of new imager strands, producing an effect that appears similar 
-		to photobleaching. (needs ref)
+		to photobleaching \cite{blumhardt_photo-induced_2018}.
 		%
 		This can be ameliorated by including oxyagen scavanging buffers while imaging, which are included in 
 		our experimental setup (see \secref{exp_methods}).
@@ -183,11 +183,16 @@ photon rate per frame was well above 2000.
 
 \subsection{Noise Model Inference} \label{noise_inference}
 	\revise{
-	Due to minor sources of unaccounted for noise in experimental traces, out-of-distribution intensities are occasionally observed. To prevent 
-	these intensities from having an outsized effect on the counting ability of \ours we include a minimum 
-	probability in our noise model. This is implemented by re-normalizing \eqref{eq:method:combined_intensity}, such 
-	that far away from the mean of our distribution the probability approaches a small constant value, rather than 0.
+		Due to minor sources of unaccounted for noise in experimental traces, 
+		out-of-distribution intensities are occasionally observed.
+		We consider an observed intensity value either to be sampled from our noise model $p(x|z)$ or 
+		(with a small probability $\alpha$) from a uniform distribution $\bar{p}(x)$ over the range of all observed 
+		intensity values. The latter distribution is used to model outlier intensity values that would be 
+		poorly explained by the noise model alone, and lead to instabilities during maximum likelihood fitting. 
+		The resulting outlier-robust intensity distribution is therefore $p_{outlier}(x|c) = (1-\alpha)p(x|c) + \alpha \bar{p}(x)$.
+		For fitting of simulated traces we set $\alpha=0.1$ while for fitting of experimental traces we set $\alpha=0.5$
 	}
+
 
 \subsection{Limitations} \label{limits}
 % % Limitations
