@@ -83,7 +83,7 @@ We next determined the robustness of our model and the minimum signal-to-noise r
 	corresponds to the parameters previously used).
 	%
 	\revise{We define SNR with respect to the observed intensities between zero or one active emitters, \ie,}
-  $ \frac{(z_{1} - z_{0})}{\text{std}(z_{1} - z_{0})}$, 
+  $ \frac{(\bar{x}_{z=1} - \bar{x}_{z=0})}{\sqrt{\text{var}(x_{z=1}) + \text{var}(x_{z=0}))}}$, 
 	\revise{which is effectively an upper bound of the SNR between all states.}
 	%
 	\ours shows accurate counting for SNRs $\geq 4$ (\figref{fig:results:sim_counting}e). 
