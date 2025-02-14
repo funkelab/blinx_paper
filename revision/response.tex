@@ -287,9 +287,15 @@ considerations into the model, potentially by adapting noise handling mechanisms
 existing methods, would improve molecular count predictions in low SNR scenarios.
 
 \underline{\textbf{Response:}}
-We are not sure that we understand this comment. We model noise along every step in the 
+
+We thank the reviewer for raising this suggestion. In our intensity model we model noise along every step in the 
 lightpath of the experiment (readout noise in the detector, shot noise of the fluorophore, and
-background photon emission from various sources). 
+background photon emission from various sources). However, in experimental traces we still occasionally see some 
+unaccounted for noise. To account for these observations, our implementation 
+of the noise model includes a minimum probability of observing any intensity 
+at any time. This prevents a small fraction of observed intensities that are out-of-distribution 
+from having a significant effect on the counting ability of the model. We have added a section on this minimum 
+probability to the supplementary information and a reference in the discussion.
 
 As for experiments with varying noise levels, we can think of varying noise in XY-space (or between experiments), 
 or noise that varies in time. In terms of noise varying in space, our model fits each detected spot 
@@ -298,6 +304,12 @@ independently. This allows different regions of the image, or experiments, to ha
 Our model does not account for noise varying in time, but we believe that with relatively simple extensions it 
 it could account for this. However, we believe that this is out of scope for this manuscript and best left 
 for any follow-up work. 
+
+Changes
+\begin{description}
+    \item[$\bullet$] Added section S3.11 Noise Model Inference, to discuss our implementation of a minimum probability for 
+    observing any intensity. 
+\end{description}
 
 \textbf{Comment}
 

@@ -181,7 +181,13 @@ photon rate per frame was well above 2000.
 		our experimental setup (see \secref{exp_methods}).
 	}
 
-
+\subsection{Noise Model Inference} \label{noise_inference}
+	\revise{
+	Due to minor sources of unaccounted for noise in experimental traces, out-of-distribution intensities are occasionally observed. To prevent 
+	these intensities from having an outsized effect on the counting ability of \ours we include a minimum 
+	probability in our noise model. This is implemented by re-normalizing \eqref{eq:method:combined_intensity}, such 
+	that far away from the mean of our distribution the probability approaches a small constant value, rather than 0.
+	}
 
 \subsection{Limitations} \label{limits}
 % % Limitations

@@ -21,20 +21,20 @@ we identified several limitations.
   count in time series with low SNR.
   %
   Second the intensity model does not capture all of the noise
-  in the system.
+  in the system \revise{(see \ref{noise_inference}).}
   %
   \revise{%
   Third, because of the repeated gradient optimization, \ours requires more
-compute than \lbfcs or qPAINT (see \secref{runtime}).}
+compute than \lbfcs or qPAINT (see \ref{runtime}).}
   %
-  However, neither of these are fatal, and specific implementation details 
+  However, \revise{none} of these are fatal, and specific implementation details 
   allow us to minimize their effects (see~\ref{limits}).
   %
 
 % Assumptions
 In this work, we used DNA-PAINT to test the performance of \ours 
 due to its resistance to photobleaching and consistent, 
-predictable blinking behavior \revise{(see \secref{dna-paint-concerns})}.
+predictable blinking behavior \revise{(see \ref{dna-paint-concerns})}.
   %
   However, \ours is not specific to DNA-PAINT and could be 
   applied to any experimental system that meets the following three assumptions.
