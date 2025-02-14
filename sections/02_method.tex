@@ -75,10 +75,10 @@ is a function of the number of photons \photons detected
 % \revise{added_citations}
 \cite{pawely_three-dimensional,huang_video-rate_2013, laine_imaging_2021}.
   %
-  \revise{Here we determine x by summing the intensity values of a square centered at the detected spot.
-  For which we assume that individual spots are well separated.
-  We chose the size of the square, such that it is larger than the point 
-  spread function and we capture the majority of photons emitted by the spot.}
+  \revise{Here we determine x by summing the intensity values of a square centered at the detected spot,
+  for which we assume that individual spots are well separated.
+  We chose the size of the square such that it is larger than the point 
+  spread function to capture the majority of photons emitted by the spot.}
   %
   The detector itself contributes noise to the system, known as the readout
   noise, which we model as $p(\x{}|\photons,\parametersc)$.
@@ -342,7 +342,7 @@ Finally, we can obtain an estimate of the maximum likelihood molecular count:
   \begin{equation}
       \truen =
       \text{arg}\max_{n}
-        \ln p(\trace | \n)
+        \ln p(\trace | \n) + \ln p(\n)
     \text{.}
     \label{eq:method:optimization}
   \end{equation}

@@ -22,14 +22,14 @@ consisting of 4000 frames, corresponding to an imaging time of 14 minutes.
 
 % priors were placed on camera parameters, but all others were uniform
 For inference, we placed tight, empirically determined, Gaussian priors on 
-the camera parameters.
+the camera parameters,
 	%
-	\revise{We also placed a uniform prior on the number of emitters betweeen 1 and 35},
-	
-	flat uniform priors on the kinetic parameters, allowing the model 
+	\revise{as well as a uniform prior on the number of emitters betweeen 1 and 35 to mimic a scenario where almost no prior knowledge about the number of emitters is available}.
+	%
+	Similarly, we placed flat uniform priors on the kinetic parameters, allowing the model 
 	to fit blinking rates without external bias,
 	%
-	loose priors on the emission parameters (\rb, \re) to prevent 
+	and loose priors on the emission parameters (\rb, \re) to prevent 
 	over-estimation of count (see \secref{limits}, \secref{exp_priors}). 
 
 	
@@ -55,7 +55,7 @@ the camera parameters.
 
 Both \ours and \lbfcs count without prior knowledge of the kinetic parameters.
 	%
-	In contrast, \qpaint is heavily dependant on a kinetic calibration and 
+	In contrast, \qpaint is heavily dependent on a kinetic calibration and 
 	therefore is not comparable in this context.
 	%
 	A direct comparison to \qpaint is shown in \secref{results:qpaint}.
@@ -82,10 +82,9 @@ We next determined the robustness of our model and the minimum signal-to-noise r
 	to simulate traces with SNRs ranging from 9 to 1 (where 9 
 	corresponds to the parameters previously used).
 	%
-	\revise{Becuase noise is a function of intensity, here we define SNR as between the first two states:} $ \frac{(z_{1} - z_{0})}{\text{std}(z_{1} - z_{0})}$, 
+	\revise{We define SNR with respect to the observed intensities between zero or one active emitters, \ie,}
+  $ \frac{(z_{1} - z_{0})}{\text{std}(z_{1} - z_{0})}$, 
 	\revise{which is effectively an upper bound of the SNR between all states.}
-	%
-	(See \secref{calc_snr} for a note on how SNR was calculated).
 	%
 	\ours shows accurate counting for SNRs $\geq 4$ (\figref{fig:results:sim_counting}e). 
 	%

@@ -23,18 +23,18 @@ we identified several limitations.
   Second the intensity model does not capture all of the noise
   in the system.
   %
-  \revise{
-  Third, because of the repeated gradient optimization \ours is 
-  significantly slower than \lbfcs or qPAINT (see \secref{runtime}).}
+  \revise{%
+  Third, because of the repeated gradient optimization, \ours requires more
+compute than \lbfcs or qPAINT (see \secref{runtime}).}
   %
   However, neither of these are fatal, and specific implementation details 
-  allow us to minimize their effects (see \ref{limits}).
+  allow us to minimize their effects (see~\ref{limits}).
   %
 
 % Assumptions
 In this work, we used DNA-PAINT to test the performance of \ours 
 due to its resistance to photobleaching and consistent, 
-predictable blinking behavior \revise{( see \secref{dna-paint-concerns})}.
+predictable blinking behavior \revise{(see \secref{dna-paint-concerns})}.
   %
   However, \ours is not specific to DNA-PAINT and could be 
   applied to any experimental system that meets the following three assumptions.
@@ -44,7 +44,7 @@ predictable blinking behavior \revise{( see \secref{dna-paint-concerns})}.
   This means that observed intensity will scale
   linearly with the number of active emitters $z$ and 
   the blinking kinetics of one \revise{emitter}
-  have no effect on the blinking kinetics of any other.
+  has no effect on the blinking kinetics of any other.
   %
   In practice, sub-units in close proximity might 
   interact and violate this assumption~\citep{helmerich_photoswitching_2022}. 
