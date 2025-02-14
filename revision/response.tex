@@ -81,9 +81,9 @@ estimate.
 
 Changes
 \begin{description}
-    \item[$\bullet$] changed "all prior methods provide a single estimate of count" to 
+    \item[$\bullet$] Changed "all prior methods provide a single estimate of count" to 
     "these DNA-PAINT based methods provide a single estimate of molecular count"
-    \item[$\bullet$] re-wrote the discussion of other Bayesian methods in the introduction 
+    \item[$\bullet$] Re-wrote the discussion of other Bayesian methods in the introduction 
     to highlight specific contributions from each of the suggested references. 
     \item[$\bullet$] Added references [31, 34, 35, 36]
 \end{description}
@@ -115,9 +115,9 @@ add more informative priors to the model, without fundamental changes to the der
 
 Changes:
 \begin{description}
-    \item[$\bullet$] stated that $p(n)$ is application specific in section 2.1 Model
-    \item[$\bullet$] explained in section 3.1 Simulated Experiments that we placed a uniform prior between 1 and 35
-    \item[$\bullet$] explained in section 3.4 Experimental Counting that we placed a uniform prior between 1 and 8
+    \item[$\bullet$] Stated that $p(n)$ is application specific in section 2.1 Model
+    \item[$\bullet$] Explained in section 3.1 Simulated Experiments that we placed a uniform prior between 1 and 35
+    \item[$\bullet$] Explained in section 3.4 Experimental Counting that we placed a uniform prior between 1 and 8
 \end{description}
 
 % Comment
@@ -145,7 +145,7 @@ Changes:
 
  Changes
  \begin{description}
-    \item[$\bullet$] re-structured section 2.1.3 Inference
+    \item[$\bullet$] Re-structured section 2.1.3 Inference
 \end{description}
 
 
@@ -167,7 +167,7 @@ Changes
 \begin{description}
     \item[$\bullet$] Added references [37, 38, 39] to section 2.1.1 Intensity Model. 
     Discussing the contributions of Poisson noise and Gaussian noise to the system.
-    \item[$\bullet$] added a few sentences to section 2.1.1 Intensity Model explaining 
+    \item[$\bullet$] Expanded section 2.1.1 Intensity Model explaining 
     how traces were extracted from the raw images.  
 \end{description}
 
@@ -202,7 +202,7 @@ Changes
     the Poisson and Gaussian distributions as a function of photon count ($\lambda$)
     \item[$\bullet$] Added section S9 to the appendix and referenced in section 2.1.1 (Intensity Model discussion) the validity of this 
     approximation
-    \item[$\bullet$] referenced Huang et. al. 2013 [38] in section 2.1.1 Intensity Model, where the same 
+    \item[$\bullet$] Referenced Huang et. al. 2013 [38] in section 2.1.1 Intensity Model, where the same 
     approximation is used
 \end{description}
 
@@ -295,11 +295,11 @@ unaccounted for noise. To account for these observations, our implementation
 of the noise model includes a minimum probability of observing any intensity 
 at any time. This prevents a small fraction of observed intensities that are out-of-distribution 
 from having a significant effect on the counting ability of the model. We have added a section on this minimum 
-probability to the supplementary information and a reference in the discussion.
+probability to the supplementary information and referenced it in the discussion.
 
-As for experiments with varying noise levels, we can think of varying noise in XY-space (or between experiments), 
-or noise that varies in time. In terms of noise varying in space, our model fits each detected spot 
-independently. This allows different regions of the image, or experiments, to have differing noise levels.
+As for experiments with varying noise levels, we can think of varying noise in across regions of the image, 
+or noise that varies in time. In terms of noise varying in a single image, our model fits each detected spot 
+independently. This allows different regions of the image to have differing noise levels.
 %
 Our model does not account for noise varying in time, but we believe that with relatively simple extensions it 
 it could account for this. However, we believe that this is out of scope for this manuscript and best left 
@@ -344,9 +344,9 @@ When averaging across all traces, these incorrect posteriors reduce the average 
 
 Changes:
 \begin{description}
-    \item[$\bullet$] added Figure S2, to give more context to the distribution shown in Figure 4e. Whereas Figure 4e 
+    \item[$\bullet$] Added Figure S2, to give more context to the distribution shown in Figure 4e. Whereas Figure 4e 
     shows the average of 110 posteriors, this figure shows individual posteriors for 2 example traces.
-    \item[$\bullet$] added section S9 "N=4 Experimental Posteriors" to discuss in more detail the posteriors of the N=4 experimental results.
+    \item[$\bullet$] Added section S3.9 "N=4 Experimental Posteriors" to discuss in more detail the posteriors of the N=4 experimental results.
 \end{description}
 
 \textbf{Minor Comment}
@@ -364,7 +364,7 @@ comments has increased it's clarity.
 
 Changes:
 \begin{description}
-    \item[$\bullet$] added section S3.12 Run Time to discuss the computational demands of blinx
+    \item[$\bullet$] Added section S3.13 Run Time to discuss the computational demands of blinx
 \end{description}
 
 Reviewer 2:
@@ -381,7 +381,7 @@ other Bayesian approaches to single-molecule imaging in the introduction.
 
 Changes
 \begin{description}
-    \item[$\bullet$] added reference and short sentence to the introduction.
+    \item[$\bullet$] Added reference and short sentence to the introduction.
 \end{description}
 
 \textbf{Comment}
@@ -423,9 +423,9 @@ our experimental procedure, and added a reference to that section in the new SI 
 
 Changes
 \begin{description}
-    \item[$\bullet$] added section S3.10 to the SI discussing limitations of DNA-PAINT, and referenced 
+    \item[$\bullet$] Added section S3.10 to the SI discussing limitations of DNA-PAINT, and referenced 
     it from the discussion
-    \item[$\bullet$] added details about how emission rate could be non-constant to discussion
+    \item[$\bullet$] Added details about how emission rate could be non-constant to discussion
 \end{description}
 
 % \bibliographystyle{unsrt}
