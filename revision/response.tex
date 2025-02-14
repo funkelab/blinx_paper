@@ -2,6 +2,7 @@
 \usepackage[centering,tmargin=30mm,bmargin=20mm,lmargin=1.0in,rmargin=1.0in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{wallpaper}
+\usepackage{amsmath}
 \renewcommand{\familydefault}{\sfdefault}
 
 \date{\today}
@@ -158,9 +159,9 @@ and validate the model's assumptions. Incorporating additional references would 
 more comprehensive background on the noise models and intensity distributions utilized in blinx's construction.
 
 \underline{\textbf{Response:}} 
-We have added references to both Poisson and Gaussian noise when describing the model construction. Further to 
-increase clarity we have added a few sentences that describe how we obtain our intensity measurement $x$ from 
-the image. 
+We have added references to both Poisson and Gaussian noise when describing the
+model construction. To further increase clarity we have added a few sentences
+that describe how we obtain our intensity measurement $x$ from the image. 
 
 Changes
 \begin{description}
@@ -185,19 +186,21 @@ limitations of the approximation should be explicitly discussed.
 \underline{\textbf{Response:}}
 We believe that the Gaussian approximation is very reasonable especially in the regime where our model operates. 
 To demonstrate this point we plotted the KL-divergence between the Poisson and Gaussian distributions 
-as a function of photon count $\lambda$ (see figure S1). The absolute KL-divergence at which the approximation fails 
+as a function of photon count $\lambda$ (see Figure S1). The absolute KL-divergence at which the approximation fails 
 is debatable, but we chose a value of $10^{-3}$ which corresponds to a $\lambda$ value of 81. We experimentally 
 observed $\lambda=2084$ which corresponds to a KL-divergence less than $10^{-4}$.
 %
-Based on our calculated emission rates, a frame rate greater than $1 frame / 4 ms$ would be required to drop below 
-a photon count of 81. At such high frame rates we expect that low SNR would become the limiting factor rather 
-than this approximation. Also note that this is the same approximation used in Huang et.\ al.\ 2013.
+Based on our calculated emission rates, a frame rate greater than 250 frames
+per second would be required to drop below a photon count of 81. At such high
+frame rates we expect that low SNR would become the limiting factor rather than
+this approximation. Also note that this is the same approximation used in Huang
+et.\ al.\ 2013.
 
 Changes
 \begin{description}
-    \item[$\bullet$] Added figure S1 and referenced in section 2.1.1 illustrating the KL-divergence between 
+    \item[$\bullet$] Added Figure S1 and referenced in section 2.1.1 illustrating the KL-divergence between 
     the Poisson and Gaussian distributions as a function of photon count ($\lambda$)
-    \item[$\bullet$] Added section S9 to the appendix and referenced in section 2.1.1 Intensity Model discussion the validity of this 
+    \item[$\bullet$] Added section S9 to the appendix and referenced in section 2.1.1 (Intensity Model discussion) the validity of this 
     approximation
     \item[$\bullet$] referenced Huang et. al. 2013 [38] in section 2.1.1 Intensity Model, where the same 
     approximation is used
@@ -217,17 +220,17 @@ to more diverse experimental conditions.
 
 \underline{\textbf{Response:}}
 We would like to clarify on what is meant by "identical and constant blinking parameters". 
-Our model assumes that the $p_{on}$ of an emitter in a spot is equal to that of every other 
-emitter in the same spot, and that the same is true for $p_{off}$. However, we do not assume 
-that $p_{on} = p_{off}$ for any emitters. We also address this assumption in the discussion 
+Our model assumes that the $p_\text{on}$ of an emitter in a spot is equal to that of every other 
+emitter in the same spot, and that the same is true for $p_\text{off}$. However, we do not assume 
+that $p_\text{on} = p_\text{off}$ for any emitters. We also address this assumption in the discussion 
 clarifying that in real systems this may not be the case, and that we expect a decrease in model 
 performance as the parameters of emitters within a single spot diverge. 
 
-In Figure 3a, we evaluate the models performance for a wide variety of $p_{on}$ and $p_{off}$ 
-combinations. Further, in section 3.3 qPAINT Kinetic Regime and Figure 4, we evaluate the model 
-in the exact regime that the reviewer describes, where $p_{on}$ is much less than $p_{off}$. 
+In Figure 3a, we evaluate the models performance for a wide variety of $p_\text{on}$ and $p_\text{off}$ 
+combinations. Further, in section 3.3 (qPAINT Kinetic Regime) and Figure 4, we evaluate the model 
+in the exact regime that the reviewer describes, where $p_\text{on}$ is much less than $p_\text{off}$. 
 We find that while the base model fails in this regime, performance is recovered, and even 
-surpasses that of qPAINT once priors are placed on the blinking parameters. 
+surpasses that of qPAINT, once priors are placed on the blinking parameters. 
 
 % Comment
 \textbf{Comment}
@@ -290,7 +293,7 @@ background photon emission from various sources).
 
 As for experiments with varying noise levels, we can think of varying noise in XY-space (or between experiments), 
 or noise that varies in time. In terms of noise varying in space, our model fits each detected spot 
-independently. This allows different regions of the image, or experiments to have differing noise levels.
+independently. This allows different regions of the image, or experiments, to have differing noise levels.
 %
 Our model does not account for noise varying in time, but we believe that with relatively simple extensions it 
 it could account for this. However, we believe that this is out of scope for this manuscript and best left 
@@ -311,11 +314,11 @@ range of counts and more complex configurations would also provide a more thorou
 of the model's capabilities.
 
 \underline{\textbf{Response:}}
-The posterior distribution shown in figure 4e is the average of the posterior 
+The posterior distribution shown in Figure 4e is the average of the posterior 
 calculated for each of the 110 experimental traces. 
-For “high confidence” traces, like the one shown in figure 4b, 
-the posterior probability approaches 1, as shown in the inset to the histogram in figure 4b. 
-For other traces, the model is less confident (shown in figure S2a). 
+For “high confidence” traces, like the one shown in Figure 4b, 
+the posterior probability approaches 1, as shown in the inset to the histogram in Figure 4b. 
+For other traces, the model is less confident (shown in Figure S2a). 
 For these traces the correct count (4) is still the highest probability (~0.7), 
 but counts greater than 4 also have a significant probability. 
 This behavior is expected. 
@@ -329,7 +332,7 @@ When averaging across all traces, these incorrect posteriors reduce the average 
 
 Changes:
 \begin{description}
-    \item[$\bullet$] added figure S2, to give more context to the distribution shown in figure 4e. Whereas figure 4e 
+    \item[$\bullet$] added Figure S2, to give more context to the distribution shown in Figure 4e. Whereas Figure 4e 
     shows the average of 110 posteriors, this figure shows individual posteriors for 2 example traces.
     \item[$\bullet$] added section S9 "N=4 Experimental Posteriors" to discuss in more detail the posteriors of the N=4 experimental results.
 \end{description}
