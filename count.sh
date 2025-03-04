@@ -12,7 +12,7 @@ echo "Abstract:"
 wc -w $(echo sections/00_abstract.txt)
 
 setopt NULL_GLOB
-for d in sections/01_introduction sections/02_method sections/03_results sections/04_discussion
+for d in sections/01_introduction sections/02_method sections/03_results sections/04_discussion sections/06_acknowledgments sections/07_contributions sections/08_code sections/09_si_description
 do \
   echo "Counting in $d..."
   a=($d.txt)

@@ -3,7 +3,7 @@
 \input{figures/figure_4_qpaint_kinetics}
 \input{figures/figure_5_experimental_counting}
 
-\section{Results}
+\section{}
 
 %-------------
 \subsection{Simulated Experiments}
@@ -89,7 +89,7 @@ We next determined the robustness of our model and the minimum signal-to-noise r
 	\ours shows accurate counting for SNRs $\geq 4$ (\figref{fig:results:sim_counting}e). 
 	%
 	Interestingly, for  SNR $\leq 4$, \ours estimates the count as 25, 
-	the highest \n tested, no matter the true count. 
+	the highest possible \n, no matter the true count. 
 	%
 	This is due to the model adding states to compensate for the wide distribution of intensities  
 	(see \ref{limits}).
@@ -145,10 +145,9 @@ concentrations~\citep{jungmann_single-molecule_2010}.
 \subsection{qPAINT Kinetic Regime} \label{results:qpaint}
 %-------------
 % qPAINT operates in a different kinetic regime that lbFCS
-qPAINT relies on the accurate measurement of the average dark time between blinking events~\citep{jungmann_2016} 
+qPAINT requires a kinetic regime where blinking 
 	%
-	and is therefore optimized for a kinetic regime where blinking 
-	events are short and infrequent (\figref{fig:results:qpaint_counting}a,b).
+	events are short and infrequent~\citep{jungmann_2016} (\figref{fig:results:qpaint_counting}a,b).
 	% 
 	This regime presents a challenge to \ours (\figref{fig:results:campare_kinetics}a top inset). 
 	%

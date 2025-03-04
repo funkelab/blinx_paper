@@ -9,6 +9,10 @@ default:
 	(ulimit -n 1024; latexmk -auxdir=.latexmk -outdir=.latexmk -pdf -shell-escape -interaction=nonstopmode -halt-on-error -file-line-error main.tex)
 	cp .latexmk/main.pdf .
 
+si:
+	(ulimit -n 1024; latexmk -auxdir=.latexmk -outdir=.latexmk -pdf -shell-escape -interaction=nonstopmode -halt-on-error -file-line-error si.tex)
+	cp .latexmk/si.pdf .
+
 arxiv_export: clean default
 	-rm -rf arxiv_export
 	-arxiv_latex_cleaner --verbose --use_external_tikz figures/tikzexternal .
