@@ -1,5 +1,6 @@
 \documentclass[twocolumn]{article}
-
+\usepackage{xr}
+\externaldocument{si}
 \input{preamble}
 \input{definitions}
 
@@ -27,7 +28,7 @@
 
 
 Keywords: \\
-Molecular counting, Single-molecule imaging, DNA-PAINT, Bayesian Optimization
+Molecular counting, Single-molecule imaging, DNA-PAINT, Bayesian modeling
 
 % % #\todo{main: limit to 3000 words}
 % % \todo{intro: limit to 500 words}
@@ -50,7 +51,9 @@ Molecular counting, Single-molecule imaging, DNA-PAINT, Bayesian Optimization
   \bibliography{references}
 }
 
-% \clearpage
+\clearpage
+\textbf{For Table of Contents Only} \\ 
+\input{figures/toc_figure}
 % \begin{appendices}
 % \begin{onecolumn}
 % % \renewcommand{\thefigure}{S\arabic{figure}}
